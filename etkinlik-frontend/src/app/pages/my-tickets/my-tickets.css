@@ -1,0 +1,288 @@
+/* =========================================
+   PAGE
+========================================= */
+
+.tickets-page {
+    min-height: 100vh;
+    padding: 40px 0 50px;
+    background: linear-gradient(180deg,
+            #f5f9ff 0%,
+            #eef5ff 45%,
+            #f8fbff 100%);
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.page-header {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto 25px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.back-btn {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 34px;
+    color: #222;
+}
+
+.page-header p {
+    margin-top: 6px;
+    color: #666;
+}
+
+/* =========================================
+   SEARCH
+========================================= */
+
+.search-card {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto 30px;
+    padding: 20px 24px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
+}
+
+.search-card mat-form-field {
+    width: 100%;
+}
+
+/* =========================================
+   LIST
+========================================= */
+
+.ticket-list {
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* =========================================
+   CARD
+========================================= */
+
+.ticket-card {
+    border-radius: 22px;
+    padding: 28px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 30px;
+    background: white;
+    box-shadow: 0 15px 35px rgba(0,0,0,.08);
+}
+
+.ticket-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(37, 99, 235, .15);
+}
+
+.ticket-info {
+    flex: 1;
+}
+.ticket-left {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.detail-btn {
+    margin-top: 85px;
+    align-self: flex-start;
+}
+
+.category {
+    display: inline-block;
+    background: #2563eb;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-bottom: 14px;
+}
+
+.ticket-info h2 {
+    margin: 10px 0 16px;
+    color: #222;
+}
+
+.ticket-info p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    margin: 10px 0;
+}
+
+.ticket-info mat-icon {
+    color: #2563eb;
+}
+
+.ticket-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 22px;
+}
+
+
+.ticket-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.ticket-number {
+    font-weight: 600;
+    color: #333;
+}
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status {
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status.active {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.ticket-card button {
+    border-radius: 10px;
+    min-width: 130px;
+}
+
+.dialog-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.dialog-card {
+    width: 520px;
+    max-width: 90%;
+    max-height: 80vh;
+
+    background: #fff;
+    border-radius: 20px;
+    padding: 28px;
+
+    box-shadow: 0 20px 45px rgba(0, 0, 0, .2);
+
+    animation: popup .25s ease;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    margin-bottom: 24px;
+
+    overflow-y: auto;
+    padding-right: 8px;
+
+    flex: 1;
+}
+
+.dialog-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+    background: #c8d8ff;
+    border-radius: 20px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #ececec;
+}
+
+.detail-row span {
+    color: #777;
+}
+
+.dialog-card button[mat-flat-button] {
+    width: 100%;
+}
+
+@keyframes popup {
+    from {
+        opacity: 0;
+        transform: scale(.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .ticket-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ticket-card button {
+        width: 100%;
+    }
+
+    .ticket-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .page-header h1 {
+        font-size: 28px;
+    }
+
+}

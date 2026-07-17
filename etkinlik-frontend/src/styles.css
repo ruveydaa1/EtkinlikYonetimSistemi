@@ -1,0 +1,51 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary: #2563EB;
+  --primary-dark: #1D4ED8;
+
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+
+  --border: #E2E8F0;
+}
+
+/* ---------- Genel Sayfa ---------- */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #F8FAFC;
+  color: #0F172A;
+}
+
+/* ---------- Material Card ---------- */
+
+.mat-mdc-card {
+  border-radius: 20px !important;
+}
+
+/* ---------- Material Input ---------- */
+
+.mat-mdc-form-field {
+  margin-bottom: 10px;
+}
+
+/* ---------- Buton ---------- */
+
+.mat-mdc-raised-button {
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  transition: all .25s ease;
+}
+
+.mat-mdc-raised-button:hover {
+  transform: translateY(-2px);
+}

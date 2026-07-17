@@ -1,0 +1,117 @@
+<div class="login-container">
+
+    <mat-card class="login-card">
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+            <div class="logo-container">
+
+                <mat-icon class="logo-icon">
+                    confirmation_number
+                </mat-icon>
+
+                <h1>Etkinlik Yönetim Sistemi</h1>
+
+                <p>
+                    Etkinlikleri keşfetmek, katılmak ve yönetmek için hesabınıza giriş yapın.
+                </p>
+
+            </div>
+
+            <mat-form-field appearance="outline">
+
+                <mat-label>E-posta</mat-label>
+
+                <input
+                    matInput
+                    type="email"
+                    formControlName="email">
+
+                <mat-icon matSuffix>
+                    email
+                </mat-icon>
+
+                @if (loginForm.get('email')?.hasError('required')) {
+
+                    <mat-error>
+                        E-posta alanı zorunludur.
+                    </mat-error>
+
+                }
+
+                @if (loginForm.get('email')?.hasError('email')) {
+
+                    <mat-error>
+                        Geçerli bir e-posta giriniz.
+                    </mat-error>
+
+                }
+
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+
+                <mat-label>Şifre</mat-label>
+
+                <input
+                    matInput
+                    [type]="hidePassword ? 'password' : 'text'"
+                    formControlName="sifre">
+
+                <button
+                    mat-icon-button
+                    matSuffix
+                    type="button"
+                    (click)="togglePassword()">
+
+                    <mat-icon>
+                        {{ hidePassword ? 'visibility' : 'visibility_off' }}
+                    </mat-icon>
+
+                </button>
+
+                @if (loginForm.get('sifre')?.hasError('required')) {
+
+                    <mat-error>
+                        Şifre alanı zorunludur.
+                    </mat-error>
+
+                }
+
+                @if (loginForm.get('sifre')?.hasError('minlength')) {
+
+                    <mat-error>
+                        Şifre en az 4 karakter olmalıdır.
+                    </mat-error>
+
+                }
+
+            </mat-form-field>
+
+            <button
+                mat-raised-button
+                color="primary"
+                class="login-button"
+                type="submit">
+
+                Giriş Yap
+
+            </button>
+
+            <div class="signup-link">
+
+                Hesabın yok mu?
+
+                <a routerLink="/signup">
+
+                    Hesap Oluştur
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </mat-card>
+
+</div>

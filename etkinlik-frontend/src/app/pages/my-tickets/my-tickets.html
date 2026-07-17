@@ -1,0 +1,172 @@
+<div class="tickets-page">
+
+    <div class="page-header">
+
+        <button mat-icon-button class="back-btn" routerLink="/profile">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div>
+            <h1>Biletlerim</h1>
+            <p>Toplam {{ tickets.length }} aktif biletin bulunuyor.</p>
+        </div>
+
+    </div>
+
+    <mat-card class="search-card">
+
+        <mat-form-field appearance="outline">
+
+            <mat-label>Bilet Ara</mat-label>
+
+            <input matInput placeholder="Etkinlik adına göre ara" [(ngModel)]="searchText">
+
+            <mat-icon matSuffix>search</mat-icon>
+
+        </mat-form-field>
+
+    </mat-card>
+
+    <div class="ticket-list">
+
+        @for(ticket of filteredTickets; track ticket.ticketNumber){
+
+        <mat-card class="ticket-card">
+
+            <div class="ticket-info">
+
+                <span class="category">
+                    {{ ticket.category }}
+                </span>
+
+                <h2>{{ ticket.eventName }}</h2>
+
+                <p>
+                    <mat-icon>calendar_month</mat-icon>
+                    {{ ticket.date }}
+                </p>
+
+                <p>
+                    <mat-icon>location_on</mat-icon>
+                    {{ ticket.city }}
+                </p>
+
+                <div class="ticket-bottom">
+
+                    <div class="ticket-left">
+
+                        <span class="ticket-number">
+                            Bilet No: #{{ ticket.ticketNumber }}
+                        </span>
+
+                        <span class="status active">
+                            {{ ticket.status }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button mat-flat-button color="primary" class="detail-btn" (click)="openTicketDetail(ticket)">
+                Detayı Gör
+            </button>
+
+        </mat-card>
+
+        }
+
+        @if(selectedTicket){
+
+        <div class="dialog-overlay" (click)="closeTicketDetail()">
+
+            <div class="dialog-card" (click)="$event.stopPropagation()">
+
+                <div class="dialog-header">
+
+                    <h2>🎫 Bilet Detayı</h2>
+
+                    <button mat-icon-button (click)="closeTicketDetail()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+
+                </div>
+
+                <div class="dialog-content">
+
+                    <div class="detail-row">
+                        <span>🎉 Etkinlik</span>
+                        <strong>{{ selectedTicket.eventName }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>🏷️ Kategori</span>
+                        <strong>{{ selectedTicket.category }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>📅 Tarih</span>
+                        <strong>{{ selectedTicket.date }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>🕒 Saat</span>
+                        <strong>{{ selectedTicket.time }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>📍 Şehir</span>
+                        <strong>{{ selectedTicket.city }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>🏢 Mekan</span>
+                        <strong>{{ selectedTicket.venue }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>👤 Organizatör</span>
+                        <strong>{{ selectedTicket.organizer }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>🎟️ Bilet No</span>
+                        <strong>#{{ selectedTicket.ticketNumber }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>💺 Koltuk</span>
+                        <strong>{{ selectedTicket.seat }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>💰 Ücret</span>
+                        <strong>{{ selectedTicket.price }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>❕ Durum</span>
+                        <strong>{{ selectedTicket.status }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>📆 Oluşturulma Tarihi</span>
+                        <strong>{{ selectedTicket.createdAt }}</strong>
+                    </div>
+
+                </div>
+
+                <button mat-flat-button color="primary" (click)="closeTicketDetail()">
+                    Kapat
+                </button>
+
+            </div>
+
+        </div>
+
+        }
+
+    </div>
+
+</div>

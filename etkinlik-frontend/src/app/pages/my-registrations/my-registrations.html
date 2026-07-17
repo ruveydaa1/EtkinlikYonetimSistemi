@@ -1,0 +1,183 @@
+<div class="registrations-page">
+
+    <div class="page-header">
+
+        <button mat-icon-button class="back-btn" routerLink="/profile">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div>
+            <h1>Kayıtlarım</h1>
+            <p>Katıldığın ve başvurduğun etkinlikleri buradan takip edebilirsin.</p>
+        </div>
+
+    </div>
+
+    <mat-card class="search-card">
+
+        <mat-form-field appearance="outline">
+
+            <mat-label>Etkinlik Ara</mat-label>
+
+            <input matInput placeholder="Etkinlik adına göre ara" [(ngModel)]="searchText">
+
+            <mat-icon matSuffix>search</mat-icon>
+
+        </mat-form-field>
+
+    </mat-card>
+
+    <div class="registration-list">
+
+        @for(registration of filteredRegistrations; track registration.eventName){
+
+        <mat-card class="registration-card">
+
+            <div class="registration-image">
+
+                <img [src]="registration.image" [alt]="registration.eventName">
+
+            </div>
+
+            <div class="registration-info">
+
+                <span class="category">
+                    {{ registration.category }}
+                </span>
+
+                <h2>{{ registration.eventName }}</h2>
+
+                <p>
+                    <mat-icon>calendar_month</mat-icon>
+                    {{ registration.date }}
+                </p>
+
+                <p>
+                    <mat-icon>location_on</mat-icon>
+                    {{ registration.city }}
+                </p>
+
+                <div class="registration-bottom">
+
+                    <span class="registration-date">
+                        Kayıt Tarihi: {{ registration.registrationDate }}
+                    </span>
+
+                    <span class="status" [ngClass]="{
+              'approved': registration.status === 'Onaylandı',
+              'pending': registration.status === 'Beklemede',
+              'rejected': registration.status === 'Reddedildi'
+            }">
+
+                        {{ registration.status }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <button mat-flat-button color="primary" (click)="openRegistrationDetail(registration)">
+
+                Detayı Gör
+
+            </button>
+
+        </mat-card>
+
+        }
+
+    </div>
+
+    @if(filteredRegistrations.length === 0){
+
+    <div class="empty-state">
+
+        <mat-icon>search_off</mat-icon>
+
+        <h3>Kayıt bulunamadı</h3>
+
+        <p>Aradığın etkinliğe ait kayıt bulunamadı.</p>
+
+    </div>
+
+    }
+
+    @if(selectedRegistration){
+
+    <div class="dialog-overlay" (click)="closeRegistrationDetail()">
+
+        <div class="dialog-card" (click)="$event.stopPropagation()">
+
+            <div class="dialog-header">
+
+                <h2>Kayıt Detayı</h2>
+
+                <button mat-icon-button (click)="closeRegistrationDetail()">
+                    <mat-icon>close</mat-icon>
+                </button>
+
+            </div>
+
+            <div class="dialog-content">
+
+                <div class="detail-row">
+                    <span>🎉 Etkinlik</span>
+                    <strong>{{ selectedRegistration.eventName }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>🏷️ Kategori</span>
+                    <strong>{{ selectedRegistration.category }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>📅 Tarih</span>
+                    <strong>{{ selectedRegistration.date }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>🕒 Saat</span>
+                    <strong>{{ selectedRegistration.time }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>📍 Şehir</span>
+                    <strong>{{ selectedRegistration.city }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>🏢 Mekan</span>
+                    <strong>{{ selectedRegistration.venue }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>👤 Organizatör</span>
+                    <strong>{{ selectedRegistration.organizer }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>📆 Kayıt Tarihi</span>
+                    <strong>{{ selectedRegistration.registrationDate }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>❕ Durum</span>
+                    <strong>{{ selectedRegistration.status }}</strong>
+                </div>
+
+            </div>
+
+            <button mat-flat-button color="primary" (click)="closeRegistrationDetail()">
+
+                Kapat
+
+            </button>
+
+        </div>
+
+    </div>
+
+    }
+
+</div>

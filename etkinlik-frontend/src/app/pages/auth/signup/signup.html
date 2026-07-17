@@ -1,0 +1,222 @@
+<div class="signup-container">
+
+    <mat-card class="signup-card">
+
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+
+            <div class="logo-container">
+
+                <mat-icon class="logo-icon">
+                    confirmation_number
+                </mat-icon>
+
+                <h1>Etkinlik Yönetim Sistemi</h1>
+
+                <p>
+                    Yeni hesabınızı oluşturun ve etkinlik dünyasına hemen katılın.
+                </p>
+
+            </div>
+
+
+            <mat-form-field appearance="outline">
+
+                <mat-label>Ad</mat-label>
+
+                <input matInput type="text" formControlName="ad">
+
+                <mat-icon matSuffix>
+                    person
+                </mat-icon>
+
+                @if (signupForm.get('ad')?.hasError('required')) {
+
+                <mat-error>
+                    Ad alanı zorunludur.
+                </mat-error>
+
+                }
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+
+                <mat-label>Soyad</mat-label>
+
+                <input matInput type="text" formControlName="soyad">
+
+                <mat-icon matSuffix>
+                    person
+                </mat-icon>
+
+                @if (signupForm.get('soyad')?.hasError('required')) {
+
+                <mat-error>
+                    Soyad alanı zorunludur.
+                </mat-error>
+
+                }
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+
+                <mat-label>E-posta</mat-label>
+
+                <input matInput type="email" formControlName="email">
+
+                <mat-icon matSuffix>
+                    email
+                </mat-icon>
+
+                @if (signupForm.get('email')?.hasError('required')) {
+
+                <mat-error>
+                    E-posta alanı zorunludur.
+                </mat-error>
+
+                }
+
+
+                @if (signupForm.get('email')?.hasError('email')) {
+
+                <mat-error>
+                    Geçerli bir e-posta giriniz.
+                </mat-error>
+
+                }
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+
+                <mat-label>Telefon</mat-label>
+
+                <input matInput type="tel" formControlName="telefon">
+
+                <mat-icon matSuffix>
+                    phone
+                </mat-icon>
+
+                @if (signupForm.get('telefon')?.hasError('required')) {
+
+                <mat-error>
+                    Telefon alanı zorunludur.
+                </mat-error>
+
+                }
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+
+                <mat-label>Şifre</mat-label>
+
+                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="sifre">
+
+                <button mat-icon-button matSuffix type="button" (click)="togglePassword()">
+
+                    <mat-icon>
+                        {{ hidePassword ? 'visibility' : 'visibility_off' }}
+                    </mat-icon>
+
+                </button>
+
+                @if (signupForm.get('sifre')?.hasError('required')) {
+
+                <mat-error>
+                    Şifre alanı zorunludur.
+                </mat-error>
+
+                }
+
+
+                @if (signupForm.get('sifre')?.hasError('minlength')) {
+
+                <mat-error>
+                    Şifre en az 4 karakter olmalıdır.
+                </mat-error>
+
+                }
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+
+                <mat-label>Şifre Tekrar</mat-label>
+
+                <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="sifreTekrar">
+                <button mat-icon-button matSuffix type="button" (click)="toggleConfirmPassword()">
+
+                    <mat-icon>
+                        {{ hideConfirmPassword ? 'visibility' : 'visibility_off' }}
+                    </mat-icon>
+
+                </button>
+
+                @if (signupForm.get('sifreTekrar')?.hasError('required')) {
+
+                <mat-error>
+                    Şifre tekrar alanı zorunludur.
+                </mat-error>
+
+                }
+
+                @if (signupForm.get('sifreTekrar')?.hasError('passwordMismatch')) {
+
+                <mat-error>
+                    Şifreler eşleşmiyor.
+                </mat-error>
+
+                }
+
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+
+                <mat-label>Hesap Türü</mat-label>
+
+                <mat-select formControlName="rol">
+
+                    <mat-option value="KULLANICI">
+                        KULLANICI
+                    </mat-option>
+
+                    <mat-option value="ORGANIZATOR">
+                        ORGANIZATOR
+                    </mat-option>
+
+                </mat-select>
+
+                <mat-icon matSuffix>
+                    badge
+                </mat-icon>
+
+            </mat-form-field>
+
+
+            <button mat-raised-button class="signup-button" type="submit">
+
+                Kayıt Ol
+
+            </button>
+
+            <div class="login-link">
+
+                Zaten hesabın var mı?
+
+                <a routerLink="/login">
+                    Giriş Yap
+                </a>
+
+            </div>
+
+        </form>
+    </mat-card>
+
+</div>

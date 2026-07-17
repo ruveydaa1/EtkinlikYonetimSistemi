@@ -1,0 +1,519 @@
+<div class="profile-page">
+
+  <div class="profile-cover"></div>
+
+  <mat-card class="profile-card">
+
+    <button class="edit-profile-btn" mat-icon-button (click)="openEditProfile()">
+      <mat-icon>edit</mat-icon>
+    </button>
+
+    <div class="avatar-wrapper">
+      <div class="avatar">
+        <mat-icon>person</mat-icon>
+
+        <button mat-mini-fab color="primary" class="camera-btn">
+          <mat-icon>photo_camera</mat-icon>
+        </button>
+
+      </div>
+    </div>
+
+
+    <div class="user-info">
+
+      <h1>Hoş Geldin Ahmet 👋</h1>
+
+      <span class="role">
+        KULLANICI
+      </span>
+
+      <p class="welcome-text">
+        Etkinliklerini keşfet, kayıtlarını ve biletlerini kolayca yönet.
+      </p>
+
+
+      <div class="user-details">
+
+        <div class="detail-item">
+          <mat-icon>email</mat-icon>
+          <span>ahmet@example.com</span>
+        </div>
+
+        <div class="detail-item">
+          <mat-icon>phone</mat-icon>
+          <span>0555 555 55 55</span>
+        </div>
+
+        <div class="detail-item">
+          <mat-icon>location_on</mat-icon>
+          <span>Ankara</span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </mat-card>
+
+  @if(editMode){
+
+  <div class="dialog-overlay" (click)="closeEditProfile()">
+
+    <div class="dialog-card" (click)="$event.stopPropagation()">
+
+      <div class="dialog-header">
+
+        <h2>👤 Profil Bilgilerini Düzenle</h2>
+
+        <button mat-icon-button (click)="closeEditProfile()">
+          <mat-icon>close</mat-icon>
+        </button>
+
+      </div>
+
+      <div class="dialog-content">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Ad</mat-label>
+          <input matInput value="Ahmet">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Soyad</mat-label>
+          <input matInput value="Yılmaz">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>E-posta</mat-label>
+          <input matInput value="ahmet@example.com">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Telefon</mat-label>
+          <input matInput value="0555 555 55 55">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Şehir</mat-label>
+          <input matInput value="Ankara">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Rol</mat-label>
+          <input matInput value="KULLANICI" readonly>
+        </mat-form-field>
+
+      </div>
+
+      <div class="dialog-buttons">
+
+        <button mat-stroked-button (click)="closeEditProfile()">
+          İptal
+        </button>
+
+        <button mat-flat-button color="primary" (click)="saveProfile()">
+          Kaydet
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  }
+
+  @if(passwordDialog){
+
+  <div class="profile-dialog-overlay" (click)="closePasswordDialog()">
+
+    <div class="profile-dialog-card" (click)="$event.stopPropagation()">
+
+      <div class="profile-dialog-header">
+
+        <button mat-icon-button class="close-btn" (click)="closePasswordDialog()">
+
+          <mat-icon>close</mat-icon>
+
+        </button>
+
+        <div class="dialog-title">
+
+          <h2>🔒 Şifre Değiştir</h2>
+
+        </div>
+
+      </div>
+
+      <div class="profile-dialog-content">
+
+        <mat-form-field appearance="outline">
+
+          <mat-label>Mevcut Şifre</mat-label>
+
+          <input matInput [type]="showCurrentPassword ? 'text' : 'password'">
+
+          <button mat-icon-button matSuffix type="button" (click)="showCurrentPassword = !showCurrentPassword">
+
+            <mat-icon>
+              {{ showCurrentPassword ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+
+          </button>
+
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+
+          <mat-label>Yeni Şifre</mat-label>
+
+          <input matInput [type]="showNewPassword ? 'text' : 'password'">
+
+          <button mat-icon-button matSuffix type="button" (click)="showNewPassword = !showNewPassword">
+
+            <mat-icon>
+              {{ showNewPassword ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+
+          </button>
+
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+
+          <mat-label>Yeni Şifre Tekrar</mat-label>
+
+          <input matInput [type]="showConfirmPassword ? 'text' : 'password'">
+
+          <button mat-icon-button matSuffix type="button" (click)="showConfirmPassword = !showConfirmPassword">
+
+            <mat-icon>
+              {{ showConfirmPassword ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+
+          </button>
+
+        </mat-form-field>
+
+      </div>
+
+      <div class="dialog-buttons">
+
+        <button mat-stroked-button (click)="closePasswordDialog()">
+          İptal
+        </button>
+
+        <button mat-flat-button color="primary" (click)="savePassword()">
+          Kaydet
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  }
+
+  <div class="shortcut-grid">
+
+
+    <mat-card class="shortcut-card" (click)="toggleSection('events')">
+
+      <mat-icon>event</mat-icon>
+
+      <h3>Katıldığım Etkinlikler</h3>
+
+      <p>12 Etkinlik</p>
+
+      <mat-icon class="arrow">
+        {{ activeSection === 'events' ? 'expand_less' : 'chevron_right' }}
+      </mat-icon>
+
+
+      <div class="expand-footer">
+
+
+
+      </div>
+    </mat-card>
+
+
+
+    <mat-card class="shortcut-card" (click)="toggleSection('tickets')">
+
+      <mat-icon>confirmation_number</mat-icon>
+
+      <h3>Biletlerim</h3>
+
+      <p>8 Aktif Bilet</p>
+
+      <mat-icon class="arrow">
+        {{ activeSection === 'tickets' ? 'expand_less' : 'chevron_right' }}
+      </mat-icon>
+
+      <div class="expand-footer">
+
+
+
+      </div>
+
+    </mat-card>
+
+
+
+    <mat-card class="shortcut-card" (click)="toggleSection('settings')">
+
+      <mat-icon>settings</mat-icon>
+
+      <h3>Ayarlar</h3>
+
+      <p>Hesap ayarlarını yönet</p>
+
+      <mat-icon class="arrow">
+        {{ activeSection === 'settings' ? 'expand_less' : 'chevron_right' }}
+      </mat-icon>
+
+    </mat-card>
+
+
+  </div>
+  @if(activeSection){
+
+  <mat-card class="expand-card">
+
+
+    @if(activeSection === 'events'){
+
+    <div class="expand-header">
+      <mat-icon>event</mat-icon>
+      <h2>Katıldığım Etkinlikler</h2>
+    </div>
+
+    <div class="event-item">
+      <h3>🎉 Yaz Festivali 2026</h3>
+      <p>20 Temmuz 2026 • Ankara</p>
+    </div>
+
+    <div class="event-item">
+      <h3>💻 Teknoloji Zirvesi</h3>
+      <p>28 Temmuz 2026 • İstanbul</p>
+    </div>
+
+    <button mat-flat-button color="primary" class="see-all-btn" routerLink="/profile/my-registrations">
+
+      Tümünü Gör
+
+    </button>
+
+    }
+
+
+
+    @if(activeSection === 'tickets'){
+
+    <div class="expand-header">
+      <mat-icon>confirmation_number</mat-icon>
+      <h2>Biletlerim</h2>
+    </div>
+
+    <div class="event-item">
+      <h3>🎫 Yaz Festivali</h3>
+      <p>Bilet No : 123456</p>
+    </div>
+
+    <div class="event-item">
+      <h3>🎫 Teknoloji Zirvesi</h3>
+      <p>Bilet No : 789654</p>
+    </div>
+
+    <button mat-flat-button color="primary" class="see-all-btn" routerLink="/profile/my-tickets">
+
+      Tümünü Gör
+
+    </button>
+
+    }
+
+
+
+    @if(activeSection === 'settings'){
+
+    <div class="expand-header">
+      <mat-icon>settings</mat-icon>
+      <h2>Ayarlar</h2>
+    </div>
+
+    <div class="event-item setting-item" (click)="changePassword()">
+      <mat-icon>lock</mat-icon>
+      <span>Şifreyi Değiştir</span>
+    </div>
+
+    <div class="event-item setting-item" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Çıkış Yap</span>
+    </div>
+
+    }
+
+  </mat-card>
+
+  }
+
+  <div class="content-grid">
+
+
+    <div>
+
+
+      <div class="section-header">
+        <mat-icon>celebration</mat-icon>
+        <h2>Sıradaki Etkinliğin</h2>
+      </div>
+
+
+      <mat-card class="event-highlight">
+
+
+        <div class="event-banner">
+
+          <img src="https://picsum.photos/700/250?random=10" alt="Etkinlik">
+
+        </div>
+
+
+        <div class="event-content">
+
+          <span class="event-category">
+            Festival
+          </span>
+
+
+          <h2>
+            Yaz Festivali 2026
+          </h2>
+
+
+          <p>
+            <mat-icon>calendar_month</mat-icon>
+            20 Temmuz 2026
+          </p>
+
+
+          <p>
+            <mat-icon>location_on</mat-icon>
+            Ankara
+          </p>
+
+
+          <button mat-flat-button color="primary">
+            Detayları Gör
+          </button>
+
+
+        </div>
+
+
+      </mat-card>
+
+
+    </div>
+
+
+
+
+
+    <div>
+
+
+      <div class="section-header">
+
+        <mat-icon>history</mat-icon>
+
+        <h2>Son Hareketler</h2>
+
+      </div>
+
+
+      <mat-card class="activity-card">
+
+
+        <div class="timeline">
+
+
+          <div class="timeline-item">
+
+            <mat-icon>event_available</mat-icon>
+
+            <div>
+
+              <h4>
+                Yaz Festivali etkinliğine kayıt oldun
+              </h4>
+
+              <span>
+                20 Temmuz 2026
+              </span>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="timeline-item">
+
+            <mat-icon>confirmation_number</mat-icon>
+
+            <div>
+
+              <h4>
+                Biletin oluşturuldu
+              </h4>
+
+              <span>
+                18 Temmuz 2026
+              </span>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="timeline-item">
+
+            <mat-icon>person</mat-icon>
+
+            <div>
+
+              <h4>
+                Profil bilgilerini güncelledin
+              </h4>
+
+              <span>
+                15 Temmuz 2026
+              </span>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+      </mat-card>
+
+
+    </div>
+
+
+  </div>
+
+
+</div>

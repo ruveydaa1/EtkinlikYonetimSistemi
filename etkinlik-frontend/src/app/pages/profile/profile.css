@@ -1,0 +1,940 @@
+/* =========================================
+   PROFILE PAGE
+========================================= */
+
+.profile-page {
+  min-height: 100vh;
+  padding-bottom: 50px;
+
+  background: linear-gradient(180deg,
+      #f5f9ff 0%,
+      #eef5ff 45%,
+      #f8fbff 100%);
+}
+
+/* =========================================
+   COVER
+========================================= */
+
+.profile-cover {
+  display: none;
+}
+
+/* =========================================
+   PROFILE CARD
+========================================= */
+
+.profile-card {
+
+  width: 90%;
+  max-width: 980px;
+
+  margin: 40px auto 35px;
+
+  padding: 35px 35px 30px;
+
+  border-radius: 28px;
+
+  text-align: center;
+
+  position: relative;
+
+  background: white;
+
+  box-shadow:
+    0 20px 45px rgba(37, 99, 235, .12);
+
+  overflow: hidden;
+
+}
+
+
+.profile-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 90px;
+
+  background:
+    linear-gradient(135deg, #ffffff, #ffffff);
+
+  z-index: 0;
+
+}
+
+.see-all-btn {
+  display: flex;
+  margin-left: auto;
+  margin-top: 20px;
+}
+
+.edit-area {
+
+  margin-top: 25px;
+
+  padding: 20px;
+
+  background: #f8fbff;
+
+  border-radius: 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+
+}
+
+
+.edit-area mat-form-field {
+
+  width: 100%;
+
+}
+
+
+.edit-profile-btn {
+
+  position: absolute;
+
+  top: 20px;
+
+  right: 20px;
+
+  background: #f8fbff;
+  border-radius: 50%;
+
+  background: white;
+
+  z-index: 2;
+
+}
+
+
+.edit-profile-btn mat-icon {
+
+  color: #555;
+
+}
+
+
+.edit-profile-btn:hover mat-icon {
+
+  color: #2563eb;
+
+}
+
+/* =========================================
+   AVATAR
+========================================= */
+
+
+.avatar-wrapper {
+
+  display: flex;
+
+  justify-content: center;
+
+  margin-bottom: 20px;
+
+  position: relative;
+
+  z-index: 1;
+
+}
+
+
+
+.avatar {
+
+  width: 145px;
+
+  height: 145px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  border: 6px solid white;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  position: relative;
+
+  box-shadow:
+    0 15px 35px rgba(37, 99, 235, .25);
+
+}
+
+
+
+.avatar mat-icon {
+
+  font-size: 78px;
+
+  width: 78px;
+
+  height: 78px;
+
+  color: #2563eb;
+
+}
+
+
+
+.camera-btn {
+
+  position: absolute;
+
+  bottom: -5px;
+
+  right: -5px;
+
+}
+
+/* =========================================
+   USER INFO
+========================================= */
+
+
+.user-info {
+
+  position: relative;
+
+  z-index: 1;
+
+}
+
+
+
+.user-info h1 {
+
+  font-size: 32px;
+
+  margin: 10px 0;
+
+  color: #1f2937;
+
+  font-weight: 700;
+
+}
+
+
+
+.role {
+
+  display: inline-block;
+
+  margin-top: 8px;
+
+  padding: 7px 22px;
+
+  border-radius: 30px;
+
+  background: #e8f0ff;
+
+  color: #2563eb;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  letter-spacing: .5px;
+
+}
+
+
+
+.welcome-text {
+
+  margin: 18px auto;
+
+  max-width: 500px;
+
+  color: #6b7280;
+
+  font-size: 15px;
+
+}
+
+/* =========================================
+   USER DETAILS
+========================================= */
+
+
+.user-details {
+
+  display: flex;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 18px;
+
+  margin: 25px 0;
+
+}
+
+
+
+.detail-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  background: #f8fbff;
+
+  padding: 10px 16px;
+
+  border-radius: 14px;
+
+  color: #555;
+
+  font-size: 14px;
+
+}
+
+
+
+.detail-item mat-icon {
+
+  color: #2563eb;
+
+  font-size: 20px;
+
+}
+
+/* =========================================
+   EDIT PROFILE DIALOG
+========================================= */
+
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .45);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+}
+
+.dialog-card {
+  width: 560px;
+  max-width: 90%;
+  max-height: 85vh;
+
+  background: #fff;
+  border-radius: 22px;
+  padding: 30px 30px 24px;
+
+  box-shadow: 0 20px 45px rgba(0, 0, 0, .2);
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  animation: popup .25s ease;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+
+  border-bottom: 1px solid #ececec;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  line-height: 1.3;
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  overflow-y: auto;
+
+  padding-top: 10px;
+  padding-right: 6px;
+}
+
+.dialog-content mat-form-field {
+  width: 100%;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+
+  margin-top: 24px;
+}
+
+.dialog-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+  background: #c8d8ff;
+  border-radius: 20px;
+}
+
+@keyframes popup {
+
+  from {
+    opacity: 0;
+    transform: scale(.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+}
+
+.profile-dialog-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, .45);
+  z-index: 1000;
+}
+
+.profile-dialog-card {
+  width: 560px;
+  max-width: 90%;
+  max-height: 85vh;
+
+  background: white;
+  border-radius: 22px;
+
+  padding: 28px;
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: 0 20px 45px rgba(0, 0, 0, .2);
+}
+
+.profile-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  margin-top: 12px;
+}
+
+.profile-dialog-content mat-form-field {
+  width: 100%;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  margin-top: 24px;
+}
+
+.profile-dialog-header {
+  position: relative;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ececec;
+}
+
+.close-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+}
+
+.dialog-title {
+  padding-top: 18px;
+  padding-left: 8px;
+}
+
+.dialog-title h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* =========================================
+   SHORTCUT CARDS
+========================================= */
+
+.shortcut-grid {
+  width: 90%;
+  max-width: 1000px;
+  margin: 30px auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.shortcut-card {
+  position: relative;
+  padding: 28px 22px;
+  border-radius: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: .25s ease;
+  background: white;
+}
+
+.shortcut-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 16px 35px rgba(37, 99, 235, .14);
+}
+
+.shortcut-card mat-icon:first-child {
+  width: 46px;
+  height: 46px;
+  font-size: 46px;
+  color: #2563eb;
+  margin-bottom: 14px;
+}
+
+.shortcut-card h3 {
+  margin: 8px 0;
+  font-size: 20px;
+  color: #222;
+}
+
+.shortcut-card p {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+.arrow {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  color: #2563eb;
+}
+
+/* =========================================
+   CONTENT GRID
+========================================= */
+
+.content-grid {
+  width: 90%;
+  max-width: 1000px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* =========================================
+   SECTION HEADER
+========================================= */
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.section-header mat-icon {
+  color: #2563eb;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+/* =========================================
+   EVENT CARD
+========================================= */
+
+.event-highlight,
+.activity-card {
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, .08);
+  height: 100%;
+}
+
+.event-banner img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.event-content {
+  padding: 24px;
+}
+
+.event-category {
+  display: inline-block;
+  background: #2563eb;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 25px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.event-content h2 {
+  margin: 14px 0;
+  font-size: 28px;
+  color: #222;
+}
+
+.event-content p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #666;
+  margin: 12px 0;
+}
+
+.event-content mat-icon {
+  color: #2563eb;
+}
+
+.event-content button {
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+/* =========================================
+   ACTIVITY CARD
+========================================= */
+
+.activity-card {
+  padding: 24px;
+  min-height: 470px;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+  justify-content: space-evenly;
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 15px;
+  border-radius: 16px;
+  transition: .25s;
+}
+
+.timeline-item:hover {
+  background: #f6f9ff;
+}
+
+.timeline-item mat-icon {
+  color: #2563eb;
+  margin-top: 2px;
+}
+
+.timeline-item h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #222;
+  font-weight: 600;
+}
+
+.timeline-item span {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #8b8b8b;
+}
+
+/* Çizgi */
+
+.timeline-item:not(:last-child) {
+  border-bottom: 1px solid #ececec;
+  padding-bottom: 22px;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+button[mat-flat-button] {
+  border-radius: 10px;
+}
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c6d3f7;
+  border-radius: 20px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 992px) {
+
+  .shortcut-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    width: 94%;
+  }
+
+}
+
+@media (max-width: 600px) {
+  .profile-stats {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .detail-item {
+
+    width: 100%;
+
+    justify-content: center;
+
+  }
+
+
+  .user-info h1 {
+
+    font-size: 26px;
+
+  }
+
+  .profile-cover {
+    height: 150px;
+  }
+
+  .avatar {
+    width: 110px;
+    height: 110px;
+  }
+
+  .avatar mat-icon {
+    font-size: 60px;
+    width: 60px;
+    height: 60px;
+  }
+
+  .user-info h1 {
+    font-size: 26px;
+  }
+
+  .shortcut-card h3 {
+    font-size: 18px;
+  }
+
+  .event-banner img {
+    height: 190px;
+  }
+
+  .event-content h2 {
+    font-size: 22px;
+  }
+
+}
+
+/* =========================================
+   HOVER ANIMATIONS
+========================================= */
+
+.profile-card,
+.shortcut-card,
+.event-highlight,
+.activity-card {
+  transition: .3s ease;
+}
+
+.profile-card:hover,
+.event-highlight:hover,
+.activity-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .10);
+}
+
+.shortcut-wrapper {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.expand-card {
+
+  width: 90%;
+  max-width: 1000px;
+
+  margin: 25px auto;
+
+  border-radius: 20px;
+
+  padding: 28px;
+
+  animation: fadeDown .3s ease;
+
+}
+
+.expand-header {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 20px;
+
+}
+
+.expand-header mat-icon {
+
+  color: #2563eb;
+
+}
+
+.event-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 15px;
+
+  transition: .25s;
+}
+
+.event-item:hover {
+
+  border-color: #2563eb;
+
+  background: #f8fbff;
+
+}
+
+@keyframes fadeDown {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(-10px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+  }
+
+}
+
+.event-list {
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.event-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.event-item button {
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.expand-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.expand-footer button {
+  font-weight: 600;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  cursor: pointer;
+}
+
+
+
+.setting-item span {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.setting-item:hover {
+  background: #f8fbff;
+}

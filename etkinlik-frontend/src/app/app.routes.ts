@@ -1,0 +1,41 @@
+import { Routes } from '@angular/router';
+
+import { Login } from './pages/auth/login/login';
+import { Signup } from './pages/auth/signup/signup';
+import { Home } from './pages/home/home';
+
+import { Profile } from './pages/profile/profile';
+import { MyTickets } from './pages/my-tickets/my-tickets';
+import { MyRegistrations } from './pages/my-registrations/my-registrations';
+
+export const routes: Routes = [
+  {
+    path: '',
+    component: Home
+  },
+  {
+    path: 'login',
+    component: Login
+  },
+  {
+    path: 'signup',
+    component: Signup
+  },
+  {
+    path: 'home',
+    component: Home
+  },
+  {
+    path: 'profile',
+    component: Profile
+  },
+  {
+    path: 'profile/my-tickets',
+    component: MyTickets
+  },
+  {
+    path: 'profile/my-registrations',
+    component: MyRegistrations
+  }
+
+];
