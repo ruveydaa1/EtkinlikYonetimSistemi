@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -23,6 +23,30 @@ export class User {
             'http://localhost:5000/api/auth/login',
             user
         );
+
+    }
+
+    getUserById(id: number): Observable<any> {
+
+        const token = localStorage.getItem('token');
+
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${token}`
+        });
+
+        return this.http.get(`${this.apiUrl}/${id}`, { headers });
+
+    }
+
+    updateUser(id: number, user: any): Observable<any> {
+
+        const token = localStorage.getItem('token');
+
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${token}`
+        });
+
+        return this.http.put(`${this.apiUrl}/${id}`, user, { headers });
 
     }
 

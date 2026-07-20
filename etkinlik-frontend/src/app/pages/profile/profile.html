@@ -1,3 +1,5 @@
+<app-navbar></app-navbar>
+
 <div class="profile-page">
 
   <div class="profile-cover"></div>
@@ -22,10 +24,12 @@
 
     <div class="user-info">
 
-      <h1>Hoş Geldin Ahmet 👋</h1>
+
+
+      <h1>Hoş Geldin {{ user.ad }} 👋</h1>
 
       <span class="role">
-        KULLANICI
+        {{ user.rol }}
       </span>
 
       <p class="welcome-text">
@@ -37,12 +41,12 @@
 
         <div class="detail-item">
           <mat-icon>email</mat-icon>
-          <span>ahmet@example.com</span>
+          <span>{{ user.email }}</span>
         </div>
 
         <div class="detail-item">
           <mat-icon>phone</mat-icon>
-          <span>0555 555 55 55</span>
+          <span>{{ user.telefon }}</span>
         </div>
 
         <div class="detail-item">
@@ -73,26 +77,28 @@
 
       </div>
 
-      <div class="dialog-content">
+      <div class="dialog-content" [formGroup]="profileForm">
+
+
 
         <mat-form-field appearance="outline">
           <mat-label>Ad</mat-label>
-          <input matInput value="Ahmet">
+          <input matInput formControlName="ad">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Soyad</mat-label>
-          <input matInput value="Yılmaz">
+          <input matInput formControlName="soyad">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>E-posta</mat-label>
-          <input matInput value="ahmet@example.com">
+          <input matInput formControlName="email">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Telefon</mat-label>
-          <input matInput value="0555 555 55 55">
+          <input matInput formControlName="telefon">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -102,7 +108,21 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Rol</mat-label>
-          <input matInput value="KULLANICI" readonly>
+          <input matInput formControlName="rol" readonly>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Şifre</mat-label>
+
+          <input matInput formControlName="sifre" [type]="showProfilePassword ? 'text' : 'password'">
+
+          <button mat-icon-button matSuffix type="button" (click)="showProfilePassword = !showProfilePassword">
+
+            <mat-icon>
+              {{ showProfilePassword ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+
+          </button>
         </mat-form-field>
 
       </div>
@@ -228,7 +248,7 @@
 
       <h3>Katıldığım Etkinlikler</h3>
 
-      <p>12 Etkinlik</p>
+      <p>Son {{ lastRegistrations.length }} Kayıt</p>
 
       <mat-icon class="arrow">
         {{ activeSection === 'events' ? 'expand_less' : 'chevron_right' }}
@@ -250,7 +270,7 @@
 
       <h3>Biletlerim</h3>
 
-      <p>8 Aktif Bilet</p>
+      <p>Son {{ lastTickets.length }} Bilet</p>
 
       <mat-icon class="arrow">
         {{ activeSection === 'tickets' ? 'expand_less' : 'chevron_right' }}
@@ -291,18 +311,48 @@
 
     <div class="expand-header">
       <mat-icon>event</mat-icon>
-      <h2>Katıldığım Etkinlikler</h2>
+      <h3>Katıldığım Etkinlikler</h3>
+      <p>Son kayıtlarını görüntüle</p>
     </div>
 
-    <div class="event-item">
-      <h3>🎉 Yaz Festivali 2026</h3>
-      <p>20 Temmuz 2026 • Ankara</p>
-    </div>
+    @for(registration of lastRegistrations; track registration.kayit_id){
 
     <div class="event-item">
-      <h3>💻 Teknoloji Zirvesi</h3>
-      <p>28 Temmuz 2026 • İstanbul</p>
+
+      <h3>{{ registration.etkinlik_adi }}</h3>
+
+      <p>
+
+        {{ registration.baslangic_tarihi | date:'dd.MM.yyyy HH:mm' }}
+
+        •
+
+        <span class="status" [ngClass]="{
+        'approved': registration.durum === 'ONAYLANDI',
+        'pending': registration.durum === 'BEKLEMEDE',
+        'rejected': registration.durum === 'REDDEDILDI',
+        'cancelled': registration.durum === 'IPTAL'
+      }">
+
+          {{ registration.durum }}
+
+        </span>
+
+      </p>
+
+      @if(lastRegistrations.length === 0){
+
+      <div class="event-item">
+
+        Henüz kayıt bulunmuyor.
+
+      </div>
+
+      }
+
     </div>
+
+    }
 
     <button mat-flat-button color="primary" class="see-all-btn" routerLink="/profile/my-registrations">
 
@@ -318,20 +368,41 @@
 
     <div class="expand-header">
       <mat-icon>confirmation_number</mat-icon>
-      <h2>Biletlerim</h2>
+      <h3>Biletlerim</h3>
+      <p>Son biletlerini görüntüle</p>
     </div>
+
+    @for(ticket of lastTickets; track ticket.bilet_id){
 
     <div class="event-item">
-      <h3>🎫 Yaz Festivali</h3>
-      <p>Bilet No : 123456</p>
+
+      <h3>{{ ticket.etkinlik_adi }}</h3>
+
+      <p>
+
+        Bilet #{{ ticket.bilet_id }}
+
+        •
+
+        {{ getTicketStatus(ticket.baslangic_tarihi) }}
+
+      </p>
+
+      @if(lastTickets.length === 0){
+
+      <div class="event-item">
+
+        Henüz bilet bulunmuyor.
+
+      </div>
+
+      }
+
     </div>
 
-    <div class="event-item">
-      <h3>🎫 Teknoloji Zirvesi</h3>
-      <p>Bilet No : 789654</p>
-    </div>
+    }
 
-    <button mat-flat-button color="primary" class="see-all-btn" routerLink="/profile/my-tickets">
+    <button mat-flat-button color="primary" class="see-all-btn" routerLink="/my-tickets">
 
       Tümünü Gör
 
@@ -381,7 +452,7 @@
 
         <div class="event-banner">
 
-          <img src="https://picsum.photos/700/250?random=10" alt="Etkinlik">
+          <img [src]="nextEvent?.resim">
 
         </div>
 
@@ -389,26 +460,43 @@
         <div class="event-content">
 
           <span class="event-category">
-            Festival
+            {{ nextEvent?.kategori_adi }}
           </span>
 
 
           <h2>
-            Yaz Festivali 2026
+            {{ nextEvent?.etkinlik_adi }}
           </h2>
 
 
           <p>
             <mat-icon>calendar_month</mat-icon>
-            20 Temmuz 2026
+            {{ nextEvent?.baslangic_tarihi | date:'dd.MM.yyyy HH:mm' }}
           </p>
 
 
           <p>
             <mat-icon>location_on</mat-icon>
-            Ankara
+            {{ nextEvent?.sehir }}
           </p>
 
+          @if(!nextEvent){
+
+          <mat-card class="event-highlight">
+
+            <div class="event-content">
+
+              <h2>Yaklaşan etkinlik bulunmuyor</h2>
+
+              <p>
+                Yeni etkinliklere kayıt olduğunda burada görünecek.
+              </p>
+
+            </div>
+
+          </mat-card>
+
+          }
 
           <button mat-flat-button color="primary">
             Detayları Gör
@@ -432,80 +520,49 @@
 
       <div class="section-header">
 
-        <mat-icon>history</mat-icon>
+        <mat-icon>analytics</mat-icon>
 
-        <h2>Son Hareketler</h2>
+        <h2>Hesap Özeti</h2>
 
       </div>
 
+      <mat-card class="summary-card">
 
-      <mat-card class="activity-card">
+        <div class="summary-grid">
 
+          <div class="summary-item">
+            <mat-icon>event</mat-icon>
 
-        <div class="timeline">
+            <h3>{{ summary.totalRegistrations }}</h3>
 
-
-          <div class="timeline-item">
-
-            <mat-icon>event_available</mat-icon>
-
-            <div>
-
-              <h4>
-                Yaz Festivali etkinliğine kayıt oldun
-              </h4>
-
-              <span>
-                20 Temmuz 2026
-              </span>
-
-            </div>
-
+            <p>Etkinlik</p>
           </div>
 
-
-
-          <div class="timeline-item">
-
+          <div class="summary-item">
             <mat-icon>confirmation_number</mat-icon>
 
-            <div>
+            <h3>{{ summary.activeTickets }}</h3>
 
-              <h4>
-                Biletin oluşturuldu
-              </h4>
-
-              <span>
-                18 Temmuz 2026
-              </span>
-
-            </div>
-
+            <p>Aktif Bilet</p>
           </div>
 
+          <div class="summary-item">
+            <mat-icon>hourglass_top</mat-icon>
 
+            <h3>{{ summary.pendingRegistrations }}</h3>
 
-          <div class="timeline-item">
-
-            <mat-icon>person</mat-icon>
-
-            <div>
-
-              <h4>
-                Profil bilgilerini güncelledin
-              </h4>
-
-              <span>
-                15 Temmuz 2026
-              </span>
-
-            </div>
-
+            <p>Bekleyen</p>
           </div>
 
+          <div class="summary-item">
+            <mat-icon>payments</mat-icon>
+
+            <h3>{{ summary.totalSpent }} ₺</h3>
+
+            <p>Toplam Harcama</p>
+          </div>
 
         </div>
-
 
       </mat-card>
 

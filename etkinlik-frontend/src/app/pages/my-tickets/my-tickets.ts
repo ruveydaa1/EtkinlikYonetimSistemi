@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { ChangeDetectorRef } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +8,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { OnInit } from '@angular/core';
+import { Ticket } from '../../core/services/ticket';
+
+
 
 @Component({
   selector: 'app-my-tickets',
@@ -25,44 +29,75 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './my-tickets.html',
   styleUrl: './my-tickets.css'
 })
-export class MyTickets {
+export class MyTickets implements OnInit {
 
   searchText = '';
 
-  tickets = [
-    {
-      eventName: 'Yaz Festivali 2026',
-      category: 'Festival',
-      date: '20 Temmuz 2026',
-      time: '19:00',
-      city: 'Ankara',
-      venue: 'ATO Congresium',
-      organizer: 'ABC Organizasyon',
-      ticketNumber: '123456',
-      seat: 'Serbest Oturma',
-      price: '250 ₺',
-      status: 'Aktif',
-      createdAt: '15 Temmuz 2026'
-    },
-    {
-      eventName: 'Teknoloji Zirvesi',
-      category: 'Konferans',
-      date: '28 Temmuz 2026',
-      time: '13:00',
-      city: 'İstanbul',
-      venue: 'İstanbul Kongre Merkezi',
-      organizer: 'Tech Türkiye',
-      ticketNumber: '654321',
-      seat: 'B18',
-      price: '450 ₺',
-      status: 'Aktif',
-      createdAt: '18 Temmuz 2026'
+  constructor(
+    private ticketService: Ticket,
+    private cdr: ChangeDetectorRef
+  ) { }
+
+  tickets: any[] = [];
+
+  ngOnInit(): void {
+
+    this.loadTickets();
+
+  }
+
+  loadTickets(): void {
+
+    this.ticketService.getMyTickets().subscribe({
+
+      next: (response) => {
+
+        this.tickets = response.data;
+
+        this.cdr.detectChanges();
+
+      },
+
+      error: (err) => {
+
+        console.error(err);
+
+      }
+
+    });
+
+  }
+
+  getTicketStatus(ticket: any): string {
+
+    if (!ticket) {
+      return '';
     }
-  ];
+
+    if (ticket.durum === 'IPTAL') {
+      return 'İptal';
+    }
+
+    const eventDate = new Date(ticket.baslangic_tarihi);
+    const today = new Date();
+
+    if (eventDate < today) {
+      return 'Geçmiş';
+    }
+
+    return 'Aktif';
+  }
+
   get filteredTickets() {
+
     return this.tickets.filter(ticket =>
-      ticket.eventName.toLowerCase().includes(this.searchText.toLowerCase())
+
+      (ticket.etkinlik_adi || '')
+        .toLowerCase()
+        .includes(this.searchText.toLowerCase())
+
     );
+
   }
 
   selectedTicket: any = null;

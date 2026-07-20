@@ -1,0 +1,182 @@
+<app-navbar></app-navbar>
+<div class="home-page">
+
+    <section class="top-section">
+
+        <!-- HERO -->
+
+        <section class="hero-banner">
+
+            <img src="images/banner.png" alt="Hero">
+
+            <div class="hero-overlay">
+
+                <span class="hero-tag">
+                    🎉 Yeni Sezon Etkinlikleri
+                </span>
+
+                <h1>
+                    Unutulmaz
+                    <br>
+                    Anlar Seni Bekliyor
+                </h1>
+
+                <p>
+                    Konserlerden festivallere, tiyatrodan teknoloji
+                    zirvelerine kadar yüzlerce etkinliği keşfet.
+                </p>
+
+                <button class="hero-button">
+                    Etkinlikleri Keşfet
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- UPCOMING EVENTS -->
+
+        <section class="upcoming-section">
+
+            <div class="section-header">
+
+                <h2>
+                    Yaklaşan Etkinlikler
+                </h2>
+
+                <span>
+                    Tümünü Gör
+                </span>
+
+            </div>
+
+            <div class="upcoming-list">
+
+                <div *ngFor="let event of upcomingEvents">
+
+                    <div class="upcoming-card">
+
+                        <img [src]="event.resim" [alt]="event.etkinlik_adi">
+
+                        <div>
+
+                            <h3>
+                                {{event.etkinlik_adi}}
+                            </h3>
+
+                            <p>
+                                📅 {{event.baslangic_tarihi | date:'dd.MM.yyyy'}}
+                            </p>
+
+                            <p>
+                                📍 {{event.sehir}}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+    <!-- POPULAR EVENTS -->
+
+    <section class="popular-section">
+
+        <div class="section-header">
+
+            <h2>
+                Popüler Etkinlikler
+            </h2>
+
+            <span>
+                Tümünü Gör
+            </span>
+
+        </div>
+
+        <div class="popular-grid">
+
+            @for(event of featuredEvents; track event.event_id){
+
+            <div class="popular-card">
+
+                <img [src]="event.resim" [alt]="event.etkinlik_adi">
+
+                <div class="popular-content">
+
+                    <span class="category">
+                        {{event.kategori_adi}}
+                    </span>
+
+                    <h3>
+                        {{event.etkinlik_adi}}
+                    </h3>
+
+                    <p>
+                        📅 {{event.baslangic_tarihi | date:'dd.MM.yyyy'}}
+                    </p>
+
+                    <p>
+                        📍 {{event.sehir}}
+                    </p>
+
+                    <button>
+                        Detayları Gör
+                    </button>
+
+                </div>
+
+            </div>
+
+            }
+
+        </div>
+
+    </section>
+
+
+    <!-- STATISTICS -->
+
+    <section class="stats-section">
+
+        <div class="stat-card">
+            <h2>1250+</h2>
+            <p>Kullanıcı</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>85+</h2>
+            <p>Organizatör</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>3400+</h2>
+            <p>Satılan Bilet</p>
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer class="home-footer">
+
+        <h2>
+            Event Management System
+        </h2>
+
+        <p>
+            Etkinlikleri keşfet, kayıt ol ve biletlerini kolayca yönet.
+        </p>
+
+    </footer>
+
+</div>

@@ -418,7 +418,7 @@ export const updateRegistration = async (req, res) => {
             });
 
         }
-        
+
         // Eğer kayıt ONAYLANIYORSA kapasite kontrolü yap
 
         if (
@@ -460,7 +460,7 @@ export const updateRegistration = async (req, res) => {
                 `,
 
                 [
-                    event_id, 
+                    event_id,
                     id
                 ]
 
@@ -535,11 +535,11 @@ export const updateRegistration = async (req, res) => {
 
             if (ticketResult.rows.length === 0) {
 
-              // Etkinliğin fiyatını al
+                // Etkinliğin fiyatını al
 
-              const eventResult = await pool.query(
+                const eventResult = await pool.query(
 
-                  `
+                    `
                   SELECT fiyat
 
                   FROM etkinlik
@@ -547,9 +547,9 @@ export const updateRegistration = async (req, res) => {
                   WHERE event_id = $1
                   `,
 
-                  [registrationResult.rows[0].event_id]
+                    [registrationResult.rows[0].event_id]
 
-             );
+                );
                 await pool.query(
 
 
@@ -708,24 +708,44 @@ export const getMyRegistrations = async (req, res) => {
         const result = await pool.query(
 
             `
-            SELECT
-                kayit.kayit_id,
-                etkinlik.event_id,
-                etkinlik.etkinlik_adi,
-                etkinlik.baslangic_tarihi,
-                etkinlik.bitis_tarihi,
-                etkinlik.fiyat,
-                kayit.durum
+           SELECT
 
-            FROM kayit
+                k.kayit_id,
+                k.kayit_tarihi AS kayit_tarihi,
+                k.durum,
+ 
+                e.event_id,
+                e.etkinlik_adi,
+                e.aciklama,
+                e.baslangic_tarihi,
+                e.bitis_tarihi,
+                e.fiyat,
+                e.resim,
 
-            INNER JOIN etkinlik
+                ka.kategori_adi,
 
-            ON kayit.event_id = etkinlik.event_id
+                m.mekan_adi,
+                m.sehir,
 
-            WHERE kayit.user_id = $1
+                u.ad || ' ' || u.soyad AS organizator
 
-            ORDER BY kayit.kayit_id DESC
+            FROM kayit k
+
+            JOIN etkinlik e
+            ON k.event_id = e.event_id
+
+            JOIN kategori ka
+            ON e.category_id = ka.category_id
+
+            JOIN mekan m
+            ON e.mekan_id = m.mekan_id
+
+            JOIN kullanici u
+            ON e.organizer_id = u.user_id
+
+            WHERE k.user_id = $1
+
+            ORDER BY k.kayit_id DESC
             `,
 
             [user_id]
@@ -746,15 +766,15 @@ export const getMyRegistrations = async (req, res) => {
 
     }
 
-    catch(error){
+    catch (error) {
 
         console.error(error);
 
         res.status(500).json({
 
-            success:false,
+            success: false,
 
-            message:"Kayıtlar getirilemedi."
+            message: "Kayıtlar getirilemedi."
 
         });
 
@@ -799,9 +819,9 @@ export const getEventRegistrations = async (req, res) => {
 
             return res.status(403).json({
 
-                success:false,
+                success: false,
 
-                message:"Bu etkinliğe erişim yetkiniz yok."
+                message: "Bu etkinliğe erişim yetkiniz yok."
 
             });
 
@@ -848,7 +868,7 @@ export const getEventRegistrations = async (req, res) => {
 
         res.status(200).json({
 
-            success:true,
+            success: true,
 
             count: result.rows.length,
 
@@ -859,16 +879,16 @@ export const getEventRegistrations = async (req, res) => {
 
     }
 
-    catch(error){
+    catch (error) {
 
         console.error(error);
 
 
         res.status(500).json({
 
-            success:false,
+            success: false,
 
-            message:"Kayıtlar getirilemedi."
+            message: "Kayıtlar getirilemedi."
 
         });
 

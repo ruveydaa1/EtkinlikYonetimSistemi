@@ -172,6 +172,16 @@ export const getMyTickets = async (req, res) => {
 
                 e.bitis_tarihi,
 
+                krt.kategori_adi,
+
+                CONCAT(u.ad, ' ', u.soyad) AS organizator,
+
+                m.mekan_adi,
+
+                m.sehir,
+
+                e.resim,
+
                 b.koltuk_no,
 
                 b.fiyat,
@@ -185,6 +195,15 @@ export const getMyTickets = async (req, res) => {
 
             JOIN etkinlik e
                 ON k.event_id = e.event_id
+
+            JOIN kategori krt
+                ON e.category_id = krt.category_id
+
+            JOIN mekan m
+                ON e.mekan_id = m.mekan_id    
+
+            JOIN kullanici u
+                ON e.organizer_id = u.user_id    
 
             WHERE k.user_id = $1
 

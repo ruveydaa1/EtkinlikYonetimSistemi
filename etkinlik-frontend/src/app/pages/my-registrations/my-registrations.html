@@ -29,47 +29,52 @@
 
     <div class="registration-list">
 
-        @for(registration of filteredRegistrations; track registration.eventName){
+        @for(registration of filteredRegistrations; track registration.kayit_id){
 
         <mat-card class="registration-card">
 
             <div class="registration-image">
 
-                <img [src]="registration.image" [alt]="registration.eventName">
+                <img [src]="registration.resim" [alt]="registration.etkinlik_adi">
 
             </div>
 
             <div class="registration-info">
 
                 <span class="category">
-                    {{ registration.category }}
+                    {{ registration.kategori_adi }}
                 </span>
 
-                <h2>{{ registration.eventName }}</h2>
+                <h2>{{ registration.etkinlik_adi }}</h2>
+
+                <p class="description">
+                    {{ registration.aciklama }}
+                </p>
 
                 <p>
                     <mat-icon>calendar_month</mat-icon>
-                    {{ registration.date }}
+                    {{ registration.baslangic_tarihi | date:'dd.MM.yyyy HH:mm' }}
                 </p>
 
                 <p>
                     <mat-icon>location_on</mat-icon>
-                    {{ registration.city }}
+                    {{ registration.sehir }}
                 </p>
 
                 <div class="registration-bottom">
 
                     <span class="registration-date">
-                        Kayıt Tarihi: {{ registration.registrationDate }}
+                        Kayıt Tarihi: {{ registration.kayit_tarihi | date:'dd.MM.yyyy HH:mm' }}
                     </span>
 
                     <span class="status" [ngClass]="{
-              'approved': registration.status === 'Onaylandı',
-              'pending': registration.status === 'Beklemede',
-              'rejected': registration.status === 'Reddedildi'
-            }">
+                        'approved': registration.durum === 'ONAYLANDI',
+                        'pending': registration.durum === 'BEKLEMEDE',
+                        'rejected': registration.durum === 'REDDEDILDI',
+                        'cancelled': registration.durum === 'IPTAL'
+                    }">
 
-                        {{ registration.status }}
+                        {{ registration.durum }}
 
                     </span>
 
@@ -123,51 +128,61 @@
 
                 <div class="detail-row">
                     <span>🎉 Etkinlik</span>
-                    <strong>{{ selectedRegistration.eventName }}</strong>
+                    <strong>{{ selectedRegistration.etkinlik_adi }}</strong>
                 </div>
 
                 <div class="detail-row">
                     <span>🏷️ Kategori</span>
-                    <strong>{{ selectedRegistration.category }}</strong>
+                    <strong>{{ selectedRegistration.kategori_adi }}</strong>
                 </div>
 
                 <div class="detail-row">
-                    <span>📅 Tarih</span>
-                    <strong>{{ selectedRegistration.date }}</strong>
+                    <span>📅 Başlangıç</span>
+                    <strong>
+                        {{ selectedRegistration.baslangic_tarihi | date:'dd.MM.yyyy HH:mm' }}
+                    </strong>
                 </div>
 
                 <div class="detail-row">
-                    <span>🕒 Saat</span>
-                    <strong>{{ selectedRegistration.time }}</strong>
+                    <span>📅Bitiş</span>
+                    <strong>
+                        {{ selectedRegistration.bitis_tarihi | date:'dd.MM.yyyy HH:mm' }}
+                    </strong>
                 </div>
 
                 <div class="detail-row">
                     <span>📍 Şehir</span>
-                    <strong>{{ selectedRegistration.city }}</strong>
+                    <strong>{{ selectedRegistration.sehir }}</strong>
                 </div>
 
                 <div class="detail-row">
                     <span>🏢 Mekan</span>
-                    <strong>{{ selectedRegistration.venue }}</strong>
+                    <strong>{{ selectedRegistration.mekan_adi }}</strong>
                 </div>
 
                 <div class="detail-row">
                     <span>👤 Organizatör</span>
-                    <strong>{{ selectedRegistration.organizer }}</strong>
+                    <strong>{{ selectedRegistration.organizator }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>💰 Ücret</span>
+                    <strong>{{ selectedRegistration.fiyat }} ₺</strong>
                 </div>
 
                 <div class="detail-row">
                     <span>📆 Kayıt Tarihi</span>
-                    <strong>{{ selectedRegistration.registrationDate }}</strong>
+                    <strong>
+                        {{ selectedRegistration.kayit_tarihi | date:'dd.MM.yyyy HH:mm' }}
+                    </strong>
                 </div>
 
                 <div class="detail-row">
                     <span>❕ Durum</span>
-                    <strong>{{ selectedRegistration.status }}</strong>
+                    <strong>{{ selectedRegistration.durum }}</strong>
                 </div>
 
             </div>
-
             <button mat-flat-button color="primary" (click)="closeRegistrationDetail()">
 
                 Kapat

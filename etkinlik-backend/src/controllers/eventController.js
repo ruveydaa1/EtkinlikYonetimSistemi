@@ -109,7 +109,8 @@ export const getEventById = async (req, res) => {
 
                 u.user_id,
                 u.ad,
-                u.soyad
+                u.soyad,
+                u.ad || ' ' || u.soyad AS organizator
 
             FROM etkinlik e
 

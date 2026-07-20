@@ -1,0 +1,119 @@
+.navbar{
+    width:90%;
+    max-width:1400px;
+    height:75px;
+    margin:25px auto 35px;
+    padding:0 30px;
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.navbar-logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    color:#1976d2;
+    font-size:28px;
+}
+
+.logo-text{
+    color:#263238;
+    font-size:24px;
+    font-weight:700;
+}
+
+.navbar-menu{
+    display:flex;
+    align-items:center;
+    gap:35px;
+}
+
+.navbar-menu a{
+    text-decoration:none;
+    color:#555;
+    font-size:16px;
+    font-weight:500;
+    transition:.25s;
+}
+
+.navbar-menu a:hover,
+.navbar-menu a.active{
+    color:#2196f3;
+}
+
+.navbar-actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.login-btn,
+.register-btn{
+    border:none;
+    padding:11px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+    transition:.25s;
+}
+
+.login-btn{
+    background:transparent;
+    color:#1d2a3a;
+}
+
+.login-btn:hover{
+    color:#2196f3;
+}
+
+.register-btn{
+    background:#2196f3;
+    color:white;
+}
+
+.register-btn:hover{
+    background:#1976d2;
+}
+
+@media(max-width:900px){
+
+    .navbar{
+        flex-wrap:wrap;
+        height:auto;
+        padding:18px;
+        gap:20px;
+    }
+
+    .navbar-menu{
+        width:100%;
+        justify-content:center;
+        order:3;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .navbar-menu{
+        gap:18px;
+    }
+
+    .logo-text{
+        font-size:18px;
+    }
+
+    .login-btn,
+    .register-btn{
+        padding:10px 16px;
+        font-size:14px;
+    }
+
+}

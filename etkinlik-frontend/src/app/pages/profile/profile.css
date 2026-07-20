@@ -938,3 +938,48 @@ button[mat-flat-button] {
 .setting-item:hover {
   background: #f8fbff;
 }
+
+.summary-card {
+  padding: 25px;
+  border-radius: 18px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.summary-item {
+  background: #f8fbff;
+  border: 1px solid #e4edf7;
+  border-radius: 14px;
+  padding: 22px;
+  text-align: center;
+  transition: .25s;
+}
+
+.summary-item:hover {
+  transform: translateY(-3px);
+}
+
+.summary-item mat-icon {
+  font-size: 34px;
+  width: 34px;
+  height: 34px;
+  color: #1976d2;
+  margin-bottom: 10px;
+}
+
+.summary-item h3 {
+  margin: 6px 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.summary-item p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}

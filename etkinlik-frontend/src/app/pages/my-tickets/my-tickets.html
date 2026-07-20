@@ -8,7 +8,7 @@
 
         <div>
             <h1>Biletlerim</h1>
-            <p>Toplam {{ tickets.length }} aktif biletin bulunuyor.</p>
+            <p>Toplam {{ tickets.length }} bilet listeleniyor.</p>
         </div>
 
     </div>
@@ -29,26 +29,30 @@
 
     <div class="ticket-list">
 
-        @for(ticket of filteredTickets; track ticket.ticketNumber){
+        @for(ticket of filteredTickets; track ticket.bilet_id){
 
         <mat-card class="ticket-card">
+
+            @if(ticket.resim){
+            <img class="ticket-image" [src]="ticket.resim" alt="Etkinlik">
+            }
 
             <div class="ticket-info">
 
                 <span class="category">
-                    {{ ticket.category }}
+                    {{ ticket.kategori_adi }}
                 </span>
 
-                <h2>{{ ticket.eventName }}</h2>
+                <h2>{{ ticket.etkinlik_adi }}</h2>
 
                 <p>
                     <mat-icon>calendar_month</mat-icon>
-                    {{ ticket.date }}
+                    {{ ticket.baslangic_tarihi | date:'dd.MM.yyyy HH:mm' }}
                 </p>
 
                 <p>
                     <mat-icon>location_on</mat-icon>
-                    {{ ticket.city }}
+                    {{ ticket.sehir }}
                 </p>
 
                 <div class="ticket-bottom">
@@ -56,11 +60,15 @@
                     <div class="ticket-left">
 
                         <span class="ticket-number">
-                            Bilet No: #{{ ticket.ticketNumber }}
+                            Bilet No: #{{ ticket.bilet_id }}
                         </span>
 
-                        <span class="status active">
-                            {{ ticket.status }}
+                        <span class="status" [class.active]="getTicketStatus(ticket) === 'Aktif'"
+                            [class.past]="getTicketStatus(ticket) === 'Geçmiş'"
+                            [class.cancel]="getTicketStatus(ticket) === 'İptal'">
+
+                            {{ getTicketStatus(ticket) }}
+
                         </span>
 
                     </div>
@@ -70,7 +78,9 @@
             </div>
 
             <button mat-flat-button color="primary" class="detail-btn" (click)="openTicketDetail(ticket)">
+
                 Detayı Gör
+
             </button>
 
         </mat-card>
@@ -97,62 +107,62 @@
 
                     <div class="detail-row">
                         <span>🎉 Etkinlik</span>
-                        <strong>{{ selectedTicket.eventName }}</strong>
+                        <strong>{{ selectedTicket.etkinlik_adi }}</strong>
                     </div>
 
                     <div class="detail-row">
                         <span>🏷️ Kategori</span>
-                        <strong>{{ selectedTicket.category }}</strong>
+                        <strong>{{ selectedTicket.kategori_adi }}</strong>
                     </div>
 
                     <div class="detail-row">
-                        <span>📅 Tarih</span>
-                        <strong>{{ selectedTicket.date }}</strong>
+                        <span>📅 Başlangıç Tarihi</span>
+                        <strong>{{ selectedTicket.baslangic_tarihi | date:'dd.MM.yyyy HH:mm' }}</strong>
                     </div>
 
                     <div class="detail-row">
-                        <span>🕒 Saat</span>
-                        <strong>{{ selectedTicket.time }}</strong>
+                        <span>📅 Bitiş Tarihi</span>
+                        <strong>{{ selectedTicket.bitis_tarihi | date:'dd.MM.yyyy HH:mm' }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>👤 Organizatör </span>
+                        <strong>{{ selectedTicket.organizator }}</strong>
                     </div>
 
                     <div class="detail-row">
                         <span>📍 Şehir</span>
-                        <strong>{{ selectedTicket.city }}</strong>
+                        <strong>{{ selectedTicket.sehir }}</strong>
                     </div>
 
                     <div class="detail-row">
                         <span>🏢 Mekan</span>
-                        <strong>{{ selectedTicket.venue }}</strong>
-                    </div>
-
-                    <div class="detail-row">
-                        <span>👤 Organizatör</span>
-                        <strong>{{ selectedTicket.organizer }}</strong>
+                        <strong>{{ selectedTicket.mekan_adi }}</strong>
                     </div>
 
                     <div class="detail-row">
                         <span>🎟️ Bilet No</span>
-                        <strong>#{{ selectedTicket.ticketNumber }}</strong>
+                        <strong>#{{ selectedTicket.bilet_id }}</strong>
                     </div>
 
                     <div class="detail-row">
                         <span>💺 Koltuk</span>
-                        <strong>{{ selectedTicket.seat }}</strong>
+                        <strong>{{ selectedTicket.koltuk_no }}</strong>
                     </div>
 
                     <div class="detail-row">
                         <span>💰 Ücret</span>
-                        <strong>{{ selectedTicket.price }}</strong>
+                        <strong>{{ selectedTicket.fiyat }} ₺</strong>
                     </div>
 
                     <div class="detail-row">
                         <span>❕ Durum</span>
-                        <strong>{{ selectedTicket.status }}</strong>
+                        <strong>{{ getTicketStatus(selectedTicket) }}</strong>
                     </div>
 
                     <div class="detail-row">
                         <span>📆 Oluşturulma Tarihi</span>
-                        <strong>{{ selectedTicket.createdAt }}</strong>
+                        <strong>{{ selectedTicket.olusturma_tarihi | date:'dd.MM.yyyy HH:mm' }}</strong>
                     </div>
 
                 </div>

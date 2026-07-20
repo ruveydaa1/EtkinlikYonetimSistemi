@@ -7,25 +7,61 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
+import { Router } from '@angular/router';
+import { OnInit } from '@angular/core';
+import { User } from '../../core/services/user';
+import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Ticket } from '../../core/services/ticket';
+import { Registration } from '../../core/services/registration';
+import { Navbar } from '../../shared/navbar/navbar';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatExpansionModule,
-    RouterLink
+    ReactiveFormsModule,
+    RouterLink,
+    Navbar
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
-export class Profile {
+export class Profile implements OnInit {
+
+  constructor(
+    private ticketService: Ticket,
+    private registrationService: Registration,
+    private userService: User,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) { }
+  user: any = {};
+  nextEvent: any = null;
+  lastTickets: any[] = [];
+  lastRegistrations: any[] = [];
+
+  summary = {
+    totalRegistrations: 0,
+    activeTickets: 0,
+    pendingRegistrations: 0,
+    totalSpent: 0
+  };
+
+
+  profileForm!: FormGroup;
+
+  userId!: number;
   // Şu an açık olan bölüm
   activeSection: string | null = null;
 
@@ -40,6 +76,9 @@ export class Profile {
 
   }
 
+
+  showProfilePassword = false;
+
   // Profil düzenleme dialogu
   editMode = false;
 
@@ -52,8 +91,39 @@ export class Profile {
   }
 
   saveProfile() {
-    alert("Profil bilgileri güncellendi.");
-    this.closeEditProfile();
+
+    const updatedUser = this.profileForm.value;
+
+    this.userService.updateUser(this.userId, updatedUser).subscribe({
+
+      next: () => {
+
+        localStorage.setItem(
+          'user',
+          JSON.stringify(this.user)
+        );
+
+        alert("Profil güncellendi.");
+
+        this.closeEditProfile();
+
+        this.loadUser();
+
+      },
+
+      error: (err) => {
+
+        console.log(err);
+
+        console.log(err.error);
+
+        console.log(err.error.message);
+
+        alert(JSON.stringify(err.error));
+
+      }
+    });
+
   }
 
 
@@ -81,11 +151,167 @@ export class Profile {
   }
 
 
-  logout() {
+  logout(): void {
 
-    alert("Çıkış yapıldı.");
+    const confirmLogout = confirm("Çıkış yapmak istediğinize emin misiniz?");
+
+    if (!confirmLogout) {
+      return;
+    }
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    alert("Başarıyla çıkış yapıldı.");
+
+    this.router.navigate(['/login']);
 
   }
 
+  ngOnInit(): void {
+    this.profileForm = this.fb.group({
+
+      ad: ['', Validators.required],
+      soyad: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      telefon: ['', Validators.required],
+      rol: [''],
+      sifre: ['', Validators.required]
+
+    });
+
+    console.log("Token:", localStorage.getItem("token"));
+    console.log("User:", localStorage.getItem("user"));
+
+    const storedUser = localStorage.getItem('user');
+
+    if (storedUser) {
+
+      const user = JSON.parse(storedUser);
+
+      this.userId = user.user_id;
+
+      this.loadUser();
+
+    }
+
+  }
+
+  loadUser(): void {
+
+    this.loadLastTickets();
+    this.loadLastRegistrations();
+
+    this.userService.getUserById(this.userId).subscribe({
+
+      next: (response) => {
+
+        setTimeout(() => {
+
+          this.user = response.data;
+
+          this.profileForm.patchValue({
+
+            ad: this.user.ad,
+            soyad: this.user.soyad,
+            email: this.user.email,
+            telefon: this.user.telefon,
+            rol: this.user.rol,
+            sifre: ''
+
+          });
+
+          this.cdr.detectChanges();
+
+          console.log("SETTIMEOUT USER:", this.user);
+
+        }, 0);
+
+
+      },
+
+      error: (err) => {
+
+        console.error(err);
+
+      }
+
+    });
+
+  }
+
+  loadLastTickets() {
+
+    this.ticketService.getMyTickets().subscribe({
+
+      next: (response) => {
+
+        this.lastTickets = response.data.slice(0, 2);
+
+        this.summary.activeTickets =
+          response.data.filter(
+            (ticket: any) =>
+              this.getTicketStatus(ticket.baslangic_tarihi) === 'Aktif'
+          ).length;
+
+        this.summary.totalSpent =
+          response.data.reduce(
+            (total: number, ticket: any) =>
+              total + Number(ticket.fiyat),
+            0
+          );
+
+      },
+
+      error: (err) => console.log(err)
+
+    });
+
+  }
+
+  loadLastRegistrations() {
+
+    this.registrationService.getMyRegistrations().subscribe({
+
+      next: (response) => {
+
+        this.lastRegistrations = response.data.slice(0, 2);
+
+        this.summary.totalRegistrations = response.data.length;
+
+        this.summary.pendingRegistrations =
+          response.data.filter(
+            (r: any) => r.durum === 'BEKLEMEDE'
+          ).length;
+        const upcoming = response.data
+          .filter((registration: any) =>
+            registration.durum !== 'REDDEDILDI' &&
+            registration.durum !== 'IPTAL' &&
+            new Date(registration.baslangic_tarihi) > new Date()
+          )
+          .sort((a: any, b: any) =>
+            new Date(a.baslangic_tarihi).getTime() -
+            new Date(b.baslangic_tarihi).getTime()
+          );
+
+        this.nextEvent = upcoming.length ? upcoming[0] : null;
+
+      },
+
+      error: (err) => console.log(err)
+
+    });
+
+  }
+
+  getTicketStatus(eventDate: string): string {
+
+    const today = new Date();
+
+    const event = new Date(eventDate);
+
+    return event < today ? 'Pasif' : 'Aktif';
+
+  }
 }
 
