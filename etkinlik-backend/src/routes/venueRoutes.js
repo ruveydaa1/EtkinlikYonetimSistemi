@@ -1,6 +1,7 @@
 import express from "express";
 
 import {
+    getUniqueCities,
     getAllVenues,
     getVenueById,
     createVenue,
@@ -9,6 +10,8 @@ import {
 } from "../controllers/venueController.js";
 
 const router = express.Router();
+
+router.get('/cities', getUniqueCities);
 
 /**
  * @swagger

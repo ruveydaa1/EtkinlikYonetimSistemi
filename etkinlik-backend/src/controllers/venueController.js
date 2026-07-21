@@ -241,3 +241,30 @@ export const deleteVenue = async (req, res) => {
     }
 
 };
+
+/*
+    GET /api/venues/cities
+*/
+export const getUniqueCities = async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT DISTINCT sehir 
+            FROM mekan 
+            WHERE sehir IS NOT NULL 
+            ORDER BY sehir
+        `);
+
+        res.status(200).json({
+            success: true,
+            count: result.rows.length,
+            data: result.rows
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Şehirler alınamadı."
+        });
+    }
+};

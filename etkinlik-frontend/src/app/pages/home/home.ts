@@ -2,11 +2,12 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventService } from '../../core/services/event';
 import { Navbar } from '../../shared/navbar/navbar';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Navbar],
+  imports: [CommonModule, Navbar,RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })

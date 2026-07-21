@@ -1,0 +1,205 @@
+<!-- Üst Ortak Navbar -->
+<app-navbar></app-navbar>
+
+<div class="events-container">
+
+    <!-- Kompakt Filtre Paneli (Başlık kaldırıldı, direkt filtrelerle başlıyoruz) -->
+    <div class="filter-panel">
+        <!-- Arama Çubuğu -->
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" [(ngModel)]="searchTerm" (input)="applyFilter()"
+                placeholder="Etkinlik adı veya açıklama ara...">
+        </div>
+
+        <!-- Filtre Grupları -->
+        <div class="filter-groups">
+            <!-- Kategori Filtreleri -->
+            <div class="filter-row">
+                <span class="filter-label">Kategori:</span>
+                <div class="category-chips">
+                    <!-- Tümü Butonu -->
+                    <button (click)="filterByCategory('Tümü')"
+                        [class.active]="selectedCategory === 'Tümü'">Tümü</button>
+
+                    <!-- Dinamik Kategoriler -->
+                    <button *ngFor="let kat of categories" (click)="filterByCategory(kat.kategori_adi)"
+                        [class.active]="selectedCategory === kat.kategori_adi">
+                        {{ kat.kategori_adi }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Şehir Filtreleri -->
+            <div class="filter-row">
+                <span class="filter-label">Şehir:</span>
+                <div class="category-chips">
+                    <!-- Şehirler İçin Tümü Butonu -->
+                    <button (click)="filterByCity('Tümü')"
+                        [class.active]="selectedCity === 'Tümü' || !selectedCity">Tümü</button>
+
+                    <!-- Dinamik Şehirler -->
+                    <button *ngFor="let city of cities" [class.active]="selectedCity === city"
+                        (click)="filterByCity(city)">
+                        {{ city }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yükleniyor Durumu -->
+    <div *ngIf="isLoading" class="loading-state">
+        <p>Etkinlikler yükleniyor...</p>
+    </div>
+
+    <!-- Etkinlik Kartları Grid Yapısı -->
+    <div *ngIf="!isLoading && filteredEvents.length > 0" class="events-grid">
+        <div *ngFor="let event of filteredEvents" class="event-card">
+            <div class="card-image">
+                <img [src]="event.resim || 'assets/default-event.jpg'" [alt]="event.ad">
+                <span class="badge">{{ event.kategori || 'Genel' }}</span>
+            </div>
+
+            <div class="card-content">
+                <h3>{{ event.ad }}</h3>
+                <p class="date"><i class="far fa-calendar-alt"></i> {{ event.baslangic_tarihi | date:'dd MMM yyyy,
+                    HH:mm' }}</p>
+                <p class="location"><i class="fas fa-map-marker-alt"></i> {{ event.lokasyon || 'Online / Belirtilmemiş'
+                    }}</p>
+                <p class="description">{{ event.aciklama | slice:0:90 }}...</p>
+
+                <div class="card-footer">
+                    <span class="price">{{ event.fiyat ? event.fiyat + ' ₺' : 'Ücretsiz' }}</span>
+                    <button class="btn-detail" (click)="openEventDetail(event)">Detaya Git</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Arka Planı -->
+        <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+            <div class="modal-container" (click)="$event.stopPropagation()">
+
+                <!-- Modal Üst Başlık -->
+                <div class="modal-header">
+                    <div>
+                        <span class="modal-badge">
+                            {{ selectedEvent?.kategori_adi  || 'Genel' }}
+                        </span>
+                        <h3>{{ selectedEvent?.etkinlik_adi   }}</h3>
+                    </div>
+                    <button class="close-btn" (click)="closeModal()">&times;</button>
+                </div>
+
+                <!-- Modal İçerik Gövdesi -->
+                <div class="modal-body" *ngIf="selectedEvent">
+
+                    <!-- Etkinlik Görseli -->
+                    <div class="modal-image"
+                        *ngIf="selectedEvent.resim_url || selectedEvent.imageUrl || selectedEvent.gorsel">
+                        <img [src]="selectedEvent.resim_url || selectedEvent.imageUrl || selectedEvent.gorsel"
+                            [alt]="selectedEvent.etkinlik_adi">
+                    </div>
+
+                    <!-- Detay Grid -->
+                    <div class="modal-info-grid">
+
+                        <!-- Tarih (Başlangıç ve Bitiş) -->
+                        <div class="info-item">
+                            <i class="fa-regular fa-calendar-days"></i>
+                            <div>
+                                <span class="info-title">Etkinlik Tarihleri</span>
+                                <span class="info-value">
+                                    {{ (selectedEvent.baslangic_tarihi || selectedEvent.baslangicTarihi) |
+                                    date:'dd.MM.yyyy- HH:mm' }}
+                                    <span *ngIf="selectedEvent.bitis_tarihi || selectedEvent.bitisTarihi">
+                                        <br>{{ (selectedEvent.bitis_tarihi || selectedEvent.bitisTarihi) |
+                                        date:'dd.MM.yyyy- HH:mm' }}
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Şehir / Mekan -->
+                        <div class="info-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div>
+                                <span class="info-title">Şehir / Mekan</span>
+                                <span class="info-value">
+                                    {{ selectedEvent.sehir  || 'Belirtilmemiş' }} -
+                                    {{ selectedEvent.mekan_adi || selectedEvent.location || selectedEvent.venue ||
+                                    'Merkez' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Organizatör -->
+                        <div class="info-item">
+                            <i class="fa-solid fa-user-tie"></i>
+                            <div>
+                                <span class="info-title">Organizatör</span>
+                                <span class="info-value">{{ selectedEvent.organizator || selectedEvent.organizer ||
+                                    selectedEvent.kullanici_adi || 'Sistem' }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Kapasite -->
+                        <div class="info-item">
+                            <i class="fa-solid fa-users"></i>
+                            <div>
+                                <span class="info-title">Kapasite / Kontenjan</span>
+                                <span class="info-value">{{ selectedEvent.max_katilimci_sayisi ||
+                                    'Sınırsız' }} Kişi</span>
+                            </div>
+                        </div>
+
+                        <!-- Kategori -->
+                        <div class="info-item">
+                            <i class="fa-solid fa-tag"></i>
+                            <div>
+                                <span class="info-title">Kategori</span>
+                                <span class="info-value">{{ selectedEvent.kategori_adi ||
+                                    'Genel' }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Ücret / Fiyat -->
+                        <div class="info-item">
+                            <i class="fa-solid fa-ticket"></i>
+                            <div>
+                                <span class="info-title">Bilet Ücreti</span>
+                                <span class="info-value price-highlight">
+                                    {{ (selectedEvent.fiyat !== undefined ? selectedEvent.fiyat : selectedEvent.price) >
+                                    0 ? ((selectedEvent.fiyat || selectedEvent.price) + ' ₺') : 'Ücretsiz' }}
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Açıklama Alanı -->
+                    <div class="modal-description">
+                        <h4>Etkinlik Açıklaması</h4>
+                        <p>{{ selectedEvent.aciklama || 'Bu etkinlik için henüz detaylı bir
+                            açıklama girilmemiş.' }}</p>
+                    </div>
+
+                </div>
+
+                <!-- Modal Alt Butonlar -->
+                <div class="modal-footer">
+                    <button class="btn-secondary" (click)="closeModal()">Kapat</button>
+                    <button class="btn-primary"
+                        (click)="goToTicketPage(selectedEvent?.etkinlik_id || selectedEvent?.id)">Bilet Al /
+                        Katıl</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Sonuç Bulunamadı Durumu -->
+    <div *ngIf="!filteredEvents || filteredEvents.length === 0" class="no-results">
+        <p>Aradığın kriterlere uygun etkinlik bulunamadı.</p>
+    </div>

@@ -7,6 +7,7 @@ import { Home } from './pages/home/home';
 import { Profile } from './pages/profile/profile';
 import { MyTickets } from './pages/my-tickets/my-tickets';
 import { MyRegistrations } from './pages/my-registrations/my-registrations';
+import { EventsComponent } from './pages/events/events';
 
 export const routes: Routes = [
   {
@@ -36,6 +37,8 @@ export const routes: Routes = [
   {
     path: 'profile/my-registrations',
     component: MyRegistrations
-  }
+  },
+  { path: 'events', 
+    component: EventsComponent }
 
 ];

@@ -21,4 +21,19 @@ export class EventService {
 
   }
 
+  // ID'ye göre tek etkinliği çeken doğru metot
+  getEventById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
+
+  // Kategorileri veritabanından çekmek için
+  getCategories(): Observable<any> {
+    return this.http.get('http://localhost:5000/api/categories');
+  }
+
+  // Mekanlar üzerinden benzersiz şehirleri çekmek için
+  getCities(): Observable<any> {
+    return this.http.get('http://localhost:5000/api/venues/cities');
+  }
+
 }
