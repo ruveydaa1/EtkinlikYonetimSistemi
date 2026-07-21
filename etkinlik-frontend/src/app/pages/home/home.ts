@@ -6,14 +6,12 @@ import { Navbar } from '../../shared/navbar/navbar';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule,Navbar],
+  imports: [CommonModule, Navbar],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
 
 export class Home implements OnInit {
-
-
 
   upcomingEvents: any[] = [];
 
@@ -66,5 +64,6 @@ export class Home implements OnInit {
     });
 
   }
+
 
 }

@@ -9,7 +9,7 @@ export class Ticket {
 
   private apiUrl = "http://localhost:5000/api/tickets";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getMyTickets(): Observable<any> {
 
