@@ -192,17 +192,6 @@
 }
 
 
-
-.camera-btn {
-
-  position: absolute;
-
-  bottom: -5px;
-
-  right: -5px;
-
-}
-
 /* =========================================
    USER INFO
 ========================================= */
@@ -555,6 +544,36 @@
   grid-template-columns: 1.6fr 1fr;
   gap: 24px;
   align-items: stretch;
+}
+
+.empty-event {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 280px;
+}
+
+
+.empty-content {
+  text-align: center;
+}
+
+
+.empty-content mat-icon {
+  font-size: 50px;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 15px;
+}
+
+
+.empty-content h2 {
+  margin-bottom: 10px;
+}
+
+
+.empty-content p {
+  color: #777;
 }
 
 /* =========================================

@@ -14,9 +14,7 @@
       <div class="avatar">
         <mat-icon>person</mat-icon>
 
-        <button mat-mini-fab color="primary" class="camera-btn">
-          <mat-icon>photo_camera</mat-icon>
-        </button>
+  
 
       </div>
     </div>
@@ -437,9 +435,7 @@
 
   <div class="content-grid">
 
-
     <div>
-
 
       <div class="section-header">
         <mat-icon>celebration</mat-icon>
@@ -447,12 +443,13 @@
       </div>
 
 
-      <mat-card class="event-highlight">
+      @if(nextEvent){
 
+      <mat-card class="event-highlight">
 
         <div class="event-banner">
 
-          <img [src]="nextEvent?.resim">
+          <img [src]="nextEvent.resim">
 
         </div>
 
@@ -460,43 +457,26 @@
         <div class="event-content">
 
           <span class="event-category">
-            {{ nextEvent?.kategori_adi }}
+            {{ nextEvent.kategori_adi }}
           </span>
 
 
           <h2>
-            {{ nextEvent?.etkinlik_adi }}
+            {{ nextEvent.etkinlik_adi }}
           </h2>
 
 
           <p>
             <mat-icon>calendar_month</mat-icon>
-            {{ nextEvent?.baslangic_tarihi | date:'dd.MM.yyyy HH:mm' }}
+            {{ nextEvent.baslangic_tarihi | date:'dd.MM.yyyy HH:mm' }}
           </p>
 
 
           <p>
             <mat-icon>location_on</mat-icon>
-            {{ nextEvent?.sehir }}
+            {{ nextEvent.sehir }}
           </p>
 
-          @if(!nextEvent){
-
-          <mat-card class="event-highlight">
-
-            <div class="event-content">
-
-              <h2>Yaklaşan etkinlik bulunmuyor</h2>
-
-              <p>
-                Yeni etkinliklere kayıt olduğunda burada görünecek.
-              </p>
-
-            </div>
-
-          </mat-card>
-
-          }
 
           <button mat-flat-button color="primary">
             Detayları Gör
@@ -505,72 +485,106 @@
 
         </div>
 
-
       </mat-card>
 
 
-    </div>
+      } @else {
 
 
+      <mat-card class="event-highlight empty-event">
 
 
+        <div class="empty-content">
 
-    <div>
+
+          <mat-icon>
+            event_available
+          </mat-icon>
 
 
-      <div class="section-header">
+          <h2>
+            Yaklaşan etkinlik bulunmuyor
+          </h2>
 
-        <mat-icon>analytics</mat-icon>
 
-        <h2>Hesap Özeti</h2>
+          <p>
+            Yeni etkinliklere kayıt olduğunda burada görünecek.
+          </p>
 
-      </div>
-
-      <mat-card class="summary-card">
-
-        <div class="summary-grid">
-
-          <div class="summary-item">
-            <mat-icon>event</mat-icon>
-
-            <h3>{{ summary.totalRegistrations }}</h3>
-
-            <p>Etkinlik</p>
-          </div>
-
-          <div class="summary-item">
-            <mat-icon>confirmation_number</mat-icon>
-
-            <h3>{{ summary.activeTickets }}</h3>
-
-            <p>Aktif Bilet</p>
-          </div>
-
-          <div class="summary-item">
-            <mat-icon>hourglass_top</mat-icon>
-
-            <h3>{{ summary.pendingRegistrations }}</h3>
-
-            <p>Bekleyen</p>
-          </div>
-
-          <div class="summary-item">
-            <mat-icon>payments</mat-icon>
-
-            <h3>{{ summary.totalSpent }} ₺</h3>
-
-            <p>Toplam Harcama</p>
-          </div>
 
         </div>
 
+
       </mat-card>
+
+
+      }
 
 
     </div>
 
+  
+
+
+
+
+
+  <div>
+
+
+    <div class="section-header">
+
+      <mat-icon>analytics</mat-icon>
+
+      <h2>Hesap Özeti</h2>
+
+    </div>
+
+    <mat-card class="summary-card">
+
+      <div class="summary-grid">
+
+        <div class="summary-item">
+          <mat-icon>event</mat-icon>
+
+          <h3>{{ summary.totalRegistrations }}</h3>
+
+          <p>Etkinlik</p>
+        </div>
+
+        <div class="summary-item">
+          <mat-icon>confirmation_number</mat-icon>
+
+          <h3>{{ summary.activeTickets }}</h3>
+
+          <p>Aktif Bilet</p>
+        </div>
+
+        <div class="summary-item">
+          <mat-icon>hourglass_top</mat-icon>
+
+          <h3>{{ summary.pendingRegistrations }}</h3>
+
+          <p>Bekleyen</p>
+        </div>
+
+        <div class="summary-item">
+          <mat-icon>payments</mat-icon>
+
+          <h3>{{ summary.totalSpent }} ₺</h3>
+
+          <p>Toplam Harcama</p>
+        </div>
+
+      </div>
+
+    </mat-card>
+
 
   </div>
+
+
+</div>
 
 
 </div>
