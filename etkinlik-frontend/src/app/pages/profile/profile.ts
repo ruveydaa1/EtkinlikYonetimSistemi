@@ -222,11 +222,10 @@ export class Profile implements OnInit {
           });
 
           this.cdr.detectChanges();
-
+          
           console.log("SETTIMEOUT USER:", this.user);
 
         }, 0);
-
 
       },
 
@@ -253,7 +252,6 @@ export class Profile implements OnInit {
         this.cdr.detectChanges();
 
         console.log("LAST TICKETS:", this.lastTickets);
-
 
         this.lastTickets = [...response.data.slice(0, 2)];
 
