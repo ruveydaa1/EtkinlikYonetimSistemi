@@ -246,7 +246,16 @@ export class Profile implements OnInit {
 
       next: (response) => {
 
+        console.log("TICKETS GELDİ:", response);
+
         this.lastTickets = response.data.slice(0, 2);
+
+        this.cdr.detectChanges();
+
+        console.log("LAST TICKETS:", this.lastTickets);
+
+
+        this.lastTickets = [...response.data.slice(0, 2)];
 
         this.summary.activeTickets =
           response.data.filter(
@@ -275,7 +284,16 @@ export class Profile implements OnInit {
 
       next: (response) => {
 
+        console.log("REGISTRATION GELDİ:", response);
+
         this.lastRegistrations = response.data.slice(0, 2);
+
+        this.cdr.detectChanges();
+
+        console.log("LAST REG:", this.lastRegistrations);
+
+
+        this.lastRegistrations = [...response.data.slice(0, 2)];
 
         this.summary.totalRegistrations = response.data.length;
 
