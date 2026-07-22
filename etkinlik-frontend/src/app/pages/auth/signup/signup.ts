@@ -173,7 +173,8 @@ export class Signup {
             {
               duration: 2000,
               horizontalPosition: 'center',
-              verticalPosition: 'bottom'
+              verticalPosition: 'bottom',
+              panelClass: ['custom-snackbar']
             }
 
           );

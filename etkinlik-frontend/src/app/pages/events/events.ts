@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { EventService } from '../../core/services/event';
 import { Navbar } from '../../shared/navbar/navbar';
 
@@ -28,7 +28,8 @@ export class EventsComponent implements OnInit {
 
   constructor(
     private eventService: EventService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) { }
 
   categories: any[] = [];
@@ -155,10 +156,21 @@ export class EventsComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  // Bilet al / Katıl butonuna basıldığında yönlendirme yapacağımız yer
-  goToTicketPage(eventId: number): void {
-    // Örnek: Bu kısmı daha sonra bilet alma sayfasına yönlendirmek için kullanacağız
-    console.log('Bilet al sayfasına yönlendiriliyor, etkinlik ID:', eventId);
-    // this.router.navigate(['/bilet-al', eventId]);
+  goToTicketPage(eventId: number) {
+
+    this.closeModal();
+
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+
+      this.router.navigate(['/login']);
+
+      return;
+
+    }
+
+    this.router.navigate(['/event-registration', eventId]);
+
   }
 }

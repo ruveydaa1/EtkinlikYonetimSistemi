@@ -80,31 +80,28 @@
         <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
             <div class="modal-container" (click)="$event.stopPropagation()">
 
-                <!-- Modal Üst Başlık -->
-                <div class="modal-header">
-                    <div>
-                        <span class="modal-badge">
-                            {{ selectedEvent?.kategori_adi  || 'Genel' }}
-                        </span>
-                        <h3>{{ selectedEvent?.etkinlik_adi   }}</h3>
+                <!-- Modal Üst Başlık (İki Sütunlu Yapı: Sol Metin, Sağ Görsel) -->
+                <div class="modal-header-split">
+                    <div class="modal-header-left">
+                        <span class="modal-badge">{{ selectedEvent?.kategori_adi || 'Genel' }}</span>
+                        <h3>{{ selectedEvent?.etkinlik_adi }}</h3>
                     </div>
+
+                    <div class="modal-header-right"
+                        *ngIf="selectedEvent.resim_url || selectedEvent.imageUrl || selectedEvent.gorsel || selectedEvent.resim">
+                        <img [src]="selectedEvent.resim_url || selectedEvent.imageUrl || selectedEvent.gorsel || selectedEvent.resim"
+                            [alt]="selectedEvent.etkinlik_adi">
+                    </div>
+
+                    <!-- Kapatma Butonu -->
                     <button class="close-btn" (click)="closeModal()">&times;</button>
                 </div>
 
                 <!-- Modal İçerik Gövdesi -->
                 <div class="modal-body" *ngIf="selectedEvent">
-
-                    <!-- Etkinlik Görseli -->
-                    <div class="modal-image"
-                        *ngIf="selectedEvent.resim_url || selectedEvent.imageUrl || selectedEvent.gorsel">
-                        <img [src]="selectedEvent.resim_url || selectedEvent.imageUrl || selectedEvent.gorsel"
-                            [alt]="selectedEvent.etkinlik_adi">
-                    </div>
-
                     <!-- Detay Grid -->
                     <div class="modal-info-grid">
-
-                        <!-- Tarih (Başlangıç ve Bitiş) -->
+                        <!-- Tarih -->
                         <div class="info-item">
                             <i class="fa-regular fa-calendar-days"></i>
                             <div>
@@ -126,9 +123,8 @@
                             <div>
                                 <span class="info-title">Şehir / Mekan</span>
                                 <span class="info-value">
-                                    {{ selectedEvent.sehir  || 'Belirtilmemiş' }} -
-                                    {{ selectedEvent.mekan_adi || selectedEvent.location || selectedEvent.venue ||
-                                    'Merkez' }}
+                                    {{ selectedEvent.sehir || 'Belirtilmemiş' }} - {{ selectedEvent.mekan_adi ||
+                                    selectedEvent.location || selectedEvent.venue || 'Merkez' }}
                                 </span>
                             </div>
                         </div>
@@ -148,8 +144,8 @@
                             <i class="fa-solid fa-users"></i>
                             <div>
                                 <span class="info-title">Kapasite / Kontenjan</span>
-                                <span class="info-value">{{ selectedEvent.max_katilimci_sayisi ||
-                                    'Sınırsız' }} Kişi</span>
+                                <span class="info-value">{{ selectedEvent.max_katilimci_sayisi || 'Sınırsız' }}
+                                    Kişi</span>
                             </div>
                         </div>
 
@@ -158,8 +154,7 @@
                             <i class="fa-solid fa-tag"></i>
                             <div>
                                 <span class="info-title">Kategori</span>
-                                <span class="info-value">{{ selectedEvent.kategori_adi ||
-                                    'Genel' }}</span>
+                                <span class="info-value">{{ selectedEvent.kategori_adi || 'Genel' }}</span>
                             </div>
                         </div>
 
@@ -174,16 +169,13 @@
                                 </span>
                             </div>
                         </div>
-
                     </div>
 
                     <!-- Açıklama Alanı -->
                     <div class="modal-description">
                         <h4>Etkinlik Açıklaması</h4>
-                        <p>{{ selectedEvent.aciklama || 'Bu etkinlik için henüz detaylı bir
-                            açıklama girilmemiş.' }}</p>
+                        <p>{{ selectedEvent.aciklama || 'Bu etkinlik için henüz detaylı bir açıklama girilmemiş.' }}</p>
                     </div>
-
                 </div>
 
                 <!-- Modal Alt Butonlar -->
@@ -196,10 +188,11 @@
 
             </div>
         </div>
-
     </div>
 
-    <!-- Sonuç Bulunamadı Durumu -->
-    <div *ngIf="!filteredEvents || filteredEvents.length === 0" class="no-results">
-        <p>Aradığın kriterlere uygun etkinlik bulunamadı.</p>
-    </div>
+</div>
+
+<!-- Sonuç Bulunamadı Durumu -->
+<div *ngIf="!filteredEvents || filteredEvents.length === 0" class="no-results">
+    <p>Aradığın kriterlere uygun etkinlik bulunamadı.</p>
+</div>

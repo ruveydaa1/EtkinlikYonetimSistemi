@@ -9,7 +9,11 @@ export class Registration {
 
   private apiUrl = 'http://localhost:5000/api/registrations';
 
-  constructor(private http: HttpClient) { }
+
+  constructor(
+    private http: HttpClient
+  ) { }
+
 
   getMyRegistrations(): Observable<any> {
 
@@ -25,5 +29,29 @@ export class Registration {
     );
 
   }
+
+
+  // Etkinliğe kayıt oluşturma
+  createRegistration(eventId: number): Observable<any> {
+
+    const token = localStorage.getItem("token");
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+
+    return this.http.post(
+      this.apiUrl,
+      {
+        event_id: eventId
+      },
+      {
+        headers
+      }
+    );
+
+  }
+
 
 }

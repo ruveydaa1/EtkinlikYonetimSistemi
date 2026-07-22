@@ -1,0 +1,80 @@
+<app-navbar></app-navbar>
+<div class="registration-page">
+
+    <button class="back-btn" mat-stroked-button routerLink="/events">
+
+        <mat-icon>arrow_back</mat-icon>
+        Geri
+
+    </button>
+
+    <mat-card class="event-card">
+
+        <img class="event-image" [src]="event.resim" [alt]="event.etkinlik_adi">
+
+        <div class="event-content">
+
+            <span class="category">
+                {{ event.kategori_adi }}
+            </span>
+
+            <h2>{{ event.etkinlik_adi }}</h2>
+
+            <div class="info-list">
+
+                <div class="info-item">
+                    <mat-icon>calendar_month</mat-icon>
+                    <span>{{ event.baslangic_tarihi | date:'dd.MM.yyyy HH:mm' }}</span>
+                </div>
+
+                <div class="info-item">
+                    <mat-icon>location_on</mat-icon>
+                    <span>{{ event.sehir }}</span>
+                </div>
+
+                <div class="info-item">
+                    <mat-icon>business</mat-icon>
+                    <span>{{ event.mekan_adi }}</span>
+                </div>
+
+                <div class="info-item">
+                    <mat-icon>person</mat-icon>
+                    <span>{{ event.organizator }}</span>
+                </div>
+
+                <div class="info-item full-width">
+                    <mat-icon>confirmation_number</mat-icon>
+                    <span>
+                        {{ event.fiyat > 0 ? event.fiyat + ' ₺' : 'Ücretsiz' }}
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+    </mat-card>
+
+    <mat-card class="notice-card">
+
+        <p class="register-info">
+            Kaydınız organizatör tarafından onaylandıktan sonra
+            biletiniz otomatik olarak oluşturulacaktır.
+        </p>
+
+        <form [formGroup]="registrationForm">
+
+            <mat-checkbox formControlName="confirm">
+                Etkinlik bilgilerini kontrol ettim ve kayıt olmak istiyorum.
+            </mat-checkbox>
+
+            <button class="register-btn" mat-flat-button color="primary" (click)="register()">
+
+                Kayıt Ol
+
+            </button>
+
+        </form>
+
+    </mat-card>
+
+</div>
