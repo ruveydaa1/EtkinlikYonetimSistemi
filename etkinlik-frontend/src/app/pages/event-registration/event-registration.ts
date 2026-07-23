@@ -121,7 +121,6 @@ export class EventRegistration implements OnInit {
 
           }, 1500);
 
-          this.router.navigate(['/profile/my-registrations']);
 
         },
         error: (err) => {
