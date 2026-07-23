@@ -62,6 +62,15 @@ export const routes: Routes = [
   {
     path: 'organizer/create-event',
     component: CreateEvent
+  },
+  {
+    path: 'organizer/edit-event/:id',
+    component: CreateEvent
+  },
+  {
+    path: 'organizer/my-events',
+    component: MyEvents
   }
+
 
 ];

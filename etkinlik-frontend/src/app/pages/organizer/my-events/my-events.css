@@ -1,0 +1,171 @@
+.organizer-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.my-events-page {
+    flex: 1;
+    padding: 40px;
+}
+
+.page-header {
+    max-width: 950px;
+    margin: 0 auto 30px;
+}
+
+.page-header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    color: #6b7280;
+    font-size: 15px;
+}
+
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.event-card {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+
+    max-width: 950px;
+    width: 100%;
+
+    margin: 0 auto;
+
+    overflow: hidden;
+
+    border-radius: 18px !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .08) !important;
+}
+
+.event-image {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+}
+
+.event-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.event-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 28px;
+}
+
+.event-content h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.description {
+    margin: 14px 0 22px;
+
+    color: #6b7280;
+    line-height: 1.6;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+.event-info-row {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 12px;
+}
+
+.event-info-row div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.event-info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.event-info div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #374151;
+}
+
+.event-info mat-icon {
+    color: #2563eb;
+}
+
+.status {
+    display: inline-block;
+    width: fit-content;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status.active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status.passive {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.event-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    margin-top: 28px;
+}
+
+@media (max-width: 900px) {
+
+    .my-events-page {
+        padding: 24px;
+    }
+
+    .event-card {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    .event-image {
+        width: 100%;
+        height: 220px;
+    }
+
+    .event-actions {
+        justify-content: stretch;
+    }
+
+    .event-actions button {
+        flex: 1;
+    }
+
+}

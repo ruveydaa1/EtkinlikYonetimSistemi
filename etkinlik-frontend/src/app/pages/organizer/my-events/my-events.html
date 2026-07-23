@@ -1,1 +1,112 @@
-<p>my-events works!</p>
+<app-navbar></app-navbar>
+
+<div class="organizer-layout">
+
+    <app-organizer-sidebar></app-organizer-sidebar>
+
+    <div class="my-events-page">
+
+        <div class="page-header">
+
+            <h1>Etkinliklerim</h1>
+
+            <p>
+                Oluşturduğunuz etkinlikleri buradan görüntüleyebilir ve yönetebilirsiniz.
+            </p>
+
+        </div>
+
+        <div class="events-list">
+
+            <mat-card class="event-card" *ngFor="let event of events">
+
+                <div class="event-image">
+                    <img [src]="event.resim" alt="{{ event.etkinlik_adi }}">
+                </div>
+
+                <div class="event-content">
+
+                    <h2>{{ event.etkinlik_adi }}</h2>
+
+                    <p class="description">
+                        {{ event.aciklama }}
+                    </p>
+
+                    <div class="event-info-row">
+
+                        <div>
+                            <mat-icon>location_on</mat-icon>
+                            <span>{{ event.mekan_adi }}</span>
+                        </div>
+
+                        <div>
+                            <mat-icon>calendar_today</mat-icon>
+                            <span>{{ event.baslangic_tarihi | date:'dd.MM.yyyy HH:mm' }}</span>
+                        </div>
+
+                    </div>
+
+                    <div class="event-info-row">
+
+                        <div>
+                            <mat-icon>payments</mat-icon>
+                            <span>{{ event.fiyat }} ₺</span>
+                        </div>
+
+                        <div>
+                            <mat-icon>groups</mat-icon>
+                            <span>{{ event.max_katilimci_sayisi }} Katılımcı</span>
+                        </div>
+
+                    </div>
+
+                    <div class="event-info-row">
+
+                        <span class="status" [ngClass]="event.durum === 'AKTIF' ? 'active' : 'passive'">
+
+                            {{ event.durum }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="event-actions">
+
+                        <button mat-raised-button color="primary"
+                            [routerLink]="['/organizer/edit-event', event.event_id]">
+                            Düzenle
+                        </button>
+
+                        <button mat-raised-button color="warn" (click)="deleteEvent(event.event_id)">
+
+                            Sil
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </mat-card>
+
+            <mat-card class="empty-card" *ngIf="events.length === 0">
+
+                <mat-icon>
+                    event_busy
+                </mat-icon>
+
+                <h2>
+                    Henüz etkinlik oluşturmadınız
+                </h2>
+
+                <p>
+                    Yeni etkinlik oluşturarak başlayabilirsiniz.
+                </p>
+
+            </mat-card>
+
+        </div>
+
+    </div>
+
+</div>

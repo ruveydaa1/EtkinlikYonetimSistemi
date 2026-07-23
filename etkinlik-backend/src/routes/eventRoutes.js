@@ -3,6 +3,7 @@ import express from "express";
 import {
     getAllEvents,
     getEventById,
+    getMyEvents,
     createEvent,
     updateEvent,
     deleteEvent
@@ -26,6 +27,13 @@ const router = express.Router();
 
 router.get("/", getAllEvents);
 
+
+router.get(
+    "/my-events",
+    authenticateToken,
+    authorizeOrganizer,
+    getMyEvents
+);
 /**
  * @swagger
  * /api/events/{id}:

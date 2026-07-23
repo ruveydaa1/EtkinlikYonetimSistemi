@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
@@ -37,6 +37,21 @@ export class EventService {
     return this.http.get('http://localhost:5000/api/venues/cities');
   }
 
+  getMyEvents(): Observable<any> {
+
+    const token = localStorage.getItem("token");
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.get(
+      `${this.apiUrl}/my-events`,
+      { headers }
+    );
+
+  }
+
   createEvent(eventData: any): Observable<any> {
 
     const token = localStorage.getItem("token");
@@ -48,6 +63,37 @@ export class EventService {
     return this.http.post(
       this.apiUrl,
       eventData,
+      { headers }
+    );
+
+  }
+
+  updateEvent(id: number, eventData: any): Observable<any> {
+
+    const token = localStorage.getItem("token");
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.put(
+      `${this.apiUrl}/${id}`,
+      eventData,
+      { headers }
+    );
+
+  }
+
+  deleteEvent(id: number): Observable<any> {
+
+    const token = localStorage.getItem("token");
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.delete(
+      `${this.apiUrl}/${id}`,
       { headers }
     );
 

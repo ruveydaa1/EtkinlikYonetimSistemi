@@ -6,14 +6,16 @@ import {
   Validators,
   ReactiveFormsModule
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { OrganizerSidebar } from '../../../shared/organizer-sidebar/organizer-sidebar';
 import { Navbar } from '../../../shared/navbar/navbar';
 import { EventService } from '../../../core/services/event';
@@ -26,12 +28,14 @@ import { VenueService } from '../../../core/services/venue';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatRadioModule,
     Navbar,
     OrganizerSidebar
   ],
@@ -45,12 +49,17 @@ export class CreateEvent implements OnInit {
   categories: any[] = [];
   venues: any[] = [];
 
+  isEditMode = false;
+  eventId!: number;
+
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
     private venueService: VenueService,
     private eventService: EventService,
-    private router: Router
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -73,13 +82,27 @@ export class CreateEvent implements OnInit {
 
       aciklama: ['', Validators.required],
 
-      resim: ['']
+      resim: [''],
+
+      durum: ['AKTIF', Validators.required],
+
+      otomatik_onay: [false]
 
     });
 
     this.loadCategories();
     this.loadVenues();
 
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+
+      this.isEditMode = true;
+      this.eventId = Number(id);
+
+      this.loadEvent();
+
+    }
   }
 
   loadCategories(): void {
@@ -87,15 +110,11 @@ export class CreateEvent implements OnInit {
     this.categoryService.getAllCategories().subscribe({
 
       next: (response) => {
-
         this.categories = response.data;
-
       },
 
       error: (err) => {
-
         console.error(err);
-
       }
 
     });
@@ -107,8 +126,40 @@ export class CreateEvent implements OnInit {
     this.venueService.getAllVenues().subscribe({
 
       next: (response) => {
-
         this.venues = response.data;
+      },
+
+      error: (err) => {
+        console.error(err);
+      }
+
+    });
+
+  }
+
+  loadEvent(): void {
+
+    this.eventService.getEventById(this.eventId).subscribe({
+
+      next: (response) => {
+
+        const event = response.data;
+
+        this.eventForm.patchValue({
+
+          etkinlik_adi: event.etkinlik_adi,
+          category_id: event.category_id,
+          mekan_id: event.mekan_id,
+          baslangic_tarihi: event.baslangic_tarihi?.slice(0, 16),
+          bitis_tarihi: event.bitis_tarihi?.slice(0, 16),
+          fiyat: event.fiyat,
+          max_katilimci_sayisi: event.max_katilimci_sayisi,
+          aciklama: event.aciklama,
+          resim: event.resim,
+          durum: event.durum,
+          otomatik_onay: event.otomatik_onay
+
+        });
 
       },
 
@@ -124,28 +175,67 @@ export class CreateEvent implements OnInit {
 
   createEvent(): void {
 
-    this.eventService.createEvent(this.eventForm.value)
-      .subscribe({
+    if (this.eventForm.invalid) {
 
-        next: (response) => {
+      this.eventForm.markAllAsTouched();
+      return;
 
-          console.log(response);
+    }
 
-          alert("Etkinlik başarıyla oluşturuldu.");
+    const request = this.isEditMode
+      ? this.eventService.updateEvent(this.eventId, this.eventForm.value)
+      : this.eventService.createEvent(this.eventForm.value);
 
-          this.router.navigate(['/organizer/events']);
+    request.subscribe({
 
-        },
+      next: (response) => {
 
-        error: (err) => {
+        console.log(response);
 
-          console.error(err);
+        this.snackBar.open(
 
-          alert(err.error.message);
+          this.isEditMode
+            ? "Etkinlik başarıyla güncellendi."
+            : "Etkinlik başarıyla oluşturuldu.",
 
-        }
+          "Kapat",
 
-      });
+          {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            panelClass: ['custom-snackbar']
+          }
+
+        );
+
+        this.router.navigate(['/organizer/my-events']);
+
+      },
+
+      error: (err) => {
+
+        console.error(err);
+
+        this.snackBar.open(
+
+          err.error.message,
+
+          "Kapat",
+
+          {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            panelClass: ['custom-snackbar']
+          }
+
+        );
+
+      }
+
+    });
 
   }
+
 }

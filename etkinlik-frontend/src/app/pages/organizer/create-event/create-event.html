@@ -1,249 +1,169 @@
 <app-navbar></app-navbar>
+
 <div class="organizer-layout">
 
-    <app-organizer-sidebar></app-organizer-sidebar>
+  <app-organizer-sidebar></app-organizer-sidebar>
 
+  <div class="create-event-page">
 
-    <div class="create-event-page">
+    <div class="page-header">
+      <h1>
+        {{ isEditMode ? 'Etkinliği Düzenle' : 'Yeni Etkinlik Oluştur' }}
+      </h1>
 
+      <p>
+        {{
+        isEditMode
+        ? 'Etkinlik bilgilerini güncelleyebilirsiniz.'
+        : 'Yeni bir etkinlik oluşturmak için aşağıdaki bilgileri doldurun.'
+        }}
+      </p>
+    </div>
 
-        <div class="page-header">
+    <form [formGroup]="eventForm" (ngSubmit)="createEvent()">
 
-            <h1>Yeni Etkinlik Oluştur</h1>
+      <mat-card class="form-card">
 
-            <p>
-                Yeni bir etkinlik oluşturmak için aşağıdaki bilgileri doldurun.
-            </p>
+        <h2>
+          <mat-icon>event</mat-icon>
+          Etkinlik Bilgileri
+        </h2>
+
+        <div class="form-grid">
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Etkinlik Adı</mat-label>
+            <input matInput formControlName="etkinlik_adi">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Kategori</mat-label>
+            <mat-select formControlName="category_id">
+
+              <mat-option *ngFor="let category of categories" [value]="category.category_id">
+                {{category.kategori_adi}}
+              </mat-option>
+
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Mekan</mat-label>
+            <mat-select formControlName="mekan_id">
+
+              <mat-option *ngFor="let venue of venues" [value]="venue.mekan_id">
+                {{venue.mekan_adi}}
+              </mat-option>
+
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Açıklama</mat-label>
+            <textarea matInput rows="3" formControlName="aciklama"></textarea>
+          </mat-form-field>
 
         </div>
 
+      </mat-card>
 
-        <form [formGroup]="eventForm" (ngSubmit)="createEvent()">
 
+      <mat-card class="form-card">
 
-            <!-- Etkinlik Bilgileri -->
+        <h2>
+          <mat-icon>schedule</mat-icon>
+          Tarih ve Katılım Bilgileri
+        </h2>
 
-            <mat-card class="form-card">
+        <div class="form-grid">
 
-                <h2>Etkinlik Bilgileri</h2>
+          <mat-form-field appearance="outline">
+            <mat-label>Başlangıç Tarihi</mat-label>
+            <input matInput type="datetime-local" formControlName="baslangic_tarihi">
+          </mat-form-field>
 
+          <mat-form-field appearance="outline">
+            <mat-label>Bitiş Tarihi</mat-label>
+            <input matInput type="datetime-local" formControlName="bitis_tarihi">
+          </mat-form-field>
 
-                <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Maksimum Katılımcı</mat-label>
+            <input matInput type="number" formControlName="max_katilimci_sayisi">
+          </mat-form-field>
 
+          <mat-form-field appearance="outline">
+            <mat-label>Ücret</mat-label>
+            <input matInput type="number" formControlName="fiyat">
+          </mat-form-field>
 
-                    <mat-form-field appearance="outline">
+        </div>
 
-                        <mat-label>Etkinlik Adı</mat-label>
+      </mat-card>
 
-                        <input matInput formControlName="etkinlik_adi">
 
-                    </mat-form-field>
+      <mat-card class="form-card">
 
+        <h2>
+          <mat-icon>settings</mat-icon>
+          Etkinlik Ayarları
+        </h2>
 
+        <div class="form-grid">
 
-                    <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Görsel URL</mat-label>
+            <input matInput formControlName="resim">
+          </mat-form-field>
 
-                        <mat-label>Kategori</mat-label>
+        </div>
 
-                        <mat-select formControlName="category_id">
+        <mat-radio-group formControlName="otomatik_onay" class="approval-group">
 
+          <p>Başvuru Türü</p>
 
-                            <mat-option *ngFor="let category of categories" [value]="category.category_id">
+          <mat-radio-button [value]="true">
+            Otomatik Onay
+          </mat-radio-button>
 
-                                {{category.kategori_adi}}
+          <mat-radio-button [value]="false">
+            Manuel Onay
+          </mat-radio-button>
 
-                            </mat-option>
+        </mat-radio-group>
 
+      </mat-card>
 
-                        </mat-select>
+      <mat-card class="form-card">
 
-                    </mat-form-field>
+        <h2>Etkinlik Durumu</h2>
 
+        <mat-radio-group formControlName="durum">
 
+          <mat-radio-button value="AKTIF">
+            Aktif
+          </mat-radio-button>
 
-                    <mat-form-field appearance="outline">
+          <mat-radio-button value="PASIF">
+            Pasif
+          </mat-radio-button>
 
-                        <mat-label>Mekan</mat-label>
+        </mat-radio-group>
 
-                        <mat-select formControlName="mekan_id">
+      </mat-card>
 
+      <div class="submit-area">
 
-                            <mat-option *ngFor="let venue of venues" [value]="venue.mekan_id">
+        <button mat-raised-button color="primary" class="submit-btn" type="submit">
 
-                                {{venue.mekan_adi}}
+          {{ isEditMode ? 'Değişiklikleri Kaydet' : 'Etkinliği Oluştur' }}
 
-                            </mat-option>
+        </button>
 
+      </div>
 
-                        </mat-select>
+    </form>
 
-                    </mat-form-field>
-
-
-                </div>
-
-
-            </mat-card>
-
-
-
-            <!-- Tarih Bilgileri -->
-
-
-            <mat-card class="form-card">
-
-
-                <h2>Tarih Bilgileri</h2>
-
-
-                <div class="form-grid">
-
-
-                    <mat-form-field appearance="outline">
-
-                        <mat-label>Başlangıç Tarihi</mat-label>
-
-                        <input matInput type="datetime-local" formControlName="baslangic_tarihi">
-
-
-                    </mat-form-field>
-
-
-
-                    <mat-form-field appearance="outline">
-
-                        <mat-label>Bitiş Tarihi</mat-label>
-
-                        <input matInput type="datetime-local" formControlName="bitis_tarihi">
-
-
-                    </mat-form-field>
-
-
-                </div>
-
-
-            </mat-card>
-
-
-
-            <!-- Katılım Bilgileri -->
-
-
-            <mat-card class="form-card">
-
-
-                <h2>Katılım Bilgileri</h2>
-
-
-                <div class="form-grid">
-
-
-                    <mat-form-field appearance="outline">
-
-                        <mat-label>Maksimum Katılımcı</mat-label>
-
-                        <input matInput type="number" formControlName="max_katilimci_sayisi">
-
-
-                    </mat-form-field>
-
-
-
-                    <mat-form-field appearance="outline">
-
-                        <mat-label>Ücret</mat-label>
-
-                        <input matInput type="number" formControlName="fiyat">
-
-
-                    </mat-form-field>
-
-
-                </div>
-
-
-            </mat-card>
-
-
-
-
-            <!-- Açıklama -->
-
-
-            <mat-card class="form-card">
-
-
-                <h2>Açıklama</h2>
-
-
-                <mat-form-field appearance="outline" class="full-width">
-
-
-                    <mat-label>Etkinlik Açıklaması</mat-label>
-
-
-                    <textarea matInput rows="6" formControlName="aciklama">
-                    </textarea>
-
-
-                </mat-form-field>
-
-
-            </mat-card>
-
-
-
-
-            <!-- Görsel -->
-
-
-            <mat-card class="form-card">
-
-
-                <h2>Etkinlik Görseli</h2>
-
-
-                <mat-form-field appearance="outline" class="full-width">
-
-
-                    <mat-label>Görsel URL</mat-label>
-
-
-                    <input matInput formControlName="resim">
-
-
-                </mat-form-field>
-
-
-            </mat-card>
-
-
-
-
-            <!-- Buton -->
-
-
-            <div class="submit-area">
-
-
-                <button mat-raised-button color="primary" class="submit-btn" type="submit">
-
-
-                    Etkinliği Oluştur
-
-
-                </button>
-
-
-            </div>
-
-
-
-        </form>
-
-
-    </div>
-
+  </div>
 
 </div>

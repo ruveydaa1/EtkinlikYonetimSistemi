@@ -168,6 +168,79 @@ export const getEventById = async (req, res) => {
 
 };
 
+export const getMyEvents = async (req, res) => {
+
+    try {
+
+        const organizer_id = req.user.user_id;
+
+        const result = await pool.query(`
+
+            SELECT
+
+                e.event_id,
+                e.etkinlik_adi,
+                e.aciklama,
+
+                e.baslangic_tarihi,
+                e.bitis_tarihi,
+
+                e.fiyat,
+
+                e.max_katilimci_sayisi,
+
+                e.durum,
+                e.resim,
+
+                k.category_id,
+                k.kategori_adi,
+
+                m.mekan_id,
+                m.mekan_adi,
+                m.sehir
+
+            FROM etkinlik e
+
+            INNER JOIN kategori k
+                ON e.category_id = k.category_id
+
+            INNER JOIN mekan m
+                ON e.mekan_id = m.mekan_id
+
+            WHERE e.organizer_id = $1
+
+            ORDER BY e.event_id DESC;
+
+        `, [organizer_id]);
+
+
+        res.status(200).json({
+
+            success: true,
+
+            count: result.rows.length,
+
+            data: result.rows
+
+        });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: "Etkinlikler getirilemedi."
+
+        });
+
+    }
+
+};
+
 /*
     POST /api/events
 */
