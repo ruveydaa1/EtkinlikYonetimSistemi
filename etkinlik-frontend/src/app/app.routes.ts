@@ -9,6 +9,10 @@ import { MyTickets } from './pages/my-tickets/my-tickets';
 import { MyRegistrations } from './pages/my-registrations/my-registrations';
 import { EventsComponent } from './pages/events/events';
 import { EventRegistration } from './pages/event-registration/event-registration';
+import { OrganizerDashboard } from './pages/organizer/organizer-dashboard/organizer-dashboard';
+import { CreateEvent } from './pages/organizer/create-event/create-event';
+import { MyEvents } from './pages/organizer/my-events/my-events';
+import { Participants } from './pages/organizer/participants/participants';
 
 export const routes: Routes = [
   {
@@ -46,6 +50,18 @@ export const routes: Routes = [
   {
     path: 'event-registration/:id',
     component: EventRegistration
+  },
+  {
+    path: 'organizer',
+    component: OrganizerDashboard
+  },
+  {
+    path: 'organizer/dashboard',
+    component: OrganizerDashboard
+  },
+  {
+    path: 'organizer/create-event',
+    component: CreateEvent
   }
 
 ];

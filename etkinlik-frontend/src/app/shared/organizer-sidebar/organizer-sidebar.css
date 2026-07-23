@@ -1,0 +1,37 @@
+.sidebar{
+
+    width:250px;
+
+    background:white;
+
+    border-right:1px solid #e5e7eb;
+
+    padding:30px 20px;
+
+}
+.sidebar a{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:14px 16px;
+
+    margin-top:8px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:#374151;
+
+    transition:.2s;
+
+}
+.sidebar a:hover{
+
+    background:#eef2ff;
+
+    color:#2563eb;
+
+}

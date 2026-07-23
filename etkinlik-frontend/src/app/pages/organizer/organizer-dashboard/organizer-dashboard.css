@@ -1,0 +1,170 @@
+/* =========================================
+   LAYOUT
+========================================= */
+
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.dashboard-content {
+    flex: 1;
+    padding: 40px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.dashboard-header {
+    margin-bottom: 32px;
+}
+
+.dashboard-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.dashboard-header p {
+    color: #6b7280;
+    font-size: 15px;
+}
+
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+    margin-bottom: 35px;
+}
+
+.stat-card {
+    position: relative;
+
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,.06);
+
+    transition: .25s;
+}
+
+.stat-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 14px 28px rgba(37,99,235,.12);
+
+}
+
+.stat-card mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+
+    color: #2563eb;
+
+    margin-bottom: 18px;
+}
+
+.stat-card h3 {
+    font-size: 16px;
+    color: #6b7280;
+    margin-bottom: 12px;
+}
+
+.stat-card span {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+
+/* =========================================
+   ACTIVITY CARD
+========================================= */
+
+.activity-card {
+    border-radius: 18px !important;
+    padding: 26px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.06) !important;
+}
+
+.activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 24px;
+}
+
+.activity-header h2 {
+    font-size: 22px;
+    margin: 0;
+}
+
+.activity-header mat-icon {
+    color: #2563eb;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+
+    padding: 16px 0;
+
+    border-bottom: 1px solid #ececec;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-item mat-icon {
+    color: #2563eb;
+    margin-top: 3px;
+}
+
+.activity-item p {
+    margin: 0;
+    color: #374151;
+}
+
+.activity-item span {
+    display: block;
+    margin-top: 6px;
+
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .dashboard-layout {
+        flex-direction: column;
+    }
+
+    .dashboard-content {
+        padding: 24px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
