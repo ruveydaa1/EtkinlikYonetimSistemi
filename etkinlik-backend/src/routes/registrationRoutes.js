@@ -14,11 +14,13 @@ import {
 
     getEventRegistrations,
 
+    getOrganizerRegistrations,
+
     deleteRegistration
 
 } from "../controllers/registrationController.js";
 
-import { authenticateToken ,authorizeOrganizer} from "../middleware/authMiddleware.js";
+import { authenticateToken, authorizeOrganizer } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -54,6 +56,7 @@ router.get("/", getAllRegistrations);
 
 router.get("/my", authenticateToken, getMyRegistrations);
 
+
 /**
  * @swagger
  * /api/registrations/event/{event_id}:
@@ -81,6 +84,12 @@ router.get("/my", authenticateToken, getMyRegistrations);
 
 router.get("/event/:event_id", authenticateToken, authorizeOrganizer, getEventRegistrations);
 
+router.get(
+    "/organizer/events",
+    authenticateToken,
+    authorizeOrganizer,
+    getOrganizerRegistrations
+);
 /**
  * @swagger
  * /api/registrations/{id}:
@@ -134,7 +143,7 @@ router.get("/:id", getRegistrationById);
  *         description: Yetkilendirme başarısız.
  */
 
-router.post("/",authenticateToken ,createRegistration);
+router.post("/", authenticateToken, createRegistration);
 
 /**
  * @swagger
@@ -178,7 +187,7 @@ router.post("/",authenticateToken ,createRegistration);
  *         description: Kayıt bulunamadı.
  */
 
-router.put("/:id",authenticateToken,authorizeOrganizer, updateRegistration);
+router.put("/:id", authenticateToken, authorizeOrganizer, updateRegistration);
 
 /**
  * @swagger
@@ -205,6 +214,6 @@ router.put("/:id",authenticateToken,authorizeOrganizer, updateRegistration);
  *         description: Kayıt bulunamadı.
  */
 
-router.delete("/:id",authenticateToken, deleteRegistration);
+router.delete("/:id", authenticateToken, deleteRegistration);
 
 export default router;

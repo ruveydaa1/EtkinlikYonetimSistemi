@@ -1,0 +1,311 @@
+/* =========================================
+   LAYOUT
+========================================= */
+
+.organizer-layout {
+
+    display: flex;
+
+}
+
+/* =========================================
+   PAGE
+========================================= */
+
+.participants-page {
+
+    flex: 1;
+    padding: 30px;
+    background: #f6f8fb;
+    min-height: 100vh;
+
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.page-header {
+
+    margin-bottom: 25px;
+
+}
+
+.page-header h1 {
+
+    font-size: 30px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+
+}
+
+.page-header p {
+
+    color: #6b7280;
+    font-size: 15px;
+
+}
+
+
+/* =========================================
+   FILTER CARD
+========================================= */
+
+.filter-card {
+
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+
+}
+
+.filter-row {
+
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+}
+
+.search-box {
+
+    flex: 1;
+
+}
+
+.status-filter {
+
+    width: 220px;
+
+}
+
+
+/* =========================================
+   EVENT CARD
+========================================= */
+
+.events-accordion {
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+}
+
+.event-title {
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+}
+
+.event-name {
+
+    font-size: 18px;
+    font-weight: 550;
+    color: #1f2937;
+
+}
+
+.event-date {
+
+    font-size: 15px;
+    font-weight: 550;
+    color: #6b7280;
+
+}
+
+mat-expansion-panel {
+
+    border-radius: 18px !important;
+
+    overflow: hidden;
+
+}
+
+mat-expansion-panel-header {
+
+    height: 75px;
+
+}
+
+mat-panel-title {
+
+    font-size: 20px;
+    font-weight: 600;
+
+}
+
+mat-panel-description {
+
+    justify-content: flex-end;
+
+    font-size: 17px;
+
+    font-weight: 550;
+
+    color: #1976d2;
+
+}
+
+
+/* =========================================
+   PARTICIPANT CARD
+========================================= */
+
+.participant-card {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 0;
+
+    border-bottom: 1px solid #eeeeee;
+
+}
+
+.participant-card:last-child {
+
+    border-bottom: none;
+
+}
+
+.participant-info h3 {
+
+    margin: 0;
+    color: #111827;
+    font-size: 18px;
+
+}
+
+.participant-info p {
+
+    margin: 6px 0;
+    color: #6b7280;
+
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.participant-actions {
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+
+}
+
+.buttons {
+
+    display: flex;
+    gap: 10px;
+
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status {
+
+    padding: 7px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+
+}
+
+.pending {
+
+    background: #fff8e1;
+    color: #f59e0b;
+
+}
+
+.approved {
+
+    background: #dcfce7;
+    color: #16a34a;
+
+}
+
+.rejected {
+
+    background: #fee2e2;
+    color: #dc2626;
+
+}
+
+
+/* =========================================
+   SMALL INFO
+========================================= */
+
+.participant-actions small {
+
+    color: #16a34a;
+    font-weight: 600;
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:900px) {
+
+    .participant-card {
+
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+
+    }
+
+    .participant-actions {
+
+        align-items: flex-start;
+
+    }
+
+    .filter-row {
+
+        flex-direction: column;
+
+    }
+
+    .search-box,
+    .status-filter {
+
+        width: 100%;
+
+    }
+
+}
+
+.panel-info {
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+
+}
+
+.pending-count {
+
+    font-size: 14px;
+    font-weight: 550;
+    color: #f9a825;
+
+}

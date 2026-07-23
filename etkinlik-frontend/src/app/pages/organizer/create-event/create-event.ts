@@ -156,7 +156,7 @@ export class CreateEvent implements OnInit {
           max_katilimci_sayisi: event.max_katilimci_sayisi,
           aciklama: event.aciklama,
           resim: event.resim,
-          durum: event.durum,
+          durum: event.durum, 
           otomatik_onay: event.otomatik_onay
 
         });
@@ -181,6 +181,8 @@ export class CreateEvent implements OnInit {
       return;
 
     }
+
+    console.log("Gönderilen form:", this.eventForm.value);
 
     const request = this.isEditMode
       ? this.eventService.updateEvent(this.eventId, this.eventForm.value)

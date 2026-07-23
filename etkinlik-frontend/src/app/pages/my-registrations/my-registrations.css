@@ -291,3 +291,10 @@
     height: 100%;
     object-fit: cover;
 }
+
+.event-cancelled {
+    margin-top: 8px;
+    color: #d32f2f;
+    font-size: 14px;
+    font-weight: 600;
+}

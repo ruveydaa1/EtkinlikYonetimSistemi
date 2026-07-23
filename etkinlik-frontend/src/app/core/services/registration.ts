@@ -53,5 +53,53 @@ export class Registration {
 
   }
 
+  // Organizatörün etkinliklerindeki başvuruları getirir
+  getOrganizerEvents(): Observable<any> {
+
+    const token = localStorage.getItem("token");
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+
+    return this.http.get(
+      `${this.apiUrl}/organizer/events`,
+      {
+        headers
+      }
+    );
+
+  }
+
+  // Kayıt durumunu güncelleme (Onay / Red)
+  updateRegistration(
+    id: number,
+    durum: string
+  ): Observable<any> {
+
+    const token = localStorage.getItem("token");
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+
+    return this.http.put(
+
+      `${this.apiUrl}/${id}`,
+
+      {
+        durum: durum
+      },
+
+      {
+        headers
+      }
+
+    );
+
+  }
+
 
 }

@@ -81,7 +81,7 @@ export class MyEvents implements OnInit {
           console.log(response);
 
           this.snackBar.open(
-            "Etkinlik başarıyla silindi.",
+            response.message,
             "Kapat",
             {
               duration: 3000,

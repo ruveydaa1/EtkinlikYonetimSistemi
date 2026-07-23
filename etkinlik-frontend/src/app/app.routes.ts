@@ -70,6 +70,10 @@ export const routes: Routes = [
   {
     path: 'organizer/my-events',
     component: MyEvents
+  },
+  {
+    path: 'organizer/participants',
+    component: Participants
   }
 
 

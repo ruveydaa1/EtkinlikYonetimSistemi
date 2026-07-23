@@ -183,6 +183,18 @@ export const createRegistration = async (req, res) => {
 
         );
 
+        if (eventResult.rows[0].durum !== "AKTIF") {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message: "Bu etkinlik aktif değildir."
+
+            });
+
+        }
+
         if (eventResult.rows.length === 0) {
 
             return res.status(404).json({
@@ -194,6 +206,8 @@ export const createRegistration = async (req, res) => {
             });
 
         }
+
+        const otomatikOnay = eventResult.rows[0].otomatik_onay;
 
         // Aynı etkinliğe daha önce kayıt olmuş mu?
 
@@ -274,10 +288,11 @@ export const createRegistration = async (req, res) => {
             INSERT INTO kayit
             (
                 user_id,
-                event_id
+                event_id,
+                durum
             )
 
-            VALUES ($1, $2)
+            VALUES ($1, $2, $3)
 
             RETURNING *
             `,
@@ -286,11 +301,38 @@ export const createRegistration = async (req, res) => {
 
                 user_id,
 
-                event_id
+                event_id,
+
+                otomatikOnay ? "ONAYLANDI" : "BEKLEMEDE"
 
             ]
 
         );
+
+        if (otomatikOnay) {
+
+            await pool.query(
+
+                `
+                INSERT INTO bilet
+                (
+                    kayit_id,
+                    koltuk_no,
+                    fiyat
+                )
+
+                VALUES ($1, $2, $3)
+                `,
+
+                [
+                    result.rows[0].kayit_id,
+                    null,
+                    eventResult.rows[0].fiyat
+                ]
+
+            );
+
+        }
 
         res.status(201).json({
 
@@ -720,6 +762,7 @@ export const getMyRegistrations = async (req, res) => {
                 e.baslangic_tarihi,
                 e.bitis_tarihi,
                 e.fiyat,
+                e.durum AS etkinlik_durumu,
                 e.resim,
 
                 ka.kategori_adi,
@@ -889,6 +932,137 @@ export const getEventRegistrations = async (req, res) => {
             success: false,
 
             message: "Kayıtlar getirilemedi."
+
+        });
+
+    }
+
+};
+
+export const getOrganizerRegistrations = async (req, res) => {
+
+    try {
+
+        const organizer_id = req.user.user_id;
+
+
+        const result = await pool.query(`
+
+            SELECT
+
+                e.event_id,
+                e.etkinlik_adi,
+                e.baslangic_tarihi,
+
+
+                k.kayit_id,
+                k.durum,
+
+
+                u.ad,
+                u.soyad,
+                u.email
+
+
+            FROM etkinlik e
+
+
+            LEFT JOIN kayit k
+
+            ON e.event_id = k.event_id
+
+
+            LEFT JOIN kullanici u
+
+            ON k.user_id = u.user_id
+
+
+            WHERE e.organizer_id = $1
+
+
+            ORDER BY e.event_id, k.kayit_id DESC;
+
+
+        `, [organizer_id]);
+
+
+
+        const events = [];
+
+
+        result.rows.forEach(row => {
+
+
+            let event = events.find(
+                e => e.event_id === row.event_id
+            );
+
+
+            if (!event) {
+
+                event = {
+
+                    event_id: row.event_id,
+
+                    eventName: row.etkinlik_adi,
+
+                    date: row.baslangic_tarihi,
+
+                    participants: []
+
+                };
+
+
+                events.push(event);
+
+            }
+
+
+
+            if (row.kayit_id) {
+
+                event.participants.push({
+
+                    id: row.kayit_id,
+
+                    name:
+                        row.ad + " " + row.soyad,
+
+                    email: row.email,
+
+                    status: row.durum
+
+                });
+
+            }
+
+
+        });
+
+
+
+        res.status(200).json({
+
+            success: true,
+
+            data: events
+
+        });
+
+
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+
+        res.status(500).json({
+
+            success: false,
+
+            message: "Başvurular getirilemedi."
 
         });
 

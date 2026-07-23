@@ -1,1 +1,209 @@
-<p>participants works!</p>
+<app-navbar></app-navbar>
+
+<div class="organizer-layout">
+
+    <app-organizer-sidebar></app-organizer-sidebar>
+
+    <div class="participants-page">
+
+        <!-- HEADER -->
+
+        <div class="page-header">
+
+            <h1>Başvuruları Yönet</h1>
+
+            <p>
+                Organizatör olarak etkinlik başvurularını buradan yönetebilirsiniz.
+            </p>
+
+        </div>
+
+        <!-- FILTER -->
+
+        <mat-card class="filter-card">
+
+            <div class="filter-row">
+
+                <mat-form-field appearance="outline" class="search-box">
+
+                    <mat-label>Başvuru Ara</mat-label>
+
+                    <input matInput [(ngModel)]="searchText" placeholder="Ad, Soyad">
+
+                    <mat-icon matSuffix>search</mat-icon>
+
+                </mat-form-field>
+
+                <!-- Etkinlik -->
+
+                <mat-form-field appearance="outline" class="status-filter">
+
+                    <mat-label>Etkinlik</mat-label>
+
+                    <mat-select [(ngModel)]="selectedEvent">
+
+                        <mat-option value="">
+                            Tüm Etkinlikler
+                        </mat-option>
+
+                        <mat-option *ngFor="let event of events" [value]="event.eventName">
+
+                            {{ event.eventName }}
+
+                        </mat-option>
+
+                    </mat-select>
+
+                </mat-form-field>
+
+                <!-- Durum -->
+
+                <mat-form-field appearance="outline" class="status-filter">
+
+                    <mat-label>Durum</mat-label>
+
+                    <mat-select [(ngModel)]="selectedStatus">
+
+                        <mat-option value="">
+                            Tümü
+                        </mat-option>
+
+                        <mat-option value="BEKLEMEDE">
+                            Beklemede
+                        </mat-option>
+
+                        <mat-option value="ONAYLANDI">
+                            Onaylandı
+                        </mat-option>
+
+                        <mat-option value="REDDEDILDI">
+                            Reddedildi
+                        </mat-option>
+
+                    </mat-select>
+
+                </mat-form-field>
+
+            </div>
+
+        </mat-card>
+
+        <!-- EVENTS -->
+
+        <mat-accordion class="events-accordion" multi>
+
+            <mat-expansion-panel *ngFor="let event of events">
+
+                <mat-expansion-panel-header>
+
+                    <mat-panel-title>
+
+                        <div class="event-title">
+
+                            <div class="event-name">
+
+                                🎵 {{ event.eventName }}
+
+                            </div>
+
+                            <div class="event-date">
+
+                                📅 {{ event.date }}
+
+                            </div>
+
+                        </div>
+
+                    </mat-panel-title>
+
+                    <mat-panel-description>
+
+                        <div class="panel-info">
+
+                            <span>
+
+                                👥 {{ event.participants.length }} Başvuru
+
+                            </span>
+
+                            <span class="pending-count" *ngIf="getPendingCount(event) > 0">
+
+                                🟡 {{ getPendingCount(event) }} Beklemede
+
+                            </span>
+
+                        </div>
+
+                    </mat-panel-description>
+
+                </mat-expansion-panel-header>
+
+                <!-- Participants -->
+
+                <div class="participant-card" *ngFor="let participant of event.participants">
+
+                    <div class="participant-info">
+
+                        <h3>
+
+                            {{ participant.name }}
+
+                        </h3>
+
+                        <p>
+
+                            📧 {{ participant.email }}
+
+                        </p>
+
+                    </div>
+
+                    <div class="participant-actions">
+
+                        <span class="status" [ngClass]="{
+
+                            'pending': participant.status==='BEKLEMEDE',
+
+                            'approved': participant.status==='ONAYLANDI',
+
+                            'rejected': participant.status==='REDDEDILDI'
+
+                        }">
+
+                            {{ participant.status }}
+
+                        </span>
+
+                        <div class="buttons" *ngIf="participant.status==='BEKLEMEDE'">
+
+                            <button mat-raised-button color="primary" (click)="approve(participant)">
+
+                                Onayla
+
+                            </button>
+
+                            <button mat-raised-button color="warn" (click)="reject(participant)">
+
+                                Reddet
+
+                            </button>
+
+                        </div>
+
+                        <small *ngIf="participant.status==='ONAYLANDI'">
+
+                            ✓ Bilet oluşturuldu.
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </mat-expansion-panel>
+
+        </mat-accordion>
+
+    </div>
+
+</div>

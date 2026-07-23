@@ -78,6 +78,12 @@
 
                     </span>
 
+                    <div class="event-cancelled" *ngIf="registration.etkinlik_durumu === 'PASIF'">
+
+                        ⚠️ Etkinlik iptal edilmiştir.
+
+                    </div>
+
                 </div>
 
             </div>

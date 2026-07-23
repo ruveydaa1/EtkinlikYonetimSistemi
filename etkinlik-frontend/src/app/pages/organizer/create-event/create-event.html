@@ -134,9 +134,12 @@
 
       </mat-card>
 
-      <mat-card class="form-card">
+      <mat-card class="form-card" *ngIf="isEditMode">
 
-        <h2>Etkinlik Durumu</h2>
+        <h2>
+          <mat-icon>toggle_on</mat-icon>
+          Etkinlik Durumu
+        </h2>
 
         <mat-radio-group formControlName="durum">
 
@@ -151,6 +154,7 @@
         </mat-radio-group>
 
       </mat-card>
+
 
       <div class="submit-area">
 

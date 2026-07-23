@@ -43,6 +43,8 @@ export const getAllEvents = async (req, res) => {
             INNER JOIN kullanici u
                 ON e.organizer_id = u.user_id
 
+            WHERE e.durum = 'AKTIF'    
+
             ORDER BY e.event_id;
 
         `);
@@ -257,7 +259,7 @@ export const createEvent = async (req, res) => {
             bitis_tarihi,
             fiyat,
             max_katilimci_sayisi,
-            durum,
+            otomatik_onay,
             resim
         } = req.body;
 
@@ -366,10 +368,11 @@ export const createEvent = async (req, res) => {
                 fiyat,
                 max_katilimci_sayisi,
                 durum,
+                otomatik_onay,
                 resim
             )
             VALUES
-            ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+            ($1,$2,$3,$4,$5,$6,$7,$8,$9,'AKTIF',$10,$11)
             RETURNING *
             `,
             [
@@ -382,7 +385,7 @@ export const createEvent = async (req, res) => {
                 bitis_tarihi,
                 fiyat,
                 max_katilimci_sayisi,
-                durum || "AKTIF",
+                otomatik_onay,
                 resim
             ]
         );
@@ -432,6 +435,7 @@ export const updateEvent = async (req, res) => {
             max_katilimci_sayisi,
 
             durum,
+            otomatik_onay,
             resim
 
         } = req.body;
@@ -660,9 +664,11 @@ export const updateEvent = async (req, res) => {
                 max_katilimci_sayisi=$8,
 
                 durum=$9,
-                resim=$10
+                otomatik_onay=$10,
 
-            WHERE event_id=$11
+                resim=$11
+
+            WHERE event_id=$12
 
             RETURNING *
 
@@ -687,6 +693,8 @@ export const updateEvent = async (req, res) => {
                 max_katilimci_sayisi,
 
                 durum,
+
+                otomatik_onay,
 
                 resim,
 
@@ -787,22 +795,69 @@ export const deleteEvent = async (req, res) => {
 
         }
 
+        // Etkinlikte kayıt var mı?
 
-
-        const result = await pool.query(
+        const registrationControl = await pool.query(
 
             `
-            DELETE FROM etkinlik
+            SELECT COUNT(*) AS toplam
 
-            WHERE event_id=$1
+            FROM kayit
 
-            RETURNING *
-
+            WHERE event_id = $1
             `,
 
             [id]
 
         );
+
+        const registrationCount = Number(registrationControl.rows[0].toplam);
+
+
+
+        let result;
+
+        if (registrationCount === 0) {
+
+            // Kayıt yoksa tamamen sil
+
+            result = await pool.query(
+
+                `
+                DELETE FROM etkinlik
+
+                WHERE event_id = $1
+
+                RETURNING *
+                `,
+
+                [id]
+
+            );
+
+        }
+
+        else {
+
+            // Kayıt varsa pasife al
+
+            result = await pool.query(
+
+                `
+                UPDATE etkinlik
+
+                SET durum = 'PASIF'
+
+                WHERE event_id = $1
+
+                RETURNING *
+                `,
+
+                [id]
+
+            );
+
+        }
 
         if (result.rows.length === 0) {
 
@@ -820,7 +875,10 @@ export const deleteEvent = async (req, res) => {
 
             success: true,
 
-            message: "Etkinlik silindi."
+             message:
+                 registrationCount === 0
+                     ? "Etkinlik başarıyla silindi."
+                     : "Etkinlikte kayıtlı kullanıcılar bulunduğu için etkinlik pasife alındı."
 
         });
 

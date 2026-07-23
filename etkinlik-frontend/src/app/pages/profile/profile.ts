@@ -222,7 +222,7 @@ export class Profile implements OnInit {
           });
 
           this.cdr.detectChanges();
-          
+
           console.log("SETTIMEOUT USER:", this.user);
 
         }, 0);
@@ -247,13 +247,9 @@ export class Profile implements OnInit {
 
         console.log("TICKETS GELDİ:", response);
 
-        this.lastTickets = response.data.slice(0, 2);
-
-        this.cdr.detectChanges();
+        this.lastTickets = [...response.data.slice(0, 2)];
 
         console.log("LAST TICKETS:", this.lastTickets);
-
-        this.lastTickets = [...response.data.slice(0, 2)];
 
         this.summary.activeTickets =
           response.data.filter(
@@ -267,6 +263,7 @@ export class Profile implements OnInit {
               total + Number(ticket.fiyat),
             0
           );
+          this.cdr.detectChanges();
 
       },
 
@@ -284,14 +281,9 @@ export class Profile implements OnInit {
 
         console.log("REGISTRATION GELDİ:", response);
 
-        this.lastRegistrations = response.data.slice(0, 2);
-
-        this.cdr.detectChanges();
+        this.lastRegistrations = [...response.data.slice(0, 2)];
 
         console.log("LAST REG:", this.lastRegistrations);
-
-
-        this.lastRegistrations = [...response.data.slice(0, 2)];
 
         this.summary.totalRegistrations = response.data.length;
 
@@ -303,6 +295,7 @@ export class Profile implements OnInit {
           .filter((registration: any) =>
             registration.durum !== 'REDDEDILDI' &&
             registration.durum !== 'IPTAL' &&
+            registration.etkinlik_durumu === 'AKTIF' &&
             new Date(registration.baslangic_tarihi) > new Date()
           )
           .sort((a: any, b: any) =>
@@ -311,6 +304,7 @@ export class Profile implements OnInit {
           );
 
         this.nextEvent = upcoming.length ? upcoming[0] : null;
+        this.cdr.detectChanges();
 
       },
 
