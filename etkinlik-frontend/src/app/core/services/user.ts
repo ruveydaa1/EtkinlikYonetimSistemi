@@ -50,4 +50,32 @@ export class User {
 
     }
 
+    changePassword(id: number, data: any): Observable<any> {
+
+        const token = localStorage.getItem('token');
+
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${token}`
+        });
+
+        return this.http.put(
+            `${this.apiUrl}/${id}/change-password`,
+            data,
+            { headers }
+        );
+
+    }
+
+    deleteUser(id: number): Observable<any> {
+
+        const token = localStorage.getItem('token');
+
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${token}`
+        });
+
+        return this.http.delete(`${this.apiUrl}/${id}`, { headers });
+
+    }
+
 }

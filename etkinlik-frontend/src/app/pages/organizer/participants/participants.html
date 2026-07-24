@@ -102,13 +102,13 @@
 
                             <div class="event-name">
 
-                                🎵 {{ event.eventName }}
+                                 {{ event.eventName }}
 
                             </div>
 
                             <div class="event-date">
 
-                                📅 {{ event.date }}
+                                 {{ event.date | date:'dd MMMM yyyy, HH:mm' : '+0300' }}
 
                             </div>
 
@@ -152,7 +152,7 @@
 
                         <p>
 
-                            📧 {{ participant.email }}
+                             {{ participant.email }}
 
                         </p>
 

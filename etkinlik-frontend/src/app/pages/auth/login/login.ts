@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { Navbar } from '../../../shared/navbar/navbar';
 import { User } from '../../../core/services/user';
 
 @Component({
@@ -19,7 +19,7 @@ import { User } from '../../../core/services/user';
     ReactiveFormsModule,
 
     RouterLink,
-
+    Navbar,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,

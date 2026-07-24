@@ -19,14 +19,20 @@
 
         <a routerLink="/profile" routerLinkActive="active">Profil</a>
 
-        <a routerLink="/organizer">
-            Organizatör Paneli
+        @if(isOrganizer){
+
+        <a routerLink="/organizer/dashboard">
+            Organizator Paneli
         </a>
+
+        }
 
 
     </nav>
 
     <div class="navbar-actions">
+
+        @if(!isLoggedIn){
 
         <button class="login-btn" routerLink="/login">
             Giriş Yap
@@ -35,6 +41,14 @@
         <button class="register-btn" routerLink="/signup">
             Kayıt Ol
         </button>
+
+        } @else {
+
+        <button class="logout-btn" (click)="logout()">
+            Çıkış Yap
+        </button>
+
+        }
 
     </div>
 

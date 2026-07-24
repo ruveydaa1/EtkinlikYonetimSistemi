@@ -22,7 +22,7 @@ body {
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
-  background: #F8FAFC;
+  background: linear-gradient(135deg, #eef5ff 0%, #f8fafc 60%, #ffffff 100%);
   color: #0F172A;
 }
 

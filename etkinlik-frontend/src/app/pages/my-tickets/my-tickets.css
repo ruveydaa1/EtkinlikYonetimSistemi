@@ -5,10 +5,7 @@
 .tickets-page {
     min-height: 100vh;
     padding: 5px 0 5px;
-    background: linear-gradient(180deg,
-            #f5f9ff 0%,
-            #eef5ff 45%,
-            #f8fbff 100%);
+    padding-top: 35px;
 }
 
 /* =========================================

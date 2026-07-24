@@ -2,7 +2,7 @@
     width:90%;
     max-width:1400px;
     height:75px;
-    margin:25px auto 35px;
+    margin:25px auto 0px;
     padding:0 30px;
     background:#fff;
     border-radius:20px;
@@ -116,4 +116,23 @@
         font-size:14px;
     }
 
+}
+
+.logout-btn {
+    all: unset;
+    cursor: pointer;
+
+    padding: 11px 22px;
+    border-radius: 10px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    color: #ef4444;
+    transition: .25s;
+}
+
+.logout-btn:hover {
+    background: #fee2e2;
+    color: #dc2626;
 }

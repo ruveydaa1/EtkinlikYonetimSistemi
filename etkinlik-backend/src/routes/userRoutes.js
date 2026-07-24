@@ -5,6 +5,7 @@ import {
     getUserById,
     createUser,
     updateUser,
+    changePassword,
     deleteUser
 } from "../controllers/userController.js";
 
@@ -142,6 +143,8 @@ router.post("/", createUser);
 
 
 router.put("/:id", updateUser);
+
+router.put("/:id/change-password", changePassword);
 
 /**
  * @swagger

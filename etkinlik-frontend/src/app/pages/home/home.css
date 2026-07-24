@@ -1,6 +1,7 @@
 .home-page {
     width: 90%;
     max-width: 1400px;
+    padding-top: 1px;
     margin: 40px auto;
 }
 

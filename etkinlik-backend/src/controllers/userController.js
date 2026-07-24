@@ -133,7 +133,7 @@ export const createUser = async (req, res) => {
 
                 success: false,
 
-                message:"Ad ve soyad sadece harflerden oluşmalı ve en az 2 karakter olmalıdır."
+                message: "Ad ve soyad sadece harflerden oluşmalı ve en az 2 karakter olmalıdır."
 
             });
 
@@ -331,7 +331,6 @@ export const updateUser = async (req, res) => {
             ad,
             soyad,
             email,
-            sifre,
             telefon,
             rol
 
@@ -341,7 +340,6 @@ export const updateUser = async (req, res) => {
             !ad ||
             !soyad ||
             !email ||
-            !sifre ||
             !rol
         ) {
 
@@ -395,13 +393,11 @@ export const updateUser = async (req, res) => {
 
                 email=$3,
 
-                sifre=$4,
+                telefon=$4,
 
-                telefon=$5,
+                rol=$5
 
-                rol=$6
-
-            WHERE user_id=$7
+            WHERE user_id=$6
 
             RETURNING
 
@@ -421,8 +417,6 @@ export const updateUser = async (req, res) => {
                 soyad,
 
                 email,
-
-                sifre,
 
                 telefon,
 
@@ -467,6 +461,144 @@ export const updateUser = async (req, res) => {
             success: false,
 
             message: "Kullanıcı güncellenemedi."
+
+        });
+
+    }
+
+};
+
+/*
+    PUT /api/users/:id/change-password
+*/
+
+export const changePassword = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const {
+
+            currentPassword,
+            newPassword
+
+        } = req.body;
+
+        if (
+            !currentPassword ||
+            !newPassword
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message: "Zorunlu alanlar eksik."
+
+            });
+
+        }
+
+        const userResult = await pool.query(
+
+            `
+            SELECT sifre
+            FROM kullanici
+            WHERE user_id = $1
+            `,
+
+            [id]
+
+        );
+
+        if (userResult.rows.length === 0) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message: "Kullanıcı bulunamadı."
+
+            });
+
+        }
+
+        const currentDbPassword = userResult.rows[0].sifre;
+
+        if (currentDbPassword !== currentPassword) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message: "Mevcut şifre hatalı."
+
+            });
+
+        }
+
+        if (newPassword.length < 4) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message: "Yeni şifre en az 4 karakter olmalıdır."
+
+            });
+
+        }
+
+        if (currentPassword === newPassword) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message: "Yeni şifre mevcut şifre ile aynı olamaz."
+
+            });
+
+        }
+
+        await pool.query(
+
+            `
+            UPDATE kullanici
+            SET sifre = $1
+            WHERE user_id = $2
+            `,
+
+            [
+
+                newPassword,
+
+                id
+
+            ]
+
+        );
+
+        res.status(200).json({
+
+            success: true,
+
+            message: "Şifre başarıyla güncellendi."
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: "Şifre güncellenemedi."
 
         });
 

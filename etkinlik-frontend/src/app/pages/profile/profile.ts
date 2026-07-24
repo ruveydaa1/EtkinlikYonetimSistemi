@@ -46,11 +46,11 @@ export class Profile implements OnInit {
     private cdr: ChangeDetectorRef,
     private router: Router
   ) { }
-  
+
   user: any = {};
 
   nextEvent: any = null;
- 
+
   lastRegistrations: any[] = [];
 
   summary = {
@@ -67,6 +67,8 @@ export class Profile implements OnInit {
   // Şu an açık olan bölüm
   activeSection: string | null = null;
 
+  passwordForm!: FormGroup;
+
   // Kartlara tıklanınca çalışacak
   toggleSection(section: string): void {
 
@@ -76,6 +78,16 @@ export class Profile implements OnInit {
       this.activeSection = section;
     }
 
+  }
+
+  deleteDialog = false;
+
+  openDeleteDialog() {
+    this.deleteDialog = true;
+  }
+
+  closeDeleteDialog() {
+    this.deleteDialog = false;
   }
 
 
@@ -144,41 +156,96 @@ export class Profile implements OnInit {
   }
 
   closePasswordDialog() {
+
     this.passwordDialog = false;
+
+    this.passwordForm.reset();
+
   }
 
   savePassword() {
-    alert("Şifre başarıyla güncellendi.");
-    this.closePasswordDialog();
-  }
 
+    const {
+      currentPassword,
+      newPassword,
+      confirmPassword
+    } = this.passwordForm.value;
 
-  logout(): void {
+    if (!currentPassword || !newPassword || !confirmPassword) {
 
-    const confirmLogout = confirm("Çıkış yapmak istediğinize emin misiniz?");
-
-    if (!confirmLogout) {
+      alert("Lütfen tüm alanları doldurun.");
       return;
+
     }
 
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    if (newPassword.length < 4) {
 
-    alert("Başarıyla çıkış yapıldı.");
+      alert("Yeni şifre en az 4 karakter olmalıdır.");
+      return;
 
-    this.router.navigate(['/login']);
+    }
+
+    if (newPassword !== confirmPassword) {
+
+      alert("Yeni şifreler eşleşmiyor.");
+      return;
+
+    }
+
+    this.userService.changePassword(this.userId, {
+      currentPassword,
+      newPassword
+    }).subscribe({
+
+      next: (response) => {
+
+        alert(response.message);
+
+        this.passwordForm.reset();
+
+        this.closePasswordDialog();
+
+      },
+
+      error: (err) => {
+
+        alert(err.error.message);
+
+      }
+
+    });
 
   }
 
   ngOnInit(): void {
+
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+
+      alert("Profil bilgilerinizi görmek için giriş yapmalısınız.");
+
+      this.router.navigate(['/login']);
+
+      return;
+
+    }
+
     this.profileForm = this.fb.group({
 
       ad: ['', Validators.required],
       soyad: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       telefon: ['', Validators.required],
-      rol: [''],
-      sifre: ['', Validators.required]
+      rol: ['']
+
+    });
+
+    this.passwordForm = this.fb.group({
+
+      currentPassword: ['', Validators.required],
+      newPassword: ['', [Validators.required, Validators.minLength(4)]],
+      confirmPassword: ['', Validators.required]
 
     });
 
@@ -218,8 +285,7 @@ export class Profile implements OnInit {
             soyad: this.user.soyad,
             email: this.user.email,
             telefon: this.user.telefon,
-            rol: this.user.rol,
-            sifre: ''
+            rol: this.user.rol
 
           });
 
@@ -261,7 +327,7 @@ export class Profile implements OnInit {
               total + Number(ticket.fiyat),
             0
           );
-          this.cdr.detectChanges();
+        this.cdr.detectChanges();
 
       },
 
@@ -319,6 +385,39 @@ export class Profile implements OnInit {
     const event = new Date(eventDate);
 
     return event < today ? 'Pasif' : 'Aktif';
+
+  }
+
+  deleteAccount() {
+
+    this.openDeleteDialog();
+
+  }
+
+  confirmDeleteAccount() {
+
+    this.userService.deleteUser(this.userId).subscribe({
+
+      next: (response) => {
+
+        alert(response.message);
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        this.closeDeleteDialog();
+
+        this.router.navigate(['/login']);
+
+      },
+
+      error: (err) => {
+
+        alert(err.error.message);
+
+      }
+
+    });
 
   }
 }

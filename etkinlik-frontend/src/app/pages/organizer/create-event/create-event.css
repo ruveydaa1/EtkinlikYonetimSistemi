@@ -1,7 +1,6 @@
 .organizer-layout {
   display: flex;
   min-height: 100vh;
-  background: #f8fafc;
 }
 
 .create-event-page {

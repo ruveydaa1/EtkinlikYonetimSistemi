@@ -13,6 +13,7 @@ import { OrganizerDashboard } from './pages/organizer/organizer-dashboard/organi
 import { CreateEvent } from './pages/organizer/create-event/create-event';
 import { MyEvents } from './pages/organizer/my-events/my-events';
 import { Participants } from './pages/organizer/participants/participants';
+import { organizerGuard } from './guards/organizer.guard';
 
 export const routes: Routes = [
   {
@@ -53,28 +54,33 @@ export const routes: Routes = [
   },
   {
     path: 'organizer',
-    component: OrganizerDashboard
+    component: OrganizerDashboard,
+    canActivate: [organizerGuard]
   },
   {
     path: 'organizer/dashboard',
-    component: OrganizerDashboard
+    component: OrganizerDashboard,
+    canActivate: [organizerGuard]
   },
   {
     path: 'organizer/create-event',
-    component: CreateEvent
+    component: CreateEvent,
+    canActivate: [organizerGuard]
   },
   {
     path: 'organizer/edit-event/:id',
-    component: CreateEvent
+    component: CreateEvent,
+    canActivate: [organizerGuard]
   },
   {
     path: 'organizer/my-events',
-    component: MyEvents
+    component: MyEvents,
+    canActivate: [organizerGuard]
   },
   {
     path: 'organizer/participants',
-    component: Participants
+    component: Participants,
+    canActivate: [organizerGuard]
   }
-
 
 ];
