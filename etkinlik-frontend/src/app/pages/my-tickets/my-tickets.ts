@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { Ticket } from '../../core/services/ticket';
+import { Navbar } from '../../shared/navbar/navbar';
 
 
 
@@ -24,7 +25,8 @@ import { Ticket } from '../../core/services/ticket';
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    Navbar
   ],
   templateUrl: './my-tickets.html',
   styleUrl: './my-tickets.css'

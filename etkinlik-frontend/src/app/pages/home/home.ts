@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Navbar,RouterLink],
+  imports: [CommonModule, Navbar, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
@@ -49,7 +49,9 @@ export class Home implements OnInit {
           .slice(0, 3);
 
 
-        this.featuredEvents = this.events.slice(0, 4);
+        this.featuredEvents = [...this.events]
+          .sort((a, b) => b.katilimci_sayisi - a.katilimci_sayisi)
+          .slice(0, 4);
 
 
         console.log("Upcoming:", this.upcomingEvents);

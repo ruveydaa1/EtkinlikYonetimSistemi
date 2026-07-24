@@ -30,9 +30,27 @@ export const getAllEvents = async (req, res) => {
 
                 u.user_id,
                 u.ad,
-                u.soyad
+                u.soyad,
+
+                COALESCE(ka.katilimci_sayisi, 0) AS katilimci_sayisi
 
             FROM etkinlik e
+            
+            LEFT JOIN (
+
+                SELECT
+                    event_id,
+                    COUNT(*) AS katilimci_sayisi
+
+                FROM kayit
+
+                WHERE durum = 'ONAYLANDI'
+
+                GROUP BY event_id
+
+            ) ka
+
+            ON e.event_id = ka.event_id
 
             INNER JOIN kategori k
                 ON e.category_id = k.category_id
@@ -199,9 +217,20 @@ export const getMyEvents = async (req, res) => {
 
                 m.mekan_id,
                 m.mekan_adi,
-                m.sehir
+                m.sehir,
+
+                COUNT(CASE
+                    WHEN ka.durum = 'ONAYLANDI' THEN 1
+                END) AS onayli_katilimci,
+
+                COUNT(CASE
+                    WHEN ka.durum = 'BEKLEMEDE' THEN 1
+                END) AS bekleyen_basvuru
 
             FROM etkinlik e
+
+            LEFT JOIN kayit ka
+                ON e.event_id = ka.event_id
 
             INNER JOIN kategori k
                 ON e.category_id = k.category_id
@@ -210,6 +239,12 @@ export const getMyEvents = async (req, res) => {
                 ON e.mekan_id = m.mekan_id
 
             WHERE e.organizer_id = $1
+
+            GROUP BY
+
+                e.event_id,
+                k.category_id,
+                m.mekan_id
 
             ORDER BY e.event_id DESC;
 
@@ -875,10 +910,10 @@ export const deleteEvent = async (req, res) => {
 
             success: true,
 
-             message:
-                 registrationCount === 0
-                     ? "Etkinlik başarıyla silindi."
-                     : "Etkinlikte kayıtlı kullanıcılar bulunduğu için etkinlik pasife alındı."
+            message:
+                registrationCount === 0
+                    ? "Etkinlik başarıyla silindi."
+                    : "Etkinlikte kayıtlı kullanıcılar bulunduğu için etkinlik pasife alındı."
 
         });
 

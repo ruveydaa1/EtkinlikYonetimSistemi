@@ -1,14 +1,10 @@
+<app-navbar></app-navbar>
 <div class="tickets-page">
 
     <div class="page-header">
 
-        <button mat-icon-button class="back-btn" routerLink="/profile">
-            <mat-icon>arrow_back</mat-icon>
-        </button>
-
         <div>
-            <h1>Biletlerim</h1>
-            <p>Toplam {{ tickets.length }} bilet listeleniyor.</p>
+            <h3>Toplam {{ tickets.length }} bilet listeleniyor.</h3>
         </div>
 
     </div>
@@ -84,6 +80,26 @@
             </button>
 
         </mat-card>
+
+        }
+
+        @if(filteredTickets.length === 0){
+
+        <div class="empty-tickets">
+
+            <mat-icon>
+                search_off
+            </mat-icon>
+
+            <h3>
+                Aradığın etkinliğe ait bilet bulunamadı.
+            </h3>
+
+            <p>
+                Farklı bir etkinlik adı deneyebilirsin.
+            </p>
+
+        </div>
 
         }
 

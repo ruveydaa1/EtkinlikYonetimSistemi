@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { EventService } from '../../core/services/event';
 import { Navbar } from '../../shared/navbar/navbar';
 
@@ -26,16 +26,28 @@ export class EventsComponent implements OnInit {
   selectedCategory: string = 'Tümü';
   selectedCity: string = 'Tümü';
 
+  private eventIdFromHome: number | null = null;
+
   constructor(
     private eventService: EventService,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   categories: any[] = [];
   cities: any[] = [];
 
   ngOnInit(): void {
+
+    this.route.queryParams.subscribe(params => {
+
+      this.eventIdFromHome = params['eventId']
+        ? Number(params['eventId'])
+        : null;
+
+    });
+
     this.loadEvents();
     this.loadCategories();
     this.loadCities();
@@ -82,6 +94,25 @@ export class EventsComponent implements OnInit {
         })).reverse();
 
         this.filteredEvents = [...this.allEvents];
+
+        if (this.eventIdFromHome) {
+
+          const event = this.filteredEvents.find(
+            e => e.id === this.eventIdFromHome
+          );
+
+          if (event) {
+
+            setTimeout(() => {
+
+              this.openEventDetail(event);
+
+            }, 200);
+
+          }
+
+        }
+        
         this.isLoading = false;
         this.cdr.detectChanges();
       },

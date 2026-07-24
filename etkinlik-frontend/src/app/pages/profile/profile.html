@@ -262,28 +262,6 @@
 
 
 
-    <mat-card class="shortcut-card" (click)="toggleSection('tickets')">
-
-      <mat-icon>confirmation_number</mat-icon>
-
-      <h3>Biletlerim</h3>
-
-      <p>Son {{ lastTickets.length }} Bilet</p>
-
-      <mat-icon class="arrow">
-        {{ activeSection === 'tickets' ? 'expand_less' : 'chevron_right' }}
-      </mat-icon>
-
-      <div class="expand-footer">
-
-
-
-      </div>
-
-    </mat-card>
-
-
-
     <mat-card class="shortcut-card" (click)="toggleSection('settings')">
 
       <mat-icon>settings</mat-icon>
@@ -359,55 +337,6 @@
     </button>
 
     }
-
-
-
-    @if(activeSection === 'tickets'){
-
-    <div class="expand-header">
-      <mat-icon>confirmation_number</mat-icon>
-      <h3>Biletlerim</h3>
-      <p>Son biletlerini görüntüle</p>
-    </div>
-
-    @for(ticket of lastTickets; track ticket.bilet_id){
-
-    <div class="event-item">
-
-      <h3>{{ ticket.etkinlik_adi }}</h3>
-
-      <p>
-
-        Bilet #{{ ticket.bilet_id }}
-
-        •
-
-        {{ getTicketStatus(ticket.baslangic_tarihi) }}
-
-      </p>
-
-      @if(lastTickets.length === 0){
-
-      <div class="event-item">
-
-        Henüz bilet bulunmuyor.
-
-      </div>
-
-      }
-
-    </div>
-
-    }
-
-    <button mat-flat-button color="primary" class="see-all-btn" routerLink="/my-tickets">
-
-      Tümünü Gör
-
-    </button>
-
-    }
-
 
 
     @if(activeSection === 'settings'){

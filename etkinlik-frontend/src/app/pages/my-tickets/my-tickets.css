@@ -4,7 +4,7 @@
 
 .tickets-page {
     min-height: 100vh;
-    padding: 40px 0 50px;
+    padding: 5px 0 5px;
     background: linear-gradient(180deg,
             #f5f9ff 0%,
             #eef5ff 45%,
@@ -18,15 +18,10 @@
 .page-header {
     width: 90%;
     max-width: 1000px;
-    margin: 0 auto 25px;
+    margin: 0 auto 1px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 18px;
-}
-
-.back-btn {
-    background: white;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
 }
 
 .page-header h1 {
@@ -47,14 +42,16 @@
 .search-card {
     width: 90%;
     max-width: 1000px;
-    margin: 0 auto 30px;
-    padding: 20px 24px;
+    height: 85px;
+    margin: 0 auto 15px;
+    padding: 12px 18px;
     border-radius: 20px;
     box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
 }
 
 .search-card mat-form-field {
     width: 100%;
+    margin: 0;
 }
 
 /* =========================================
@@ -321,4 +318,53 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.empty-tickets {
+
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+
+    padding: 40px;
+
+    text-align: center;
+
+    background: white;
+
+    border-radius: 20px;
+
+    color: #777;
+
+}
+
+
+.empty-tickets mat-icon {
+
+    font-size: 50px;
+
+    width: 50px;
+
+    height: 50px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.empty-tickets h3 {
+
+    margin: 10px 0;
+
+    font-size: 20px;
+
+    color: #333;
+
+}
+
+
+.empty-tickets p {
+
+    margin: 0;
+
 }

@@ -46,9 +46,11 @@ export class Profile implements OnInit {
     private cdr: ChangeDetectorRef,
     private router: Router
   ) { }
+  
   user: any = {};
+
   nextEvent: any = null;
-  lastTickets: any[] = [];
+ 
   lastRegistrations: any[] = [];
 
   summary = {
@@ -246,10 +248,6 @@ export class Profile implements OnInit {
       next: (response) => {
 
         console.log("TICKETS GELDİ:", response);
-
-        this.lastTickets = [...response.data.slice(0, 2)];
-
-        console.log("LAST TICKETS:", this.lastTickets);
 
         this.summary.activeTickets =
           response.data.filter(

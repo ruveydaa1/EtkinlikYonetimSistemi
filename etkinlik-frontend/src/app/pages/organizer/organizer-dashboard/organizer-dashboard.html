@@ -1,60 +1,42 @@
 <app-navbar></app-navbar>
-<div class="dashboard-layout">
 
+<div class="dashboard-layout">
     <app-organizer-sidebar></app-organizer-sidebar>
 
     <div class="dashboard-content">
 
         <div class="dashboard-header">
-
-            <h1>Hoş geldiniz 👋</h1>
-
+            <h1>Hoş geldiniz, {{ organizerName }} 👋</h1>
             <p>
-                Etkinliklerinizi oluşturabilir, yönetebilir ve katılımcıları takip edebilirsiniz.
+                Organizatör panelinizden etkinliklerinizi oluşturabilir, yönetebilir ve
+                katılımcıları takip edebilirsiniz.
             </p>
-
         </div>
 
         <div class="stats-grid">
 
             <div class="stat-card event-card">
-
                 <mat-icon>event</mat-icon>
-
                 <h3>Toplam Etkinlik</h3>
-
-                <span>0</span>
-
+                <span>{{ totalEvents }}</span>
             </div>
 
             <div class="stat-card waiting-card">
-
                 <mat-icon>hourglass_top</mat-icon>
-
                 <h3>Bekleyen Başvuru</h3>
-
-                <span>0</span>
-
+                <span>{{ pendingRegistrations }}</span>
             </div>
 
             <div class="stat-card participant-card">
-
                 <mat-icon>groups</mat-icon>
-
                 <h3>Toplam Katılımcı</h3>
-
-                <span>0</span>
-
+                <span>{{ totalParticipants }}</span>
             </div>
 
             <div class="stat-card approved-card">
-
                 <mat-icon>verified</mat-icon>
-
                 <h3>Onaylanan Kayıt</h3>
-
-                <span>0</span>
-
+                <span>{{ approvedRegistrations }}</span>
             </div>
 
         </div>
@@ -62,63 +44,57 @@
         <mat-card class="activity-card">
 
             <div class="activity-header">
-
-                <h2>Son Hareketler</h2>
-
-                <mat-icon>history</mat-icon>
-
+                <h2>Yaklaşan Etkinlikler</h2>
+                <mat-icon>event_available</mat-icon>
             </div>
 
-            <div class="activity-item">
+            <div class="activity-item" *ngFor="let event of upcomingEvents">
 
-                <mat-icon>person_add</mat-icon>
+                <div class="event-info">
 
-                <div>
+                    <h3>{{ event.etkinlik_adi }}</h3>
+
+                    <span>
+                        {{ event.baslangic_tarihi | date:'dd.MM.yyyy' }}
+                    </span>
 
                     <p>
-                        Ahmet Yılmaz
-                        <strong>Yapay Zeka Zirvesi</strong>
-                        etkinliğine kayıt oldu.
+
+                        {{ event.onayli_katilimci }} /
+                        {{ event.max_katilimci_sayisi }}
+                        Katılımcı
+
                     </p>
 
-                    <span>2 dakika önce</span>
+                    <div class="progress-bar">
+
+                        <div class="progress-fill" [style.width.%]="
+            (event.onayli_katilimci * 100) /
+            event.max_katilimci_sayisi
+          ">
+
+                        </div>
+
+                    </div>
 
                 </div>
 
-            </div>
+                <span class="progress-text">
 
-            <div class="activity-item">
+                    {{
+                    ((event.onayli_katilimci * 100) /
+                    event.max_katilimci_sayisi).toFixed(0)
+                    }}%
 
-                <mat-icon>add_circle</mat-icon>
-
-                <div>
-
-                    <p>
-                        <strong>React Workshop</strong>
-                        etkinliği oluşturuldu.
-                    </p>
-
-                    <span>1 saat önce</span>
-
-                </div>
+                </span>
 
             </div>
 
-            <div class="activity-item">
+            <p class="empty-text" *ngIf="upcomingEvents.length === 0">
 
-                <mat-icon>verified</mat-icon>
+                Yaklaşan etkinlik bulunmuyor.
 
-                <div>
-
-                    <p>
-                        Ayşe Demir'in başvurusu onaylandı.
-                    </p>
-
-                    <span>Dün</span>
-
-                </div>
-
-            </div>
+            </p>
 
         </mat-card>
 
