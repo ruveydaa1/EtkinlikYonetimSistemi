@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-navbar',
@@ -10,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     RouterLink,
     MatIconModule,
+    MatSnackBarModule,
     RouterLinkActive
   ],
   templateUrl: './navbar.html',
@@ -20,6 +23,8 @@ export class Navbar implements OnInit {
   isOrganizer = false;
 
   isLoggedIn = false;
+
+  constructor(private snackBar: MatSnackBar) { }
 
   ngOnInit() {
 
@@ -46,7 +51,10 @@ export class Navbar implements OnInit {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
-    alert("Başarıyla çıkış yapıldı.");
+    this.snackBar.open("Başarıyla çıkış yapıldı.", "Kapat", {
+      duration: 3000,
+      panelClass: ["custom-snackbar"]
+    });
 
     window.location.href = "/login";
 

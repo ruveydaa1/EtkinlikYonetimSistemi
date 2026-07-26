@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar,MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { OnInit } from '@angular/core';
 import { User } from '../../core/services/user';
@@ -27,6 +28,7 @@ import { Navbar } from '../../shared/navbar/navbar';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSnackBarModule,
     MatIconModule,
     MatExpansionModule,
     ReactiveFormsModule,
@@ -44,7 +46,8 @@ export class Profile implements OnInit {
     private userService: User,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   user: any = {};
@@ -117,7 +120,10 @@ export class Profile implements OnInit {
           JSON.stringify(this.user)
         );
 
-        alert("Profil güncellendi.");
+        this.snackBar.open("Profil güncellendi.", "Kapat", {
+          duration: 3000,
+          panelClass: ["custom-snackbar"]
+        });
 
         this.closeEditProfile();
 
@@ -133,7 +139,10 @@ export class Profile implements OnInit {
 
         console.log(err.error.message);
 
-        alert(JSON.stringify(err.error));
+        this.snackBar.open(err.error.message, "Kapat", {
+          duration: 3000,
+          panelClass: ["custom-snackbar"]
+        });
 
       }
     });
@@ -173,21 +182,30 @@ export class Profile implements OnInit {
 
     if (!currentPassword || !newPassword || !confirmPassword) {
 
-      alert("Lütfen tüm alanları doldurun.");
+      this.snackBar.open("Lütfen tüm alanları doldurun.", "Kapat", {
+        duration: 3000,
+        panelClass: ["custom-snackbar"]
+      });
       return;
 
     }
 
     if (newPassword.length < 4) {
 
-      alert("Yeni şifre en az 4 karakter olmalıdır.");
+      this.snackBar.open("Yeni şifre en az 4 karakter olmalıdır.", "Kapat", {
+        duration: 3000,
+        panelClass: ["custom-snackbar"]
+      });
       return;
 
     }
 
     if (newPassword !== confirmPassword) {
 
-      alert("Yeni şifreler eşleşmiyor.");
+      this.snackBar.open("Yeni şifreler eşleşmiyor.", "Kapat", {
+        duration: 3000,
+        panelClass: ["custom-snackbar"]
+      });
       return;
 
     }
@@ -199,7 +217,10 @@ export class Profile implements OnInit {
 
       next: (response) => {
 
-        alert(response.message);
+        this.snackBar.open(response.message, "Kapat", {
+          duration: 3000,
+          panelClass: ["custom-snackbar"]
+        });
 
         this.passwordForm.reset();
 
@@ -209,7 +230,10 @@ export class Profile implements OnInit {
 
       error: (err) => {
 
-        alert(err.error.message);
+        this.snackBar.open(err.error.message, "Kapat", {
+          duration: 3000,
+          panelClass: ["custom-snackbar"]
+        });
 
       }
 
@@ -223,7 +247,10 @@ export class Profile implements OnInit {
 
     if (!token) {
 
-      alert("Profil bilgilerinizi görmek için giriş yapmalısınız.");
+      this.snackBar.open("Profil bilgilerinizi görmek için giriş yapmalısınız.", "Kapat", {
+        duration: 3000,
+        panelClass: ["custom-snackbar"]
+      });
 
       this.router.navigate(['/login']);
 
@@ -400,7 +427,10 @@ export class Profile implements OnInit {
 
       next: (response) => {
 
-        alert(response.message);
+        this.snackBar.open(response.message, "Kapat", {
+          duration: 3000,
+          panelClass: ["custom-snackbar"]
+        });
 
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -413,7 +443,10 @@ export class Profile implements OnInit {
 
       error: (err) => {
 
-        alert(err.error.message);
+        this.snackBar.open(err.error.message, "Kapat", {
+          duration: 3000,
+          panelClass: ["custom-snackbar"]
+        });
 
       }
 
