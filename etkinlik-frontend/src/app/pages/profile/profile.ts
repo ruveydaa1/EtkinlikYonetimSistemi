@@ -83,17 +83,6 @@ export class Profile implements OnInit {
 
   }
 
-  deleteDialog = false;
-
-  openDeleteDialog() {
-    this.deleteDialog = true;
-  }
-
-  closeDeleteDialog() {
-    this.deleteDialog = false;
-  }
-
-
   showProfilePassword = false;
 
   // Profil düzenleme dialogu
@@ -412,45 +401,6 @@ export class Profile implements OnInit {
     const event = new Date(eventDate);
 
     return event < today ? 'Pasif' : 'Aktif';
-
-  }
-
-  deleteAccount() {
-
-    this.openDeleteDialog();
-
-  }
-
-  confirmDeleteAccount() {
-
-    this.userService.deleteUser(this.userId).subscribe({
-
-      next: (response) => {
-
-        this.snackBar.open(response.message, "Kapat", {
-          duration: 3000,
-          panelClass: ["custom-snackbar"]
-        });
-
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-
-        this.closeDeleteDialog();
-
-        this.router.navigate(['/login']);
-
-      },
-
-      error: (err) => {
-
-        this.snackBar.open(err.error.message, "Kapat", {
-          duration: 3000,
-          panelClass: ["custom-snackbar"]
-        });
-
-      }
-
-    });
 
   }
 }
