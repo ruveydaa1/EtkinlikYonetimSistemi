@@ -51,6 +51,9 @@ export class CreateEvent implements OnInit {
 
   isEditMode = false;
   eventId!: number;
+  selectedFile: File | null = null;
+
+  previewUrl: string | ArrayBuffer | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -156,10 +159,16 @@ export class CreateEvent implements OnInit {
           max_katilimci_sayisi: event.max_katilimci_sayisi,
           aciklama: event.aciklama,
           resim: event.resim,
-          durum: event.durum, 
+          durum: event.durum,
           otomatik_onay: event.otomatik_onay
 
         });
+
+        if (event.resim) {
+          this.previewUrl = event.resim.startsWith('http')
+            ? event.resim
+            : `http://localhost:5000/${event.resim}`;
+        }
 
       },
 
@@ -170,6 +179,43 @@ export class CreateEvent implements OnInit {
       }
 
     });
+
+  }
+
+  onFileSelected(event: Event): void {
+
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    const file = input.files[0];
+
+    // Sadece resim dosyaları
+    if (!file.type.startsWith('image/')) {
+
+      this.snackBar.open(
+        "Lütfen geçerli bir resim dosyası seçiniz.",
+        "Kapat",
+        {
+          duration: 3000,
+          panelClass: ['custom-snackbar']
+        }
+      );
+
+      return;
+    }
+
+    this.selectedFile = file;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.previewUrl = reader.result;
+    };
+
+    reader.readAsDataURL(file);
 
   }
 
@@ -184,9 +230,27 @@ export class CreateEvent implements OnInit {
 
     console.log("Gönderilen form:", this.eventForm.value);
 
+    const formData = new FormData();
+
+    Object.keys(this.eventForm.value).forEach(key => {
+
+      if (key !== 'resim') {
+
+        formData.append(key, this.eventForm.value[key]);
+
+      }
+
+    });
+
+    if (this.selectedFile) {
+
+      formData.append('image', this.selectedFile);
+
+    }
+
     const request = this.isEditMode
-      ? this.eventService.updateEvent(this.eventId, this.eventForm.value)
-      : this.eventService.createEvent(this.eventForm.value);
+      ? this.eventService.updateEvent(this.eventId, formData)
+      : this.eventService.createEvent(formData);
 
     request.subscribe({
 

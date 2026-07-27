@@ -57,7 +57,7 @@
     <div *ngIf="!isLoading && filteredEvents.length > 0" class="events-grid">
         <div *ngFor="let event of filteredEvents" class="event-card">
             <div class="card-image">
-                <img [src]="event.resim || 'assets/default-event.jpg'" [alt]="event.ad">
+                <img [src]="getImageUrl(event.resim)" [alt]="event.ad">
                 <span class="badge">{{ event.kategori || 'Genel' }}</span>
             </div>
 
@@ -89,7 +89,7 @@
 
                     <div class="modal-header-right"
                         *ngIf="selectedEvent.resim_url || selectedEvent.imageUrl || selectedEvent.gorsel || selectedEvent.resim">
-                        <img [src]="selectedEvent.resim_url || selectedEvent.imageUrl || selectedEvent.gorsel || selectedEvent.resim"
+                        <img [src]="getImageUrl(selectedEvent.resim_url || selectedEvent.imageUrl || selectedEvent.gorsel || selectedEvent.resim)"
                             [alt]="selectedEvent.etkinlik_adi">
                     </div>
 

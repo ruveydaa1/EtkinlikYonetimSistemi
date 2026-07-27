@@ -298,6 +298,10 @@ export const createEvent = async (req, res) => {
             resim
         } = req.body;
 
+        const eventImage = req.file
+            ? `uploads/${req.file.filename}`
+            : (resim || null);
+
         // Organizer bilgisi JWT'den geliyor
         const organizer_id = req.user.user_id;
 
@@ -421,7 +425,7 @@ export const createEvent = async (req, res) => {
                 fiyat,
                 max_katilimci_sayisi,
                 otomatik_onay,
-                resim
+                eventImage
             ]
         );
 
@@ -474,6 +478,10 @@ export const updateEvent = async (req, res) => {
             resim
 
         } = req.body;
+
+        const eventImage = req.file
+            ? `uploads/${req.file.filename}`
+            : (resim || null);
 
         const organizer_id = req.user.user_id;
 
@@ -731,7 +739,7 @@ export const updateEvent = async (req, res) => {
 
                 otomatik_onay,
 
-                resim,
+                eventImage,
 
                 id
 

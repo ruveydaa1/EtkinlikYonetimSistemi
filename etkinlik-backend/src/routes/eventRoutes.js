@@ -10,6 +10,7 @@ import {
 } from "../controllers/eventController.js";
 
 import { authenticateToken, authorizeOrganizer } from "../middleware/authMiddleware.js";
+import upload from "../middleware/upload.js";
 
 const router = express.Router();
 
@@ -116,7 +117,7 @@ router.get("/:id", getEventById);
  *         description: Sadece organizatör oluşturabilir.
  */
 
-router.post("/",authenticateToken ,authorizeOrganizer ,createEvent);
+router.post("/",authenticateToken ,authorizeOrganizer , upload.single("image"),createEvent);
 
 /**
  * @swagger
@@ -176,7 +177,7 @@ router.post("/",authenticateToken ,authorizeOrganizer ,createEvent);
  *         description: Etkinlik bulunamadı.
  */
 
-router.put("/:id",authenticateToken, authorizeOrganizer, updateEvent);
+router.put("/:id",authenticateToken, authorizeOrganizer,upload.single("image"), updateEvent);
 
 /**
  * @swagger

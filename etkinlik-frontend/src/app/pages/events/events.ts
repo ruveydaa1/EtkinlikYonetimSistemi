@@ -90,7 +90,7 @@ export class EventsComponent implements OnInit {
           lokasyon: item.sehir || 'Online',
           baslangic_tarihi: item.baslangic_tarihi,
           fiyat: item.fiyat || 0,
-          resim: item.resim || 'assets/default-event.jpg'
+          resim: item.resim
         })).reverse();
 
         this.filteredEvents = [...this.allEvents];
@@ -112,7 +112,7 @@ export class EventsComponent implements OnInit {
           }
 
         }
-        
+
         this.isLoading = false;
         this.cdr.detectChanges();
       },
@@ -186,6 +186,20 @@ export class EventsComponent implements OnInit {
     this.selectedEvent = null;
     this.cdr.detectChanges();
   }
+
+  getImageUrl(image: string | null | undefined): string {
+
+    if (!image) {
+      return 'assets/default-event.jpg';
+    }
+
+    if (image.startsWith('http')) {
+      return image;
+    }
+
+    return `http://localhost:5000/${image}`;
+  }
+
 
   goToTicketPage(eventId: number) {
 

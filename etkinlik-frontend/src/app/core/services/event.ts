@@ -52,7 +52,7 @@ export class EventService {
 
   }
 
-  createEvent(eventData: any): Observable<any> {
+  createEvent(eventData: FormData): Observable<any> {
 
     const token = localStorage.getItem("token");
 
@@ -68,7 +68,7 @@ export class EventService {
 
   }
 
-  updateEvent(id: number, eventData: any): Observable<any> {
+  updateEvent(id: number, eventData: FormData): Observable<any> {
 
     const token = localStorage.getItem("token");
 

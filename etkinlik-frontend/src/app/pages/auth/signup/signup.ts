@@ -192,6 +192,21 @@ export class Signup {
           console.error('Kayıt başarısız!');
           console.error(error);
 
+          this.snackBar.open(
+
+            error.error.message,
+
+            undefined,
+
+            {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom',
+              panelClass: ['custom-snackbar']
+            }
+
+          );
+
         }
 
       });

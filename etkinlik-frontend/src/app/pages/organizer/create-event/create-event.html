@@ -111,10 +111,29 @@
 
         <div class="form-grid">
 
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Görsel URL</mat-label>
-            <input matInput formControlName="resim">
-          </mat-form-field>
+          <div class="image-upload">
+
+            <p class="upload-title">Etkinlik Görseli</p>
+
+            <label class="upload-box">
+
+              <mat-icon>cloud_upload</mat-icon>
+
+              <span>
+                {{ selectedFile ? selectedFile.name : 'Görsel seçmek için tıklayın' }}
+              </span>
+
+              <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden>
+
+            </label>
+
+          </div>
+
+          <div class="image-preview" *ngIf="previewUrl">
+
+            <img [src]="previewUrl" alt="Etkinlik Görseli">
+
+          </div>
 
         </div>
 
