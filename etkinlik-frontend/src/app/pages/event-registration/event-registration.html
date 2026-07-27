@@ -10,8 +10,7 @@
 
     <mat-card class="event-card">
 
-        <img class="event-image" [src]="event.resim" [alt]="event.etkinlik_adi">
-
+        <img class="event-image" [src]="getImageUrl(event.resim)" [alt]="event.etkinlik_adi">
         <div class="event-content">
 
             <span class="category">

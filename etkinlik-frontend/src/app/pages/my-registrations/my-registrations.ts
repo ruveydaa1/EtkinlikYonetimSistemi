@@ -91,4 +91,18 @@ export class MyRegistrations implements OnInit {
     this.selectedRegistration = null;
   }
 
+  getImageUrl(image: string | null | undefined): string {
+
+    if (!image) {
+      return 'assets/default-event.jpg';
+    }
+
+    if (image.startsWith('http')) {
+      return image;
+    }
+
+    return `http://localhost:5000/${image}`;
+
+  }
+
 }

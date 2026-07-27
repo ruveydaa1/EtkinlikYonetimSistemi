@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar,MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { OnInit } from '@angular/core';
 import { User } from '../../core/services/user';
@@ -402,6 +402,19 @@ export class Profile implements OnInit {
 
     return event < today ? 'Pasif' : 'Aktif';
 
+  }
+
+  getImageUrl(image: string | null | undefined): string {
+
+    if (!image) {
+      return 'assets/default-event.jpg';
+    }
+
+    if (image.startsWith('http')) {
+      return image;
+    }
+
+    return `http://localhost:5000/${image}`;
   }
 }
 

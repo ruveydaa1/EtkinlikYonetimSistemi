@@ -57,7 +57,7 @@
 
                     <div class="upcoming-card">
 
-                        <img [src]="event.resim" [alt]="event.etkinlik_adi">
+                        <img [src]="getImageUrl(event.resim)" [alt]="event.etkinlik_adi">
 
                         <div>
 
@@ -108,7 +108,7 @@
 
             <div class="popular-card">
 
-                <img [src]="event.resim" [alt]="event.etkinlik_adi">
+                <img [src]="getImageUrl(event.resim)" [alt]="event.etkinlik_adi">
 
                 <div class="popular-content">
 

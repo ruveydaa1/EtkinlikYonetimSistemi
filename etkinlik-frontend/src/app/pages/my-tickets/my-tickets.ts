@@ -112,4 +112,18 @@ export class MyTickets implements OnInit {
     this.selectedTicket = null;
   }
 
+  getImageUrl(image: string | null | undefined): string {
+
+    if (!image) {
+      return 'assets/default-event.jpg';
+    }
+
+    if (image.startsWith('http')) {
+      return image;
+    }
+
+    return `http://localhost:5000/${image}`;
+
+  }
+
 }

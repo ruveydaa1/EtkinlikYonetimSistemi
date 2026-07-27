@@ -30,7 +30,7 @@
         <mat-card class="ticket-card">
 
             @if(ticket.resim){
-            <img class="ticket-image" [src]="ticket.resim" alt="Etkinlik">
+            <img class="ticket-image" [src]="getImageUrl(ticket.resim)" alt="Etkinlik">
             }
 
             <div class="ticket-info">
