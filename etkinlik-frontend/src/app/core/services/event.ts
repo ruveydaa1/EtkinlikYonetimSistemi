@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_URL } from '../config/api.config';
 
 
 @Injectable({
@@ -8,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class EventService {
 
-  private apiUrl = 'http://localhost:5000/api/events';
+  private apiUrl = `${API_URL}/events`;
 
 
   constructor(
@@ -29,12 +30,12 @@ export class EventService {
 
   // Kategorileri veritabanından çekmek için
   getCategories(): Observable<any> {
-    return this.http.get('http://localhost:5000/api/categories');
+    return this.http.get(`${API_URL}/categories`);
   }
 
   // Mekanlar üzerinden benzersiz şehirleri çekmek için
   getCities(): Observable<any> {
-    return this.http.get('http://localhost:5000/api/venues/cities');
+    return this.http.get(`${API_URL}/venues/cities`);
   }
 
   getMyEvents(): Observable<any> {

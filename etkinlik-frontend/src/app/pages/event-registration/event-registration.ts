@@ -13,6 +13,7 @@ import { EventService } from '../../core/services/event';
 import { ChangeDetectorRef } from '@angular/core';
 import { Registration } from '../../core/services/registration';
 import { Router } from '@angular/router';
+import { BACKEND_URL } from '../../core/config/api.config';
 
 @Component({
   selector: 'app-event-registration',
@@ -155,7 +156,7 @@ export class EventRegistration implements OnInit {
       return image;
     }
 
-    return `http://localhost:5000/${image}`;
+    return `${BACKEND_URL}/${image}`;
   }
 
 }

@@ -17,6 +17,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Ticket } from '../../core/services/ticket';
 import { Registration } from '../../core/services/registration';
 import { Navbar } from '../../shared/navbar/navbar';
+import { BACKEND_URL } from '../../core/config/api.config';
 
 @Component({
   selector: 'app-profile',
@@ -415,7 +416,7 @@ export class Profile implements OnInit {
       return image;
     }
 
-    return `http://localhost:5000/${image}`;
+    return `${BACKEND_URL}/${image}`;
   }
 }
 

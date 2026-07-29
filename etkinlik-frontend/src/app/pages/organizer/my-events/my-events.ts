@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Navbar } from '../../../shared/navbar/navbar';
 import { OrganizerSidebar } from '../../../shared/organizer-sidebar/organizer-sidebar';
-
+import { BACKEND_URL } from '../../../core/config/api.config';
 import { EventService } from '../../../core/services/event';
 
 @Component({
@@ -127,7 +127,7 @@ export class MyEvents implements OnInit {
       return image;
     }
 
-    return `http://localhost:5000/${image}`;
+    return `${BACKEND_URL}/${image}`;
   }
 
 }

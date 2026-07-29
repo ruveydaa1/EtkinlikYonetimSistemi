@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Registration {
 
-  private apiUrl = 'http://localhost:5000/api/registrations';
+  private apiUrl = `${API_URL}/registrations`;
 
 
   constructor(

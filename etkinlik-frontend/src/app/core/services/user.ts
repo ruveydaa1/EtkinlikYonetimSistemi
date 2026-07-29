@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_URL } from '../config/api.config';
 
 @Injectable({
     providedIn: 'root'
 })
 export class User {
 
-    private apiUrl = 'http://localhost:5000/api/users';
+    private apiUrl = `${API_URL}/users`;
 
     constructor(private http: HttpClient) { }
 
@@ -20,7 +21,7 @@ export class User {
     login(user: any): Observable<any> {
 
         return this.http.post(
-            'http://localhost:5000/api/auth/login',
+            `${API_URL}/auth/login`,
             user
         );
 

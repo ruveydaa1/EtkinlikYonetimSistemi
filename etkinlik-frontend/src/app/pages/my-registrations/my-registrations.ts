@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { Registration } from '../../core/services/registration';
 import { OnInit, ChangeDetectorRef , ChangeDetectionStrategy} from '@angular/core';
+import { BACKEND_URL } from '../../core/config/api.config';
 
 @Component({
   selector: 'app-my-registrations',
@@ -102,7 +103,7 @@ export class MyRegistrations implements OnInit {
       return image;
     }
 
-    return `http://localhost:5000/${image}`;
+    return `${BACKEND_URL}/${image}`;
   }
 
 }

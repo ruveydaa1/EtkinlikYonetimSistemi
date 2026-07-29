@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EventService } from '../../core/services/event';
 import { Navbar } from '../../shared/navbar/navbar';
 import { RouterLink } from '@angular/router';
+import { BACKEND_URL } from '../../core/config/api.config';
 
 @Component({
   selector: 'app-home',
@@ -79,7 +80,7 @@ export class Home implements OnInit {
       return image;
     }
 
-    return `http://localhost:5000/${image}`;
+    return `${BACKEND_URL}/${image}`;
   }
 
 

@@ -19,7 +19,7 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:5000"
+                url: "https://etkinlik-backend.vercel.app"
             }
         ],
 
@@ -33,8 +33,8 @@ const options = {
             }
         },
 
-    
-        
+
+
     },
 
     apis: ["./src/routes/*.js"]

@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -21,11 +21,12 @@ import { Navbar } from '../../../shared/navbar/navbar';
 import { EventService } from '../../../core/services/event';
 import { CategoryService } from '../../../core/services/category';
 import { VenueService } from '../../../core/services/venue';
+import { BACKEND_URL } from '../../../core/config/api.config';
 
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  changeDetection:ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -169,7 +170,7 @@ export class CreateEvent implements OnInit {
         if (event.resim) {
           this.previewUrl = event.resim.startsWith('http')
             ? event.resim
-            : `http://localhost:5000/${event.resim}`;
+            : `${BACKEND_URL}/${event.resim}`;
         }
 
       },

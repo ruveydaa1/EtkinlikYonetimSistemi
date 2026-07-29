@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { Ticket } from '../../core/services/ticket';
 import { Navbar } from '../../shared/navbar/navbar';
-
+import { BACKEND_URL } from '../../core/config/api.config';
 
 
 @Component({
@@ -123,7 +123,7 @@ export class MyTickets implements OnInit {
       return image;
     }
 
-    return `http://localhost:5000/${image}`;
+    return `${BACKEND_URL}/${image}`;
   }
 
 }

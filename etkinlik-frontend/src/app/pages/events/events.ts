@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { EventService } from '../../core/services/event';
 import { Navbar } from '../../shared/navbar/navbar';
-
+import { BACKEND_URL } from '../../core/config/api.config';
 
 @Component({
   selector: 'app-events',
@@ -199,7 +199,7 @@ export class EventsComponent implements OnInit {
       return image;
     }
 
-    return `http://localhost:5000/${image}`;
+    return `${BACKEND_URL}/${image}`;
   }
 
   goToTicketPage(eventId: number) {

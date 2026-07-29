@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import supabase from "../config/supabase.js";
 
 export const getAllEvents = async (req, res) => {
 
@@ -298,10 +299,37 @@ export const createEvent = async (req, res) => {
             resim
         } = req.body;
 
-        const eventImage = req.file
-            ? `uploads/${req.file.filename}`
-            : (resim || null);
+        let eventImage = resim || null;
 
+        if (req.file) {
+
+            const fileName = `${Date.now()}-${req.file.originalname}`;
+
+            const { error } = await supabase.storage
+                .from("event-images")
+                .upload(fileName, req.file.buffer, {
+                    contentType: req.file.mimetype,
+                    upsert: false
+                });
+
+            if (error) {
+
+                console.error(error);
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Görsel yüklenemedi."
+                });
+
+            }
+
+            const { data } = supabase.storage
+                .from("event-images")
+                .getPublicUrl(fileName);
+
+            eventImage = data.publicUrl;
+
+        }
         // Organizer bilgisi JWT'den geliyor
         const organizer_id = req.user.user_id;
 
