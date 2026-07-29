@@ -407,7 +407,7 @@ export class Profile implements OnInit {
   getImageUrl(image: string | null | undefined): string {
 
     if (!image) {
-      return 'assets/default-event.jpg';
+      return '';
     }
 
     if (image.startsWith('http')) {

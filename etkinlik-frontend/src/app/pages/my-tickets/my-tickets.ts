@@ -115,7 +115,7 @@ export class MyTickets implements OnInit {
   getImageUrl(image: string | null | undefined): string {
 
     if (!image) {
-      return 'assets/default-event.jpg';
+      return '';
     }
 
     if (image.startsWith('http')) {
@@ -123,7 +123,6 @@ export class MyTickets implements OnInit {
     }
 
     return `http://localhost:5000/${image}`;
-
   }
 
 }

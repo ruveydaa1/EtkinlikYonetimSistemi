@@ -602,7 +602,7 @@
   overflow: hidden;
   background: #fff;
   box-shadow: 0 15px 35px rgba(0, 0, 0, .08);
-  height: 100%;
+  height: 80%;
 }
 
 .event-banner img {

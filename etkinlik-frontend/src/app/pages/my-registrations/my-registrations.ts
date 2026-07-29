@@ -94,7 +94,7 @@ export class MyRegistrations implements OnInit {
   getImageUrl(image: string | null | undefined): string {
 
     if (!image) {
-      return 'assets/default-event.jpg';
+      return '';
     }
 
     if (image.startsWith('http')) {
@@ -102,7 +102,6 @@ export class MyRegistrations implements OnInit {
     }
 
     return `http://localhost:5000/${image}`;
-
   }
 
 }

@@ -190,7 +190,7 @@ export class EventsComponent implements OnInit {
   getImageUrl(image: string | null | undefined): string {
 
     if (!image) {
-      return 'assets/default-event.jpg';
+      return '';
     }
 
     if (image.startsWith('http')) {
@@ -199,7 +199,6 @@ export class EventsComponent implements OnInit {
 
     return `http://localhost:5000/${image}`;
   }
-
 
   goToTicketPage(eventId: number) {
 
