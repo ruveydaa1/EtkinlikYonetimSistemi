@@ -28,7 +28,7 @@
 
                     <mat-label>Başvuru Ara</mat-label>
 
-                    <input matInput [(ngModel)]="searchText" placeholder="Ad, Soyad">
+                    <input matInput [(ngModel)]="searchText" (ngModelChange)="applyFilters()" placeholder="Ad, Soyad">
 
                     <mat-icon matSuffix>search</mat-icon>
 
@@ -40,7 +40,7 @@
 
                     <mat-label>Etkinlik</mat-label>
 
-                    <mat-select [(ngModel)]="selectedEvent">
+                    <mat-select [(ngModel)]="selectedEvent" (ngModelChange)="applyFilters()">
 
                         <mat-option value="">
                             Tüm Etkinlikler
@@ -62,7 +62,7 @@
 
                     <mat-label>Durum</mat-label>
 
-                    <mat-select [(ngModel)]="selectedStatus">
+                    <mat-select [(ngModel)]="selectedStatus" (ngModelChange)="applyFilters()">
 
                         <mat-option value="">
                             Tümü
@@ -92,7 +92,7 @@
 
         <mat-accordion class="events-accordion" multi>
 
-            <mat-expansion-panel *ngFor="let event of events">
+            <mat-expansion-panel *ngFor="let event of filteredEvents">
 
                 <mat-expansion-panel-header>
 
@@ -102,13 +102,13 @@
 
                             <div class="event-name">
 
-                                 {{ event.eventName }}
+                                {{ event.eventName }}
 
                             </div>
 
                             <div class="event-date">
 
-                                 {{ event.date | date:'dd MMMM yyyy, HH:mm' : '+0300' }}
+                                {{ event.date | date:'dd MMMM yyyy, HH:mm' : '+0300' }}
 
                             </div>
 
@@ -152,7 +152,7 @@
 
                         <p>
 
-                             {{ participant.email }}
+                            {{ participant.email }}
 
                         </p>
 

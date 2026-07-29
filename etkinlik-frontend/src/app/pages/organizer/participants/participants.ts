@@ -37,6 +37,8 @@ export class Participants implements OnInit {
 
   selectedEvent = '';
 
+  filteredEvents: any[] = [];
+
   searchText = '';
 
   selectedStatus = '';
@@ -126,6 +128,7 @@ export class Participants implements OnInit {
           );
 
           this.events = response.data;
+          this.filteredEvents = response.data;
 
           this.cdr.markForCheck();
 
@@ -149,6 +152,59 @@ export class Participants implements OnInit {
     return event.participants.filter(
       (participant: any) => participant.status === 'BEKLEMEDE'
     ).length;
+
+  }
+
+  applyFilters(): void {
+
+    this.filteredEvents = this.events
+      .map(event => {
+
+        const filteredParticipants = event.participants.filter(
+          (participant: any) => {
+
+            const search =
+              this.searchText.toLowerCase();
+
+            const nameMatch =
+              participant.name
+                .toLowerCase()
+                .includes(search);
+
+            const emailMatch =
+              participant.email
+                .toLowerCase()
+                .includes(search);
+
+
+            const statusMatch =
+              !this.selectedStatus ||
+              participant.status === this.selectedStatus;
+
+
+            return (
+              (nameMatch || emailMatch)
+              &&
+              statusMatch
+            );
+
+          }
+        );
+
+
+        return {
+          ...event,
+          participants: filteredParticipants
+        };
+
+
+      })
+      .filter(event => {
+
+        return !this.selectedEvent ||
+          event.eventName === this.selectedEvent;
+
+      });
 
   }
 
