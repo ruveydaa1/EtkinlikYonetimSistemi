@@ -303,7 +303,13 @@ export const createEvent = async (req, res) => {
 
         if (req.file) {
 
-            const fileName = `${Date.now()}-${req.file.originalname}`;
+            const cleanFileName = req.file.originalname
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/\s+/g, "-")
+                .replace(/[^a-zA-Z0-9._-]/g, "");
+
+            const fileName = `${Date.now()}-${cleanFileName}`;
 
             const { error } = await supabase.storage
                 .from("event-images")
@@ -507,9 +513,42 @@ export const updateEvent = async (req, res) => {
 
         } = req.body;
 
-        const eventImage = req.file
-            ? `uploads/${req.file.filename}`
-            : (resim || null);
+        let eventImage = resim || null;
+
+        if (req.file) {
+
+            const cleanFileName = req.file.originalname
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/\s+/g, "-")
+                .replace(/[^a-zA-Z0-9._-]/g, "");
+
+            const fileName = `${Date.now()}-${cleanFileName}`;
+
+            const { error } = await supabase.storage
+                .from("event-images")
+                .upload(fileName, req.file.buffer, {
+                    contentType: req.file.mimetype,
+                    upsert: false
+                });
+
+            if (error) {
+
+                console.error(error);
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Görsel yüklenemedi."
+                });
+
+            }
+
+            const { data } = supabase.storage
+                .from("event-images")
+                .getPublicUrl(fileName);
+
+            eventImage = data.publicUrl;
+        }
 
         const organizer_id = req.user.user_id;
 
