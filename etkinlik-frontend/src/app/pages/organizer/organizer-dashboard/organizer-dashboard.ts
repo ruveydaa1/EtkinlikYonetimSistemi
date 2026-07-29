@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef ,ChangeDetectionStrategy} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrganizerSidebar } from '../../../shared/organizer-sidebar/organizer-sidebar';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +8,7 @@ import { EventService } from '../../../core/services/event';
 
 @Component({
   selector: 'app-organizer-dashboard',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     MatIconModule,
@@ -85,7 +86,7 @@ export class OrganizerDashboard implements OnInit {
           )
           .slice(0, 3);
 
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
 
       },
 

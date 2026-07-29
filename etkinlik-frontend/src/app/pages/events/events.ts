@@ -1,13 +1,15 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { EventService } from '../../core/services/event';
 import { Navbar } from '../../shared/navbar/navbar';
 
+
 @Component({
   selector: 'app-events',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     FormsModule,
@@ -57,7 +59,7 @@ export class EventsComponent implements OnInit {
     this.eventService.getCategories().subscribe({
       next: (response: any) => {
         this.categories = response.data || [];
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
       error: (err) => console.error('Kategoriler yüklenemedi:', err)
     });
@@ -67,7 +69,7 @@ export class EventsComponent implements OnInit {
     this.eventService.getCities().subscribe({
       next: (response: any) => {
         this.cities = response.data.map((item: any) => item.sehir);
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
       error: (err) => console.error('Şehirler yüklenemedi:', err)
     });
@@ -114,12 +116,12 @@ export class EventsComponent implements OnInit {
         }
 
         this.isLoading = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('Etkinlikler yüklenirken hata oluştu:', err);
         this.isLoading = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       }
     });
   }
@@ -158,7 +160,7 @@ export class EventsComponent implements OnInit {
     // Önce karttaki mevcut veriyi atayalım ki modal hemen dolsun
     this.selectedEvent = event;
     this.isModalOpen = true;
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
 
     if (eventId) {
       this.eventService.getEventById(eventId).subscribe({
@@ -170,7 +172,7 @@ export class EventsComponent implements OnInit {
             ...event, // Karttaki eski verileri koru
             ...eventData // Servisten gelen gerçek verilerle ez
           };
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
         },
         error: (err) => {
           console.error('Etkinlik detayları çekilemedi:', err);
@@ -184,7 +186,7 @@ export class EventsComponent implements OnInit {
   closeModal(): void {
     this.isModalOpen = false;
     this.selectedEvent = null;
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   getImageUrl(image: string | null | undefined): string {

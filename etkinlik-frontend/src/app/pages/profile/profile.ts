@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 import { OnInit } from '@angular/core';
 import { User } from '../../core/services/user';
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef ,ChangeDetectionStrategy} from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Ticket } from '../../core/services/ticket';
 import { Registration } from '../../core/services/registration';
@@ -21,6 +21,7 @@ import { Navbar } from '../../shared/navbar/navbar';
 @Component({
   selector: 'app-profile',
   standalone: true,
+  changeDetection:ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     FormsModule,
@@ -305,7 +306,7 @@ export class Profile implements OnInit {
 
           });
 
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
 
           console.log("SETTIMEOUT USER:", this.user);
 
@@ -343,7 +344,7 @@ export class Profile implements OnInit {
               total + Number(ticket.fiyat),
             0
           );
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
 
       },
 
@@ -384,7 +385,7 @@ export class Profile implements OnInit {
           );
 
         this.nextEvent = upcoming.length ? upcoming[0] : null;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
 
       },
 

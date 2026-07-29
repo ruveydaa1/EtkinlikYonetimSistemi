@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -25,6 +25,7 @@ import { VenueService } from '../../../core/services/venue';
 @Component({
   selector: 'app-create-event',
   standalone: true,
+  changeDetection:ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -214,7 +215,7 @@ export class CreateEvent implements OnInit {
 
     reader.onload = () => {
       this.previewUrl = reader.result;
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     };
 
     reader.readAsDataURL(file);

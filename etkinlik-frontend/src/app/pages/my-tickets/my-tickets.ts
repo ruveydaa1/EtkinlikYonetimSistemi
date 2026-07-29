@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef,ChangeDetectionStrategy } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,6 +17,7 @@ import { Navbar } from '../../shared/navbar/navbar';
 @Component({
   selector: 'app-my-tickets',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     RouterModule,
@@ -56,7 +57,7 @@ export class MyTickets implements OnInit {
 
         this.tickets = response.data;
 
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
 
       },
 

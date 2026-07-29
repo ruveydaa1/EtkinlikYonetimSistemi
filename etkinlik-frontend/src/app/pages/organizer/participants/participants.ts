@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OnInit } from '@angular/core';
 import { Registration } from '../../../core/services/registration';
@@ -16,9 +16,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 @Component({
   selector: 'app-participants',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-
     Navbar,
     OrganizerSidebar,
     FormsModule,
@@ -62,15 +62,11 @@ export class Participants implements OnInit {
 
           console.log(response);
 
-
           participant.status = "ONAYLANDI";
 
-
-          this.cdr.detectChanges();
-
+          this.cdr.markForCheck();
 
         },
-
 
         error: (err) => {
 
@@ -80,11 +76,9 @@ export class Participants implements OnInit {
 
       });
 
-
   }
 
   reject(participant: any) {
-
 
     this.registrationService
       .updateRegistration(
@@ -97,15 +91,11 @@ export class Participants implements OnInit {
 
           console.log(response);
 
-
           participant.status = "REDDEDILDI";
 
-
-          this.cdr.detectChanges();
-
+          this.cdr.markForCheck();
 
         },
-
 
         error: (err) => {
 
@@ -115,7 +105,6 @@ export class Participants implements OnInit {
 
       });
 
-
   }
 
   ngOnInit(): void {
@@ -123,7 +112,6 @@ export class Participants implements OnInit {
     this.loadEvents();
 
   }
-
 
   loadEvents(): void {
 
@@ -139,7 +127,7 @@ export class Participants implements OnInit {
 
           this.events = response.data;
 
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
 
         },
 

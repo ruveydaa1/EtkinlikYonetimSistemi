@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-event-registration',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     RouterLink,
@@ -64,7 +65,7 @@ export class EventRegistration implements OnInit {
       next: (response) => {
 
         this.event = response.data;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
 
       },
 

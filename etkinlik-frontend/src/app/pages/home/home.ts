@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventService } from '../../core/services/event';
 import { Navbar } from '../../shared/navbar/navbar';
@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, Navbar, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css'
@@ -58,7 +59,7 @@ export class Home implements OnInit {
         console.log("Featured:", this.featuredEvents);
 
 
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
 
       },
 

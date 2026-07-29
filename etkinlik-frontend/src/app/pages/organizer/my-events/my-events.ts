@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit ,ChangeDetectionStrategy} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -13,6 +13,7 @@ import { EventService } from '../../../core/services/event';
 @Component({
   selector: 'app-my-events',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     RouterLink,
@@ -49,7 +50,7 @@ export class MyEvents implements OnInit {
 
           this.events = response.data;
 
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
 
           console.log("Benim etkinliklerim:", this.events);
 

@@ -8,11 +8,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { Registration } from '../../core/services/registration';
-import { OnInit, ChangeDetectorRef } from '@angular/core';
+import { OnInit, ChangeDetectorRef , ChangeDetectionStrategy} from '@angular/core';
 
 @Component({
   selector: 'app-my-registrations',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     FormsModule,
@@ -57,7 +58,7 @@ export class MyRegistrations implements OnInit {
 
         this.registrations = response.data;
 
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
 
       },
 
