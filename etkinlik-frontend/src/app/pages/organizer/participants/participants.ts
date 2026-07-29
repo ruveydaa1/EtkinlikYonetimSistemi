@@ -127,8 +127,12 @@ export class Participants implements OnInit {
             response
           );
 
-          this.events = response.data;
-          this.filteredEvents = response.data;
+          this.events = response.data.map((event: any) => ({
+            ...event,
+            totalParticipants: event.participants.length
+          }));
+
+          this.filteredEvents = this.events;
 
           this.cdr.markForCheck();
 
@@ -176,11 +180,9 @@ export class Participants implements OnInit {
                 .toLowerCase()
                 .includes(search);
 
-
             const statusMatch =
               !this.selectedStatus ||
               participant.status === this.selectedStatus;
-
 
             return (
               (nameMatch || emailMatch)
@@ -191,21 +193,32 @@ export class Participants implements OnInit {
           }
         );
 
-
         return {
           ...event,
           participants: filteredParticipants
         };
 
-
       })
       .filter(event => {
 
-        return !this.selectedEvent ||
-          event.eventName === this.selectedEvent;
+        if (
+          this.selectedEvent &&
+          event.eventName !== this.selectedEvent
+        ) {
+          return false;
+        }
+
+        if (
+          (this.searchText || this.selectedStatus)
+          &&
+          event.participants.length === 0
+        ) {
+          return false;
+        }
+
+        return true;
 
       });
 
   }
-
 }

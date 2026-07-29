@@ -308,3 +308,12 @@ mat-panel-description {
     color: #f9a825;
 
 }
+
+.participant-count {
+    display: flex;
+    flex-direction: column;
+}
+
+.total-count {
+    margin-left: 22px;
+}

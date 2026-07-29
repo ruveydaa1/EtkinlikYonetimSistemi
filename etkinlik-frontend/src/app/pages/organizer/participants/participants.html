@@ -122,7 +122,23 @@
 
                             <span>
 
-                                👥 {{ event.participants.length }} Başvuru
+                                <span>
+
+                                    <span>
+
+                                        <span class="participant-count">
+                                            <span>
+                                                👥 {{ event.participants.length }} Kişi gösteriliyor
+                                            </span>
+
+                                            <span class="total-count">
+                                                ({{ event.totalParticipants }} Toplam başvuru)
+                                            </span>
+                                        </span>
+
+                                    </span>
+
+                                </span>
 
                             </span>
 
@@ -203,6 +219,18 @@
             </mat-expansion-panel>
 
         </mat-accordion>
+
+        <div class="empty-state" *ngIf="filteredEvents.length === 0">
+
+            <mat-icon>
+                search_off
+            </mat-icon>
+
+            <p>
+                Arama kriterlerine uygun başvuru bulunamadı.
+            </p>
+
+        </div>
 
     </div>
 
