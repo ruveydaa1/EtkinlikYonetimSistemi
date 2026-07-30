@@ -131,9 +131,25 @@ export const getEventById = async (req, res) => {
                 u.user_id,
                 u.ad,
                 u.soyad,
-                u.ad || ' ' || u.soyad AS organizator
+                u.ad || ' ' || u.soyad AS organizator,
+                COALESCE(ka.katilimci_sayisi, 0) AS katilimci_sayisi
 
             FROM etkinlik e
+            LEFT JOIN (
+
+                SELECT
+                    event_id,
+                    COUNT(*) AS katilimci_sayisi
+
+                FROM kayit
+
+                WHERE durum = 'ONAYLANDI'
+
+                GROUP BY event_id
+
+            ) ka
+            ON e.event_id = ka.event_id
+
 
             INNER JOIN kategori k
                 ON e.category_id = k.category_id

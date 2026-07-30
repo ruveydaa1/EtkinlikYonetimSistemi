@@ -5,6 +5,7 @@ import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { EventService } from '../../core/services/event';
 import { Navbar } from '../../shared/navbar/navbar';
 import { BACKEND_URL } from '../../core/config/api.config';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-events',
@@ -14,7 +15,8 @@ import { BACKEND_URL } from '../../core/config/api.config';
     CommonModule,
     FormsModule,
     RouterLink,
-    Navbar
+    Navbar,
+    MatProgressBarModule
   ],
   templateUrl: './events.html',
   styleUrls: ['./events.css']

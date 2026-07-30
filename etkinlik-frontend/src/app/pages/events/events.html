@@ -139,13 +139,24 @@
                             </div>
                         </div>
 
-                        <!-- Kapasite -->
+                        <!-- Kontenjan Bilgisi -->
                         <div class="info-item">
                             <i class="fa-solid fa-users"></i>
-                            <div>
-                                <span class="info-title">Kapasite / Kontenjan</span>
-                                <span class="info-value">{{ selectedEvent.max_katilimci_sayisi || 'Sınırsız' }}
-                                    Kişi</span>
+
+                            <div class="capacity-box">
+
+                                <span class="info-title">Kontenjan Bilgisi</span>
+
+                                <span class="capacity-text">
+                                    {{ selectedEvent.katilimci_sayisi }} /
+                                    {{ selectedEvent.max_katilimci_sayisi }}
+                                    kişi katılıyor
+                                </span>
+
+                                <mat-progress-bar mode="determinate"
+                                    [value]="(selectedEvent.katilimci_sayisi / selectedEvent.max_katilimci_sayisi) * 100">
+                                </mat-progress-bar>
+
                             </div>
                         </div>
 
